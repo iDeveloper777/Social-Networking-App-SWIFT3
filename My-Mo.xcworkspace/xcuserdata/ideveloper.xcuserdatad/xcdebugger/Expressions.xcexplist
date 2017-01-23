@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "BlockListViewController.loadBlockListFromServer() -&gt; ():BlockListViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HostViewController.(uploadMotiffToServer() -&gt; ()).(closure #1):HostViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "response.result">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HomeDetailViewController.(sendCommentToServer() -&gt; ()).(closure #1):HomeDetailViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "TabBarViewController.viewDidLoad() -&gt; ():TabBarViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "NSStringFromClass(badgeView.classForCoder)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SettingViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:SettingViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "strClearHistoryArray[USER.host_history]">
+            </PersistentString>
+            <PersistentString
+               value = "USER">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.(click_btn_Like(Any) -&gt; ()).(closure #1):HomeViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "parameters">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HomeDetailViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:HomeDetailViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "indexPath.row">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HostViewController.uploadMotiffToServer() -&gt; ():HostViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SignUpViewController.SignUp() -&gt; ():SignUpViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ShareHostsViewController.fetchHostUsersFromJSON(json : JSON) -&gt; ():ShareHostsViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HistoryViewController.(loadHostsFromServer() -&gt; ()).(closure #1):HistoryViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.viewDidLoad() -&gt; ():HomeViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "USER">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "LogInViewController.LogIn() -&gt; ():LogInViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "Host_User.initHostUserDataWithJSON(json : JSON) -&gt; ():Host_User.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.refreshTableViewWithSearch() -&gt; ():HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "AppDelegate.application(UIApplication, didFinishLaunchingWithOptions : [UIApplicationLaunchOptionsKey : Any]?) -&gt; Bool:AppDelegate.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "USER">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SettingViewController.(updateProfilePicture(image : UIImage) -&gt; ()).(closure #1):SettingViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.showBadgeNumber() -&gt; ():HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "Block_User.initBlockUserDataWithJSON(json : JSON) -&gt; ():Block_User.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "USER">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ShareHostsViewController.(loadHostUsersFromServer() -&gt; ()).(closure #1):ShareHostsViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "LogInViewController.(LogIn() -&gt; ()).(closure #1):LogInViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "USER">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "BlockListViewController.blockUser(cell : BlockedTBCell) -&gt; ():BlockListViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SettingViewController.viewDidLoad() -&gt; ():SettingViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "USER">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HomeDetailViewController.(loadCommentsFromServer() -&gt; ()).(closure #1):HomeDetailViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "BlockListViewController.(blockUser(cell : BlockedTBCell) -&gt; ()).(closure #1):BlockListViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ShareHostsViewController.loadHostUsersFromServer() -&gt; ():ShareHostsViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ShareHostsViewController.tableView(UITableView, didSelectRowAt : IndexPath) -&gt; ():ShareHostsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "User.initUserDataWithJSON(json : JSON) -&gt; ():User.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.fetchHomeUsersDataFromJSON(json : JSON) -&gt; ():HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SignUpViewController.click_btn_SignUp(AnyObject) -&gt; ():SignUpViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.navigationController">
+            </PersistentString>
+            <PersistentString
+               value = "superViewController?.navigationController?">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "BlockListViewController.fetchBlockListFromJSON(json : JSON) -&gt; ():BlockListViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SettingViewController.loadUserData() -&gt; ():SettingViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "USER">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.swipeTableViewCell(sender : UISwipeGestureRecognizer) -&gt; ():HomeViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "USER">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "CommentsViewController.(select_btn_Follow(cell : CommentsTBCell) -&gt; ()).(closure #1):CommentsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "jsonObject[&quot;message&quot;]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "CommentsViewController.select_btn_Follow(cell : CommentsTBCell) -&gt; ():CommentsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "cell.tag">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.(loadMotiffDataFromServer() -&gt; ()).(closure #1):HomeViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "NSStringFromClass(badgeView.classForCoder)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "TabBarViewController.tabBar(UITabBar, didSelect : UITabBarItem) -&gt; ():TabBarViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "item.tag">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SettingViewController.select_Caption(cell : SettingTBCell02) -&gt; ():SettingViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "indexPath.row">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HistoryViewController.fetchHostsFromJSON(json : JSON) -&gt; ():HistoryViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SettingViewController.updateProfilePicture(image : UIImage) -&gt; ():SettingViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ShareHostsViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:ShareHostsViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "LogInViewController.getUserNameAndPassword() -&gt; ():LogInViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.updateMarkAsRead(index_row : Int, num : Int) -&gt; ():HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HomeDetailViewController.sendCommentToServer() -&gt; ():HomeDetailViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HostViewController.showShareMenu() -&gt; ():HostViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "alertController.view.bounds.size">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.(updateMarkAsRead(index_row : Int, num : Int) -&gt; ()).(closure #1):HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "Host.initHostDataWithJSON(json : JSON) -&gt; ():Host.swift">
+      </ContextState>
+      <ContextState
+         contextName = "DataKeeper.getMotiffLikes() -&gt; ():DataKeeper.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SignUpViewController.(SignUp() -&gt; ()).(closure #1):SignUpViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "USER">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "BlockListViewController.(loadBlockListFromServer() -&gt; ()).(closure #1):BlockListViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HostViewController.imagePickerController(UIImagePickerController, didFinishPickingMediaWithInfo : [String : Any]) -&gt; ():HostViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "info[UIImagePickerControllerMediaType]">
+            </PersistentString>
+            <PersistentString
+               value = "String(describing: info[UIImagePickerControllerMediaType])">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.click_btn_Like(Any) -&gt; ():HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.swipeHomeScreen(sender : UISwipeGestureRecognizer) -&gt; ():HomeViewController.swift">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

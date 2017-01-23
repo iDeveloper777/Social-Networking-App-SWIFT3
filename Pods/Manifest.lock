@@ -1,0 +1,21 @@
+PODS:
+  - Alamofire (4.2.0)
+  - MBProgressHUD (1.0.0)
+  - ROThumbnailGenerator (2.1.1)
+  - SwiftyJSON (3.1.3)
+
+DEPENDENCIES:
+  - Alamofire
+  - MBProgressHUD
+  - ROThumbnailGenerator
+  - SwiftyJSON
+
+SPEC CHECKSUMS:
+  Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  ROThumbnailGenerator: 4e01a887fc8b4e46a7fa6cd7337dd031a46d6a29
+  SwiftyJSON: 38a8ea2006779c0fc4c310cb2ee8195327740faf
+
+PODFILE CHECKSUM: bffa95ddcc61c9aa222411ba857fb975b2ada673
+
+COCOAPODS: 1.1.1

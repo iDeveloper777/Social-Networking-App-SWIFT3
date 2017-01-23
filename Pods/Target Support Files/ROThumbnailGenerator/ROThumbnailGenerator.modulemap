@@ -1,0 +1,6 @@
+framework module ROThumbnailGenerator {
+  umbrella header "ROThumbnailGenerator-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -4,11 +4,12 @@ Social Networking App - SWIFT 3
 Features
 
 - Language : SWIFT 3.0 and Objective C
-- Environment : XCode 8.2.1
+- Environment : XCode 8.2.1 & iOS 10.2.x
 - Cocoa Pods
-- Alamofire
-- SwiftyJSON
-- MBProgressHUD
+- Alamofire 4.2.0
+- SwiftyJSON 3.1.3
+- MBProgressHUD 1.0.0
+- ROThumbnailGenerator (2.1.1) (Detect Thumbnail Image from video file with URL)
 - SWWebImage
 - Customize Camera Roll
 - Customize UITableView and UITableViewCell

@@ -1688,7 +1688,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Volumes/WORKING/Working/15-02  (Andrei Irascu)/iOS (3.0)/My-Mo/My-Mo/MyMo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Volumes/WORKING/Working/iOS (3.0)/My-Mo/My-Mo/MyMo-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -1709,7 +1709,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Volumes/WORKING/Working/15-02  (Andrei Irascu)/iOS (3.0)/My-Mo/My-Mo/MyMo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Volumes/WORKING/Working/iOS (3.0)/My-Mo/My-Mo/MyMo-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

@@ -3,7 +3,7 @@
 //  IDEAS
 //
 //  Created by iDeveloper on 8/16/16.
-//  Copyright © 2016 Andrei Irascu. All rights reserved.
+//  Copyright © 2016 iDeveloper. All rights reserved.
 //
 
 #ifndef MyMo_Bridging_Header_h

@@ -3,7 +3,7 @@
 //  My-Mo
 //
 //  Created by iDeveloper on 10/13/16.
-//  Copyright © 2016 Andrei Irascu. All rights reserved.
+//  Copyright © 2016 iDeveloper. All rights reserved.
 //
 
 import UIKit

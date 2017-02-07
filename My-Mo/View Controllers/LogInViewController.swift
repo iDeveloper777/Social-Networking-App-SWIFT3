@@ -2,8 +2,8 @@
 //  LogInViewController.swift
 //  My-Mo
 //
-//  Created by Andrei Irascu on 10/11/16.
-//  Copyright © 2016 Andrei Irascu. All rights reserved.
+//  Created by iDeveloper on 10/11/16.
+//  Copyright © 2016 iDeveloper. All rights reserved.
 //
 
 import UIKit

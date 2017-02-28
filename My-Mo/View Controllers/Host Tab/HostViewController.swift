@@ -27,7 +27,7 @@ class HostViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
 
     
     //Local Variables
-    var loadingNotification:MBProgressHUD? = nil
+//    var loadingNotification:MBProgressHUD? = nil
 
     var preSlidingValue:Float = 0.0
     var alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
@@ -49,7 +49,9 @@ class HostViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     var isVideo: Int = 0
     var str_Upload_Image: String = ""
     var str_Upload_Video: String = ""
+    var isCamera: Bool = false
     
+    //MARK: - Life Cycle Event
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -148,9 +150,9 @@ class HostViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
     
     func uploadMotiffToServer(){
         
-        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-        loadingNotification?.mode = MBProgressHUDMode.indeterminate
-        loadingNotification?.label.text = "Sending..."
+//        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+//        loadingNotification?.mode = MBProgressHUDMode.indeterminate
+//        loadingNotification?.label.text = "Sending..."
 
         getFollowersToString()
         
@@ -183,7 +185,7 @@ class HostViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         
         Alamofire.request(kApi_HostMotive, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
             
-            self.loadingNotification?.hide(animated: true)
+//            self.loadingNotification?.hide(animated: true)
             
             switch response.result {
             case .success(_):
@@ -349,7 +351,7 @@ class HostViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
         let picker = UIImagePickerController()
         picker.sourceType = .camera
         picker.videoMaximumDuration = 60.0
-        picker.allowsEditing = true
+        picker.allowsEditing = false
         picker.delegate = self
         picker.mediaTypes = UIImagePickerController.availableMediaTypes(for: .camera)!
         
@@ -384,26 +386,32 @@ class HostViewController: UIViewController, UITextFieldDelegate, UITextViewDeleg
             picker.dismiss(animated: true, completion: nil)
             
         }else{
+            
             isVideo = 0
             str_Upload_Video = ""
             
-            let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+            if let image = info[UIImagePickerControllerOriginalImage] as? UIImage{
+                if (picker.sourceType == .camera){
+                    let imageCrop = ImageCropViewController()
+                    imageCrop.delegate = self
+                    imageCrop.image = image
+                    imageCrop.present(animated: true)
+                }else{
+                    let imageData:Data = UIImageJPEGRepresentation(image, 0.15)!
+                    str_Upload_Image = imageData.base64EncodedString(options: .lineLength64Characters)
+                }
+            }else{
+                print("Something went wrong")
+            }
+            
             picker.dismiss(animated: true, completion: nil)
-            
-            let imageData:Data = UIImageJPEGRepresentation(image, 0.5)!
-            str_Upload_Image = imageData.base64EncodedString(options: .lineLength64Characters)
-            
-//            let imageCrop = ImageCropViewController()
-//            imageCrop.delegate = self
-//            imageCrop.image = image
-//            imageCrop.present(animated: true)
         }
         
         
     }
     
     func imageCropFinished(_ image: UIImage!) {
-        let imageData:Data = UIImageJPEGRepresentation(image, 0.5)!
+        let imageData:Data = UIImageJPEGRepresentation(image, 0.15)!
         str_Upload_Image = imageData.base64EncodedString(options: .lineLength64Characters)
         
     }

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "CommentsViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:CommentsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "cell.contentView.subviews">
+            </PersistentString>
+            <PersistentString
+               value = "indexPath.row">
+            </PersistentString>
+            <PersistentString
+               value = "300000+indexPath.row">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SettingViewController.reloadTBCell(indexPath : IndexPath) -&gt; ():SettingViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "workingIndexPath.row">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "LikesViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:LikesViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "indexPath.row">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "CommentsViewController.swipeLeftCell(sender : UISwipeGestureRecognizer) -&gt; ():CommentsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "cell.tag">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SearchPhonebookViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:SearchPhonebookViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "indexPath.row">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

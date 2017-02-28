@@ -3,6 +3,9 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "CommentsViewController.(addComment() -&gt; ()).(closure #1):CommentsViewController.swift">
+      </ContextState>
+      <ContextState
          contextName = "BlockListViewController.loadBlockListFromServer() -&gt; ():BlockListViewController.swift">
       </ContextState>
       <ContextState
@@ -14,6 +17,25 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "HistoryViewController.(deleteMotiff(cell : HostHistoryTBCell) -&gt; ()).(closure #1):HistoryViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SearchPhonebookViewController.getContactList() -&gt; ():SearchPhonebookViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "contacts">
+            </PersistentString>
+            <PersistentString
+               value = "isGranted">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "HomeDetailViewController.(sendCommentToServer() -&gt; ()).(closure #1):HomeDetailViewController.swift">
       </ContextState>
       <ContextState
@@ -21,6 +43,14 @@
          <PersistentStrings>
             <PersistentString
                value = "NSStringFromClass(badgeView.classForCoder)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "CommentsViewController.swipeLeftCell(sender : UISwipeGestureRecognizer) -&gt; ():CommentsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "workingIndexPath.row">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -61,6 +91,9 @@
          contextName = "ShareHostsViewController.fetchHostUsersFromJSON(json : JSON) -&gt; ():ShareHostsViewController.swift">
       </ContextState>
       <ContextState
+         contextName = "SearchViewController.getContactList() -&gt; ():SearchViewController.swift">
+      </ContextState>
+      <ContextState
          contextName = "HistoryViewController.(loadHostsFromServer() -&gt; ()).(closure #1):HistoryViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -80,10 +113,29 @@
          contextName = "LogInViewController.LogIn() -&gt; ():LogInViewController.swift">
       </ContextState>
       <ContextState
+         contextName = "NotificationViewController.(methodUnfollowFollowings(index : Int) -&gt; ()).(closure #1):NotificationViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "Host_User.initHostUserDataWithJSON(json : JSON) -&gt; ():Host_User.swift">
       </ContextState>
       <ContextState
          contextName = "HomeViewController.refreshTableViewWithSearch() -&gt; ():HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "NotificationViewController.loadFollowerUsersFromServer() -&gt; ():NotificationViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HistoryViewController.deleteMotiffInArray(motiff_id : Int) -&gt; ():HistoryViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "AppDelegate.application(UIApplication, didFinishLaunchingWithOptions : [UIApplicationLaunchOptionsKey : Any]?) -&gt; Bool:AppDelegate.swift">
@@ -109,6 +161,30 @@
       </ContextState>
       <ContextState
          contextName = "ShareHostsViewController.(loadHostUsersFromServer() -&gt; ()).(closure #1):ShareHostsViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HistoryViewController.loadHostsFromServer(repostFlag : Int) -&gt; ():HistoryViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SearchPhonebookViewController.loadPhoneBookUsersFromServer() -&gt; ():SearchPhonebookViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "USER">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SearchUsernameViewController.(sendFriendRequest(index : Int) -&gt; ()).(closure #1):SearchUsernameViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "LogInViewController.(LogIn() -&gt; ()).(closure #1):LogInViewController.swift">
@@ -167,12 +243,7 @@
          contextName = "BlockListViewController.fetchBlockListFromJSON(json : JSON) -&gt; ():BlockListViewController.swift">
       </ContextState>
       <ContextState
-         contextName = "SettingViewController.loadUserData() -&gt; ():SettingViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "USER">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "NotificationViewController.loadFollowingUsersFromServer() -&gt; ():NotificationViewController.swift">
       </ContextState>
       <ContextState
          contextName = "HomeViewController.swipeTableViewCell(sender : UISwipeGestureRecognizer) -&gt; ():HomeViewController.swift">
@@ -195,6 +266,14 @@
          <PersistentStrings>
             <PersistentString
                value = "cell.tag">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SettingViewController.loadUserData() -&gt; ():SettingViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "USER">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -223,7 +302,7 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "HistoryViewController.fetchHostsFromJSON(json : JSON) -&gt; ():HistoryViewController.swift">
+         contextName = "SearchUsernameViewController.fetchSearchUserDataFromJSON(json : JSON) -&gt; ():SearchUsernameViewController.swift">
          <PersistentStrings>
             <PersistentString
                value = "appDelegate">
@@ -234,6 +313,14 @@
          contextName = "SettingViewController.updateProfilePicture(image : UIImage) -&gt; ():SettingViewController.swift">
       </ContextState>
       <ContextState
+         contextName = "HistoryViewController.fetchHostsFromJSON(json : JSON) -&gt; ():HistoryViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ShareHostsViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:ShareHostsViewController.swift">
       </ContextState>
       <ContextState
@@ -241,6 +328,14 @@
       </ContextState>
       <ContextState
          contextName = "HomeViewController.updateMarkAsRead(index_row : Int, num : Int) -&gt; ():HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HistoryViewController.tableView(UITableView, heightForRowAt : IndexPath) -&gt; CGFloat:HistoryViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Main_Screen_Width">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "HomeDetailViewController.sendCommentToServer() -&gt; ():HomeDetailViewController.swift">
@@ -261,6 +356,9 @@
       </ContextState>
       <ContextState
          contextName = "DataKeeper.getMotiffLikes() -&gt; ():DataKeeper.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SearchUsernameViewController.sendFriendRequest(index : Int) -&gt; ():SearchUsernameViewController.swift">
       </ContextState>
       <ContextState
          contextName = "SignUpViewController.(SignUp() -&gt; ()).(closure #1):SignUpViewController.swift">
@@ -285,13 +383,35 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "HistoryViewController.deleteMotiff(cell : HostHistoryTBCell) -&gt; ():HistoryViewController.swift">
+      </ContextState>
+      <ContextState
          contextName = "HomeViewController.click_btn_Like(Any) -&gt; ():HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SearchPhonebookViewController.viewWillAppear(Bool) -&gt; ():SearchPhonebookViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "USER">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SearchPhonebookViewController.(loadPhoneBookUsersFromServer() -&gt; ()).(closure #1):SearchPhonebookViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "USER">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "HomeViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:HomeViewController.swift">
       </ContextState>
       <ContextState
          contextName = "HomeViewController.swipeHomeScreen(sender : UISwipeGestureRecognizer) -&gt; ():HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HistoryViewController.(loadHostsFromServer(repostFlag : Int) -&gt; ()).(closure #1):HistoryViewController.swift">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

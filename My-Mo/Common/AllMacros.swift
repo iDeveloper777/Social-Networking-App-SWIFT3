@@ -74,6 +74,8 @@ let kEnterComment = "Please Enter Comment"
 let kErrorComment = "Failed. Please try again"
 let kErrorOtherComment = "Can't delete other's comment."
 
+let kContactError = "Can't get contacts from your phone book. Please try again."
+
 let kInvalidNO = "Please provide valid No"
 let kLoginFailed = "Login Failed"
 let kSignUpRequest = "We are unable to Sign up Please Try Latter .."
@@ -124,6 +126,7 @@ let kNormalFont = "Helvetica"
 //Host History
 
 let kHistoryContentsHeight = 325
+let kHistoryImageHeight = 210
 let kHistoryCommentHeight = 60
 
 

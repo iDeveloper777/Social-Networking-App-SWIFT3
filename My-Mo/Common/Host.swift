@@ -29,6 +29,9 @@ class Host: NSObject{
     var name2: String = ""
     var avatar2: String = ""
     
+    var width: CGFloat = 0
+    var height: CGFloat = 0
+    
     var thumbnail_image: UIImage? = nil
 
     
@@ -49,6 +52,9 @@ class Host: NSObject{
         comment2 = ""
         name2 = ""
         avatar2 = ""
+        
+        width = 0
+        height = 0
         
         thumbnail_image = nil
     }
@@ -72,7 +78,16 @@ class Host: NSObject{
         avatar2 = "http://mymotiff.com/" + json["avatar2"].stringValue
         
         if (thumbnail.contains("mov")){
-            thumbnail_image = ROThumbnail.sharedInstance.getThumbnail(URL(string: thumbnail)!)
+//            thumbnail_image = ROThumbnail.sharedInstance.getThumbnail(URL(string: thumbnail)!)
+        }else{
+            if (thumbnail != ""){
+                let size: CGSize = IMAGEPROCESSING.imageSize(with: NSURL(string: thumbnail)!)
+                width = size.width
+                height = size.height
+                
+                let str: String = String(describing: width) + " / " + String(describing: height)
+                print(str)
+            }
         }
     }
     

@@ -31,9 +31,10 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var tbl_List: UITableView!
     
     //Local Variables
-    var loadingNotification:MBProgressHUD? = nil
+//    var loadingNotification:MBProgressHUD? = nil
     var array_Filter_Hosts:[Host] = []
     
+    //MARK: - Life Cycle Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,29 +44,32 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         NotificationCenter.default.addObserver(self, selector: #selector(loadHostsFromServer), name: notificationName, object: nil)
         
 //        loadHostsFromServer(repostFlag: 0)
+        
+        if (appDelegate.array_Hosts.count == 0){
+            loadHostsFromServer(repostFlag: 0)
+        }else {
+//            self.loadingNotification?.hide(animated: true)
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if (appDelegate.array_Hosts.count == 0){
-            loadHostsFromServer(repostFlag: 0)
-        }
     }
     
     func loadHostsFromServer(repostFlag: Int){
         tbl_List.setContentOffset(CGPoint.zero, animated: true)
         if (appDelegate.array_Hosts.count == 0){
-            loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-            loadingNotification?.mode = MBProgressHUDMode.indeterminate
-            loadingNotification?.label.text = "Loading..."
+//            loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+//            loadingNotification?.mode = MBProgressHUDMode.indeterminate
+//            loadingNotification?.label.text = "Loading..."
         }
         
         let parameters = ["user_id":USER.id]
         Alamofire.request(kApi_HostHistory, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
             
             if (appDelegate.array_Hosts.count == 0){
-                self.loadingNotification?.hide(animated: true)
+//                self.loadingNotification?.hide(animated: true)
             }
             
             switch response.result {
@@ -128,12 +132,15 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let host: Host = array_Filter_Hosts[indexPath.row]
         
-        if (host.total_comments == 0){
-            return CGFloat(kHistoryContentsHeight)
-        }else if (host.total_comments == 1){
-            return CGFloat(kHistoryContentsHeight + kHistoryCommentHeight)
-        }else if (host.total_comments >= 2){
-            return CGFloat(kHistoryContentsHeight + kHistoryCommentHeight * 2)
+        if (host.thumbnail.contains("mov")){
+        }else {
+            if (host.width != 0 && host.height != 0){
+                var height: CGFloat = 0
+                
+                height = host.height / host.width * (Main_Screen_Width - 17)
+                height = height + CGFloat(kHistoryContentsHeight) - CGFloat(kHistoryImageHeight)
+                return height
+            }
         }
         
         return CGFloat(kHistoryContentsHeight)
@@ -152,35 +159,38 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         cell.lbl_Title.text = host.title
         cell.lbl_Date.text = host.creation_date + "|" + COMMON.convertTimestamp(aTimeStamp: host.creation_time)
+        cell.lbl_Like_Numbers.text = String(host.total_likes)
+        cell.lbl_Description.text = host.Description
+        
         if (host.thumbnail.contains("mov")){
+            
+            let frame: CGRect = CGRect(x: 8, y: 51, width: Main_Screen_Width - 17, height: CGFloat(kHistoryImageHeight))
+            cell.img_Motiff.frame = frame
+            
             cell.btn_PlayVideo.isHidden = false
             cell.img_Motiff.image = UIImage(named: "Video_PlaceHolder.png")
+            cell.img_Motiff.contentMode = .scaleAspectFill
             
             if (host.thumbnail_image == nil){
-                cell.img_Motiff.image = ROThumbnail.sharedInstance.getThumbnail(URL(string: host.thumbnail)!)
-                host.thumbnail_image = ROThumbnail.sharedInstance.getThumbnail(URL(string: host.thumbnail)!)
+//                cell.img_Motiff.image = ROThumbnail.sharedInstance.getThumbnail(URL(string: host.thumbnail)!)
+//                host.thumbnail_image = ROThumbnail.sharedInstance.getThumbnail(URL(string: host.thumbnail)!)
             }else{
                 cell.img_Motiff.image = host.thumbnail_image
             }
         }else{
+            //Resizing Image Size
+            if (host.width != 0 && host.height != 0){
+                let height: CGFloat = host.height / host.width * (Main_Screen_Width - 17)
+                let frame: CGRect = CGRect(x: 8, y: 51, width: self.tbl_List.bounds.size.width - 17, height: height)
+                
+                let str: String = String(describing: frame.width) + " - " + String(describing: frame.height)
+                print(str)
+                cell.img_Motiff.frame = frame
+            }
+            
             cell.btn_PlayVideo.isHidden = true
-            cell.img_Motiff.sd_setImage(with: URL(string: host.thumbnail), placeholderImage: UIImage(named: "Placeholder_Motiff.png"))
+            cell.img_Motiff.sd_setImage(with: URL(string: host.thumbnail), placeholderImage: UIImage(named: "Placeholder_Motiff_History.png"))
         }
-        
-        cell.lbl_Like_Numbers.text = String(host.total_likes)
-        cell.lbl_Description.text = host.Description
-        
-        if (host.avatar1 != ""){
-            cell.img_Comment_Avatar01.sd_setImage(with: URL(string: host.avatar1), placeholderImage: UIImage(named: "Placeholder_Avatar.png"))
-        }
-        cell.lbl_Comment_Name01.text = host.name1
-        cell.lbl_Comment_Text01.text = host.comment1
-        
-        if (host.avatar2 != ""){
-            cell.img_Comment_Avatar02.sd_setImage(with: URL(string: host.avatar2), placeholderImage: UIImage(named: "Placeholder_Avatar.png"))
-        }
-        cell.lbl_Comment_Name02.text = host.name2
-        cell.lbl_Comment_Text02.text = host.comment2
         
         return cell
     }
@@ -249,7 +259,10 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func click_Likes_Button(cell: HostHistoryTBCell) {
+        let indexPath: IndexPath = tbl_List.indexPath(for: cell)!
+        
         let viewController = self.storyboard?.instantiateViewController(withIdentifier: "LikesView") as! LikesViewController
+        viewController.host = array_Filter_Hosts[indexPath.row]
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
@@ -280,7 +293,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
             
             self.repostMotiff(cell: cell)
         }
-        
+    
         let deleteLibraryAction = UIAlertAction(title: "Delete Motiff", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
             print("Delete Motiff")
             
@@ -303,15 +316,15 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     // MARK: - API Calls
     func repostMotiff(cell: HostHistoryTBCell){
-        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-        loadingNotification?.mode = MBProgressHUDMode.indeterminate
-        loadingNotification?.label.text = "Loading..."
+//        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+//        loadingNotification?.mode = MBProgressHUDMode.indeterminate
+//        loadingNotification?.label.text = "Loading..."
 
         let host: Host = array_Filter_Hosts[cell.tag]
         let parameters = ["motive_id":host.id]
         Alamofire.request(kApi_RepostMotiff, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
             
-            self.loadingNotification?.hide(animated: true)
+//            self.loadingNotification?.hide(animated: true)
             
             switch response.result {
             case .success(_):
@@ -337,15 +350,15 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func deleteMotiff(cell: HostHistoryTBCell){
-        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-        loadingNotification?.mode = MBProgressHUDMode.indeterminate
-        loadingNotification?.label.text = "Loading..."
+//        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+//        loadingNotification?.mode = MBProgressHUDMode.indeterminate
+//        loadingNotification?.label.text = "Loading..."
         
         let host: Host = array_Filter_Hosts[cell.tag]
         let parameters = ["motive_id":host.id]
         Alamofire.request(kApi_DeleteMotiff, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
             
-            self.loadingNotification?.hide(animated: true)
+//            self.loadingNotification?.hide(animated: true)
             
             switch response.result {
             case .success(_):
@@ -357,7 +370,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
                     
                     self.tbl_List.reloadData()
                 }else{
-                    //                    COMMON.methodForAlert(titleString: kAppName, messageString: kErrorComment, OKButton: kOkButton, CancelButton: "", viewController: self)
+                    COMMON.methodForAlert(titleString: kAppName, messageString: kErrorComment, OKButton: kOkButton, CancelButton: "", viewController: self)
                 }
                 break
             case .failure(let error):

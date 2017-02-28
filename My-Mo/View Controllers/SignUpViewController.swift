@@ -28,7 +28,7 @@ class SignUpViewController: UIViewController ,UITextFieldDelegate{
     @IBOutlet weak var txt_Mobile: UITextField!
     
     //---
-    var loadingNotification:MBProgressHUD? = nil
+//    var loadingNotification:MBProgressHUD? = nil
     var bScreenUp = 0;
     var tmpTextFeild: UITextField! = nil
     weak var delegate: PushViewControllerDelegate?
@@ -83,9 +83,9 @@ class SignUpViewController: UIViewController ,UITextFieldDelegate{
         }else if (txt_Password.text != txt_ConfirmPassword.text){
             COMMON.methodForAlert(titleString: kAppName, messageString: kConfirmPassword, OKButton: kOkButton, CancelButton: "", viewController: self)
         }else{
-            loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-            loadingNotification?.mode = MBProgressHUDMode.indeterminate
-            loadingNotification?.label.text = "Loading..."
+//            loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+//            loadingNotification?.mode = MBProgressHUDMode.indeterminate
+//            loadingNotification?.label.text = "Loading..."
             
             SignUp()
         }
@@ -101,7 +101,7 @@ class SignUpViewController: UIViewController ,UITextFieldDelegate{
                           "mobile":txt_Mobile.text]
         Alamofire.request(kAPI_Registration, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
             
-            self.loadingNotification?.hide(animated: true)
+//            self.loadingNotification?.hide(animated: true)
             
             switch response.result {
             case .success(_):

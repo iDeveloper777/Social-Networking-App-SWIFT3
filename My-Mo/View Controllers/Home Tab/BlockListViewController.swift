@@ -17,7 +17,7 @@ class BlockListViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet weak var tbl_List: UITableView!
     
     //Local Variables
-    var loadingNotification:MBProgressHUD? = nil
+//    var loadingNotification:MBProgressHUD? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,16 +29,16 @@ class BlockListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func loadBlockListFromServer(){
         if (appDelegate.array_BlockUsers.count == 0){
-            loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-            loadingNotification?.mode = MBProgressHUDMode.indeterminate
-            loadingNotification?.label.text = "Loading..."
+//            loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+//            loadingNotification?.mode = MBProgressHUDMode.indeterminate
+//            loadingNotification?.label.text = "Loading..."
         }
         
         let parameters = ["user_id":USER.id]
         Alamofire.request(kApi_BlockList, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
             
             if (appDelegate.array_BlockUsers.count == 0){
-                self.loadingNotification?.hide(animated: true)
+//                self.loadingNotification?.hide(animated: true)
             }
             
             switch response.result {
@@ -133,9 +133,9 @@ class BlockListViewController: UIViewController, UITableViewDelegate, UITableVie
         let indexPath: IndexPath = self.tbl_List.indexPath(for: cell)!
         let block_User: Block_User = appDelegate.array_BlockUsers[indexPath.row]
         
-        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-        loadingNotification?.mode = MBProgressHUDMode.indeterminate
-        loadingNotification?.label.text = "Loading..."
+//        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+//        loadingNotification?.mode = MBProgressHUDMode.indeterminate
+//        loadingNotification?.label.text = "Loading..."
         
         var str_API_URL: String = ""
         var parameters: [String : Any] = [:]
@@ -150,7 +150,7 @@ class BlockListViewController: UIViewController, UITableViewDelegate, UITableVie
         
         Alamofire.request(str_API_URL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
             
-            self.loadingNotification?.hide(animated: true)
+//            self.loadingNotification?.hide(animated: true)
             
             switch response.result {
             case .success(_):

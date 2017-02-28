@@ -17,7 +17,7 @@ class ShareHostsViewController: UIViewController, UITableViewDataSource, UITable
     @IBOutlet weak var tbl_List: UITableView!
     
     //Local Variables
-    var loadingNotification:MBProgressHUD? = nil
+//    var loadingNotification:MBProgressHUD? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,16 +28,16 @@ class ShareHostsViewController: UIViewController, UITableViewDataSource, UITable
     // MARK: - loadHostUsersFromServer
     func loadHostUsersFromServer(){
         if (appDelegate.array_HostUsers.count == 0){
-            loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-            loadingNotification?.mode = MBProgressHUDMode.indeterminate
-            loadingNotification?.label.text = "Loading..."
+//            loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+//            loadingNotification?.mode = MBProgressHUDMode.indeterminate
+//            loadingNotification?.label.text = "Loading..."
         }
         
         let parameters = ["user_id":USER.id]
         Alamofire.request(kApi_Friends, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
             
             if (appDelegate.array_HostUsers.count == 0){
-                self.loadingNotification?.hide(animated: true)
+//                self.loadingNotification?.hide(animated: true)
             }
             
             switch response.result {

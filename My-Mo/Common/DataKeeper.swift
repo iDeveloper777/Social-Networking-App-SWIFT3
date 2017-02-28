@@ -83,5 +83,20 @@ class DataKeeper: NSObject{
         userdefault.synchronize()
     }
 
+    //MARK: - Password
+    func getContactUploaded() -> String{
+        var retVal = "NO"
+        
+        if ((userdefault.object(forKey: "ContactUploaded")) != nil){
+            retVal = userdefault.object(forKey: "ContactUploaded") as! String
+        }
+        
+        return retVal
+    }
     
+    func updateContactUploaded(value: String){
+        userdefault.set(value, forKey: "ContactUploaded")
+        userdefault.synchronize()
+    }
+
 }

@@ -67,7 +67,7 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
     
     
     //Local Variables
-    var loadingNotification:MBProgressHUD? = nil
+//    var loadingNotification:MBProgressHUD? = nil
     let refreshControl: UIRefreshControl = UIRefreshControl()
     var nPageIndex : Int = 0
     var nNotifications: String = "";
@@ -314,9 +314,9 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
     }
     
     @IBAction func click_btn_Location(_ sender: Any) {
-        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-        loadingNotification?.mode = MBProgressHUDMode.indeterminate
-        loadingNotification?.label.text = "Loading..."
+//        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+//        loadingNotification?.mode = MBProgressHUDMode.indeterminate
+//        loadingNotification?.label.text = "Loading..."
         
 //        showLocationView()
         
@@ -791,11 +791,11 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
     }
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
-        self.loadingNotification?.hide(animated: true)
+//        self.loadingNotification?.hide(animated: true)
     }
     
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
-        self.loadingNotification?.hide(animated: true)
+//        self.loadingNotification?.hide(animated: true)
     }
     
     func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
@@ -806,16 +806,16 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
     //MARK: - loadMotiffDataFromServer
     func loadMotiffDataFromServer(){
         if (refresh_Flag == 0){
-            loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-            loadingNotification?.mode = MBProgressHUDMode.indeterminate
-            loadingNotification?.label.text = "Loading..."
+//            loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+//            loadingNotification?.mode = MBProgressHUDMode.indeterminate
+//            loadingNotification?.label.text = "Loading..."
         }
         
         let parameters = ["user_id":USER.id]
         Alamofire.request(KApi_LatestMotiffs, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
             
             if (self.refresh_Flag == 0){
-                self.loadingNotification?.hide(animated: true)
+//                self.loadingNotification?.hide(animated: true)
             }else{
                 self.refreshControl.endRefreshing()
             }

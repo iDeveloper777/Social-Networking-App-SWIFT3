@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Contacts
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,6 +21,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var array_BlockUsers: [Block_User] = []
     var array_Hosts: [Host] = []
     var array_Motiff_Likes: [String] = []
+    
+    var array_Following_Users: [Follow_User] = []
+    var array_Follower_Users: [Follow_User] = []
+    
+    var array_Search_Users: [Follow_User] = []
+    
+    var contactStore = CNContactStore()
     
     func initStoryboard() {
         if IS_IPAD {

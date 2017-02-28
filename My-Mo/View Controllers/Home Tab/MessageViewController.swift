@@ -91,64 +91,7 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func reloading(sender: UIButton) {
-        var _: Int
-        var startingLetter: String = ""
-        switch sender.tag {
-        case 0:
-            startingLetter = "A"
-        case 1:
-            startingLetter = "B"
-        case 2:
-            startingLetter = "C"
-        case 3:
-            startingLetter = "D"
-        case 4:
-            startingLetter = "E"
-        case 5:
-            startingLetter = "F"
-        case 6:
-            startingLetter = "G"
-        case 7:
-            startingLetter = "H"
-        case 8:
-            startingLetter = "I"
-        case 9:
-            startingLetter = "J"
-        case 10:
-            startingLetter = "K"
-        case 11:
-            startingLetter = "L"
-        case 12:
-            startingLetter = "M"
-        case 13:
-            startingLetter = "N"
-        case 14:
-            startingLetter = "O"
-        case 15:
-            startingLetter = "P"
-        case 16:
-            startingLetter = "Q"
-        case 17:
-            startingLetter = "R"
-        case 18:
-            startingLetter = "S"
-        case 19:
-            startingLetter = "T"
-        case 20:
-            startingLetter = "U"
-        case 21:
-            startingLetter = "V"
-        case 22:
-            startingLetter = "W"
-        case 23:
-            startingLetter = "X"
-        case 24:
-            startingLetter = "Y"
-        case 25:
-            startingLetter = "Z"
-        default:
-            break
-        }
+        
     }
     // MARK: - Buttons' Event
 

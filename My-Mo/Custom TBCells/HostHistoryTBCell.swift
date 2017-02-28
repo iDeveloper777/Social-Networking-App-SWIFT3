@@ -50,6 +50,12 @@ class HostHistoryTBCell: UITableViewCell {
         self.backgroundColor = UIColor.clear
         self.selectionStyle = UITableViewCellSelectionStyle.none
         
+        img_Motiff?.layer.cornerRadius = 8
+        img_Motiff?.layer.masksToBounds = true
+        img_Motiff?.layer.borderWidth = 0
+        img_Motiff?.layer.borderColor = UIColor.gray.cgColor
+
+        /*
         img_Comment_Avatar01?.layer.cornerRadius = (img_Comment_Avatar01?.frame.size.height)! / 2
         img_Comment_Avatar01?.layer.masksToBounds = true
         img_Comment_Avatar01?.layer.borderWidth = 0
@@ -60,8 +66,10 @@ class HostHistoryTBCell: UITableViewCell {
         img_Comment_Avatar02?.layer.borderWidth = 0
         img_Comment_Avatar02?.layer.borderColor = UIColor.gray.cgColor
         
+        
         lbl_Comment_Date01.isHidden = true
         lbl_Comment_Date02.isHidden = true
+        */
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

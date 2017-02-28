@@ -19,7 +19,7 @@ class FPasswordViewController: UIViewController, UITextFieldDelegate {
     
     //-----
     var tmpTextFeild: UITextField!
-    var loadingNotification:MBProgressHUD? = nil
+//    var loadingNotification:MBProgressHUD? = nil
     //---
     
     override func viewDidLoad() {
@@ -57,9 +57,9 @@ class FPasswordViewController: UIViewController, UITextFieldDelegate {
             COMMON.methodForAlert(titleString: kAppName, messageString: kConfirmEmail, OKButton: kOkButton, CancelButton: "", viewController: self)
             
         }else{
-            loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-            loadingNotification?.mode = MBProgressHUDMode.indeterminate
-            loadingNotification?.label.text = "Loading..."
+//            loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+//            loadingNotification?.mode = MBProgressHUDMode.indeterminate
+//            loadingNotification?.label.text = "Loading..."
             
             SendPassword()
         }
@@ -69,7 +69,7 @@ class FPasswordViewController: UIViewController, UITextFieldDelegate {
     func SendPassword(){
         let parameters = ["email":txt_Email.text]
         Alamofire.request(kAPI_ForgotPassword, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
-            self.loadingNotification?.hide(animated: true)
+//            self.loadingNotification?.hide(animated: true)
             
             switch response.result {
             case .success(_):

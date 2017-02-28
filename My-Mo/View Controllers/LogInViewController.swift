@@ -17,7 +17,7 @@ class LogInViewController: UIViewController ,UITextFieldDelegate, UIAlertViewDel
     @IBOutlet weak var txt_UserName: UITextField!
     @IBOutlet weak var txt_Password: UITextField!
     
-    var loadingNotification:MBProgressHUD? = nil
+//    var loadingNotification:MBProgressHUD? = nil
     var strUserName: String = ""
     var strPassword: String = ""
     var strLogined: String = ""
@@ -76,9 +76,9 @@ class LogInViewController: UIViewController ,UITextFieldDelegate, UIAlertViewDel
             COMMON.methodForAlert(titleString: kAppName, messageString: kEnterPassword, OKButton: kOkButton, CancelButton: "", viewController: self)
             
         }else{
-            loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-            loadingNotification?.mode = MBProgressHUDMode.indeterminate
-            loadingNotification?.label.text = "Loading..."
+//            loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+//            loadingNotification?.mode = MBProgressHUDMode.indeterminate
+//            loadingNotification?.label.text = "Loading..."
             
             strUserName = txt_UserName.text!
             strPassword = txt_Password.text!
@@ -108,7 +108,7 @@ class LogInViewController: UIViewController ,UITextFieldDelegate, UIAlertViewDel
     func LogIn(){
         let parameters = ["username":strUserName, "password":strPassword]
         Alamofire.request(kAPI_Login, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
-            self.loadingNotification?.hide(animated: true)
+//            self.loadingNotification?.hide(animated: true)
             
             switch response.result {
             case .success(_):

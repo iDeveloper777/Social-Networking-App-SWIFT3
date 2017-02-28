@@ -26,7 +26,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var tbl_List: UITableView!
 
     //----------
-    var loadingNotification:MBProgressHUD? = nil
+//    var loadingNotification:MBProgressHUD? = nil
     
     var workingIndexPath: IndexPath? = nil
     var strTileArray: [String] = []
@@ -74,7 +74,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     }
  
     func initTableTitle(){
-        strTileArray = ["NAME", "PHONE NUMBER", "EMAIL", "PASSWORD", "WHO CAN VIEW MY LOCATION", "WHO CAN SEND A DIRECT MESSAGE", "CLEAR CONVERSATION", "PHONEBOOK SEARCH", "CHANGE LOCATION", "HOST HISTORY", "", "", ""]
+        strTileArray = ["USERNAME", "PHONE NUMBER", "EMAIL", "PASSWORD", "WHO CAN VIEW MY LOCATION", "WHO CAN SEND A DIRECT MESSAGE", "CLEAR CONVERSATION", "PHONEBOOK SEARCH", "CHANGE LOCATION", "HOST HISTORY", "", "", ""]
         strCaptionArray = ["Mike", "07946402921", "mymo@hotmail.com", "********", "PUBLIC", "PUBLIC", "NONE", "Allow people to find me", "England/North London", "CLEAR HOST HISTORY", "NOTIFICATIONS", "BLOCK CONTACT", ""]
     }
     
@@ -130,9 +130,12 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         appDelegate.array_BlockUsers = []
         appDelegate.array_Hosts = []
         appDelegate.array_Motiff_Likes = []
+        appDelegate.array_Following_Users = []
+        appDelegate.array_Follower_Users = []
+        appDelegate.array_Search_Users = []
         
         let viewController = self.storyboard?.instantiateViewController(withIdentifier: "LogInView") as! LogInViewController
-        
+        viewController.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(viewController, animated: true)
         
 //        let navi = self.navigationController! as UINavigationController
@@ -240,14 +243,14 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         let imageData:Data = UIImageJPEGRepresentation(image, 0.3)!
         let base64: String = imageData.base64EncodedString(options: .lineLength64Characters)
         
-        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-        loadingNotification?.mode = MBProgressHUDMode.indeterminate
-        loadingNotification?.label.text = "Sending..."
+//        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+//        loadingNotification?.mode = MBProgressHUDMode.indeterminate
+//        loadingNotification?.label.text = "Sending..."
         
         let parameters = ["user_id":USER.id, "ext":"jpeg", "avatar":base64] as [String : Any]
         Alamofire.request(kApi_UpdateProfilePic, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
             
-            self.loadingNotification?.hide(animated: true)
+//            self.loadingNotification?.hide(animated: true)
             
             switch response.result {
             case .success(_):
@@ -456,9 +459,9 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func updateProfileText(row: Int, value: String) {
-        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-        loadingNotification?.mode = MBProgressHUDMode.indeterminate
-        loadingNotification?.label.text = "Sending..."
+//        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+//        loadingNotification?.mode = MBProgressHUDMode.indeterminate
+//        loadingNotification?.label.text = "Sending..."
         
         var strAPI_URL:String = kApi_UpdateProfile
         
@@ -488,7 +491,7 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         
         Alamofire.request(strAPI_URL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
             
-            self.loadingNotification?.hide(animated: true)
+//            self.loadingNotification?.hide(animated: true)
             
             switch response.result {
             case .success(_):

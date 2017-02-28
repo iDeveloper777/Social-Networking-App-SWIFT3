@@ -32,6 +32,8 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>This App will use Camera</string>
+	<key>NSContactsUsageDescription</key>
+	<string>This App will use Contacts from Phone book</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>I need location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

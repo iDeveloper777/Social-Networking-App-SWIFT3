@@ -36,7 +36,7 @@ class HomeDetailViewController: UIViewController ,UITableViewDelegate ,UITableVi
     @IBOutlet weak var btn_Send_Comment: UIButton!
     
 
-    var loadingNotification:MBProgressHUD? = nil
+//    var loadingNotification:MBProgressHUD? = nil
     var array_Comments: [Comment] = []
     var swipeArray:[Int] = []
     var motiff: Home_Motiff = Home_Motiff()
@@ -85,14 +85,14 @@ class HomeDetailViewController: UIViewController ,UITableViewDelegate ,UITableVi
     func loadCommentsFromServer(){
   
         
-        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-        loadingNotification?.mode = MBProgressHUDMode.indeterminate
-        loadingNotification?.label.text = "Loading..."
+//        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+//        loadingNotification?.mode = MBProgressHUDMode.indeterminate
+//        loadingNotification?.label.text = "Loading..."
         
         let parameters = ["motiff_id":motiff.motiff_id]
         Alamofire.request(kApi_GetComments, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
             
-            self.loadingNotification?.hide(animated: true)
+//            self.loadingNotification?.hide(animated: true)
             
             switch response.result {
             case .success(_):
@@ -165,14 +165,14 @@ class HomeDetailViewController: UIViewController ,UITableViewDelegate ,UITableVi
     }
     
     func sendCommentToServer(){
-        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-        loadingNotification?.mode = MBProgressHUDMode.indeterminate
-        loadingNotification?.label.text = "Sending..."
+//        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+//        loadingNotification?.mode = MBProgressHUDMode.indeterminate
+//        loadingNotification?.label.text = "Sending..."
         
         let parameters = ["user_id":USER.id, "motiff_id":motiff.motiff_id, "comment":txt_Comment.text] as [String : Any]
         Alamofire.request(kApi_AddComment, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
             
-            self.loadingNotification?.hide(animated: true)
+//            self.loadingNotification?.hide(animated: true)
             
             switch response.result {
             case .success(_):
@@ -362,14 +362,14 @@ class HomeDetailViewController: UIViewController ,UITableViewDelegate ,UITableVi
     }
     
     func deleteCommentFromServer(comment: Comment){
-        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-        loadingNotification?.mode = MBProgressHUDMode.indeterminate
-        loadingNotification?.label.text = "Deleting..."
+//        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+//        loadingNotification?.mode = MBProgressHUDMode.indeterminate
+//        loadingNotification?.label.text = "Deleting..."
         
         let parameters = ["user_id":USER.id, "comment_id":comment.comment_id] as [String : Any]
         Alamofire.request(kApi_DeleteComment, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
             
-            self.loadingNotification?.hide(animated: true)
+//            self.loadingNotification?.hide(animated: true)
             
             switch response.result {
             case .success(_):

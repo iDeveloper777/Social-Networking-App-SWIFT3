@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import MapKit
+import ImageIO
 
 class Common: NSObject, UIAlertViewDelegate {
     
@@ -114,7 +115,23 @@ class ImageProcessing: NSObject{
 
         return newImage
     }
-
+    
+    func imageSize(with url: NSURL) -> CGSize {
+        
+        var size: CGSize = .zero
+        let source = CGImageSourceCreateWithURL(url, nil)!
+        let options = [kCGImageSourceShouldCache as String: false]
+        if let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, options as CFDictionary?)  {
+            
+            if let properties = properties as? [String: Any],
+                let width = properties[kCGImagePropertyPixelWidth as String] as? Int,
+                let height = properties[kCGImagePropertyPixelHeight as String] as? Int {
+                size = CGSize(width: width, height: height)
+            }
+        }
+        
+        return size
+    }
 }
 
 class Station: NSObject, MKAnnotation {

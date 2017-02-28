@@ -7,36 +7,44 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
+import MBProgressHUD
 
-class LikesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class LikesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, LikeUserTBCellDelegate{
 
     @IBOutlet weak var view_Navigation: UIView!
     @IBOutlet weak var view_Table: UIView!
     @IBOutlet weak var tbl_List: UITableView!
     
-    var strTileArray:[String] = []
-    var strImageArray:[String] = []
-    var swipeArray:[Int] = []
+    var host: Host = Host()
+//    var loadingNotification:MBProgressHUD? = nil
+    let refreshControl: UIRefreshControl = UIRefreshControl()
+    var refresh_Flag: Int = 0
 
+    var swipeArray:[Int] = []
+    var array_Like_Users: [Like_User] = []
+    var array_Following_Users: [Follow_User] = []
+    var workingIndexPath: IndexPath? = nil
     
+    // MARK: - Life Cycle Functions
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        initTableTitle()
-        initDatas()
+        array_Like_Users = []
+        array_Following_Users = []
+        
+        refreshControl.addTarget(self, action: #selector(refreshAllDatas), for: .valueChanged)
+        tbl_List.addSubview(refreshControl)
     }
 
-    func initTableTitle(){
-        strTileArray = ["JenJen", "Chhavi", "Dug"]
-        strImageArray = ["Home_img_Sample01.png", "Home_img_Sample.png", "Home_img_Sample03.png"]
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        tbl_List.reloadData()
+        loadFollowingUsersFromServer()
     }
-    
-    func initDatas(){
-        for _ in (0..<3) {
-            swipeArray.append(0)
-        }
-    }
+
     
     // MARK: - Buttons' Events    
     @IBAction func click_btn_Back(_ sender: AnyObject) {
@@ -53,67 +61,36 @@ class LikesViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return strImageArray.count
+        return array_Like_Users.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell:UITableViewCell = self.tbl_List.dequeueReusableCell(withIdentifier: "LikesCell")! as UITableViewCell
-        cell.backgroundColor = UIColor.clear
-        cell.selectionStyle = UITableViewCellSelectionStyle.none
+        let cell:LikeUserTBCell = self.tbl_List.dequeueReusableCell(withIdentifier: "LikesCell")! as! LikeUserTBCell
+        cell.cellDelegate = self
         
-        let img_Avatar = cell.viewWithTag(100) as? UIImageView
-        img_Avatar?.image = UIImage.init(named: strImageArray[indexPath.row])
-        img_Avatar?.layer.cornerRadius = (img_Avatar?.frame.size.height)! / 2
-        img_Avatar?.layer.masksToBounds = true
-        img_Avatar?.layer.borderWidth = 0
-        img_Avatar?.layer.borderColor = UIColor.gray.cgColor
+        let user: Like_User = array_Like_Users[indexPath.row]
         
-        let lbl_Title = cell.viewWithTag(200) as? UILabel
-        lbl_Title?.text = strTileArray[indexPath.row]
+        cell.img_Avatar.sd_setImage(with: URL(string: user.avatar), placeholderImage: UIImage(named: "Placeholder_Avatar.png"))
+        cell.lbl_Name.text = user.username
+        cell.lbl_Date.text = user.date + ", " + COMMON.convertTimestamp(aTimeStamp: user.time)
         
-        //SwipeGesture
-        cell.tag = indexPath.row
-        let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeLeftCell))
-        swipeLeftGesture.direction = .left
-        cell.addGestureRecognizer(swipeLeftGesture)
-        
-        let swipeRightGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeRightCell))
-        swipeRightGesture.direction = .right
-        cell.addGestureRecognizer(swipeRightGesture)
-        
-        var lbl_Date: UILabel! = nil
-        var btn_Likes: UIButton! = nil
-        for subview in cell.contentView.subviews {
-            if subview is UIButton {
-                btn_Likes = subview as! UIButton
-                
-                btn_Likes?.addTarget(self, action: #selector(pressedLikesButton), for: .touchUpInside)
-                btn_Likes?.tag = 10000 + indexPath.row
-                btn_Likes.frame = CGRect(x: COMMON.X(view: btn_Likes),
-                                         y: COMMON.Y(view: btn_Likes),
-                                         width: COMMON.HEIGHT(view: btn_Likes),
-                                         height: COMMON.HEIGHT(view: btn_Likes))
-                
-                
-            }
+        if (isFollowingUser(Id: user.user_id) == false){
+            //SwipeGesture
+            cell.tag = indexPath.row
+            let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeLeftCell))
+            swipeLeftGesture.direction = .left
+            cell.addGestureRecognizer(swipeLeftGesture)
             
-            if subview is UILabel {
-                lbl_Date = subview as! UILabel
-                
-                if (lbl_Date.backgroundColor == UIColor.white){
-                    lbl_Date?.tag = 300000 + indexPath.row
-                    
-                    if (swipeArray[indexPath.row] == 0){
-                        let rect:CGRect = CGRect(x: COMMON.WIDTH(view: cell.contentView) - COMMON.WIDTH(view: lbl_Date), y: COMMON.Y(view: lbl_Date), width: COMMON.WIDTH(view: lbl_Date), height: COMMON.HEIGHT(view: lbl_Date))
-                        
-                        lbl_Date.frame = rect
-                    }else{
-                        let rect:CGRect = CGRect(x: COMMON.WIDTH(view: cell.contentView) - COMMON.WIDTH(view: lbl_Date) - 50, y: COMMON.Y(view: lbl_Date), width: COMMON.WIDTH(view: lbl_Date), height: COMMON.HEIGHT(view: lbl_Date))
-                        
-                        lbl_Date.frame = rect
-                    }
-                }
+            let swipeRightGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeRightCell))
+            swipeRightGesture.direction = .right
+            cell.addGestureRecognizer(swipeRightGesture)
+            
+            if (swipeArray[indexPath.row] == 0){
+                cell.view_Swipe.frame = cell.contentView.frame
+            }else{
+                cell.view_Swipe.frame.origin.x = -60
             }
+
         }
         
         return cell
@@ -129,14 +106,29 @@ class LikesViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     //MARK: - Swipe Getures
     func swipeLeftCell(sender: UISwipeGestureRecognizer) {
-        let cell = sender.view as! UITableViewCell
-        let lbl_Date = cell.viewWithTag(300000 + cell.tag)! as! UILabel
+        let cell = sender.view as! LikeUserTBCell
+        let indexPath: IndexPath = self.tbl_List.indexPath(for: cell)!
+        
+        if (workingIndexPath != nil){
+            
+            let preCell: LikeUserTBCell = tbl_List.cellForRow(at: workingIndexPath!) as! LikeUserTBCell
+            
+            if (swipeArray[(workingIndexPath?.row)!] == 1){
+                swipeArray[(workingIndexPath?.row)!] = 0
+                
+                UIView.animate(withDuration: 0.5, animations: {
+                    preCell.view_Swipe.frame = preCell.contentView.frame
+                })
+            }
+        }
+        
+        workingIndexPath = indexPath
         
         swipeArray[cell.tag] = 1
         
         if (swipeArray[cell.tag] == 1){
             UIView.animate(withDuration: 0.5, animations: {
-                lbl_Date.frame = CGRect(x: COMMON.WIDTH(view: cell.contentView) - COMMON.WIDTH(view: lbl_Date) - 50, y: COMMON.Y(view: lbl_Date), width: COMMON.WIDTH(view: lbl_Date), height: COMMON.HEIGHT(view: lbl_Date))
+                cell.view_Swipe.frame.origin.x = -60
             })
             
         }
@@ -144,20 +136,186 @@ class LikesViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     
     func swipeRightCell(sender: UISwipeGestureRecognizer) {
-        let cell = sender.view as! UITableViewCell
-        let lbl_Date = cell.viewWithTag(300000 + cell.tag)! as! UILabel
+        let cell = sender.view as! LikeUserTBCell
+        let indexPath: IndexPath = self.tbl_List.indexPath(for: cell)!
+        
+        workingIndexPath = indexPath
         
         swipeArray[cell.tag] = 0
         
         if (swipeArray[cell.tag] == 0){
             UIView.animate(withDuration: 0.5, animations: {
-                lbl_Date.frame = CGRect(x: COMMON.WIDTH(view: cell.contentView) - COMMON.WIDTH(view: lbl_Date), y: COMMON.Y(view: lbl_Date), width: COMMON.WIDTH(view: lbl_Date), height: COMMON.HEIGHT(view: lbl_Date))
+                cell.view_Swipe.frame = cell.contentView.frame
             })
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    //MARK: - isFollowingUser
+    func isFollowingUser(Id: Int) -> Bool {
+        var flag: Bool = false
+        
+        for i in (0..<array_Following_Users.count){
+            let user: Follow_User = array_Following_Users[i]
+            
+            if (user.id == Id){
+                flag = true
+            }
+        }
+        return flag
+    }
+    
+    //MARK: - LikeUserTBCellDelegate
+    func select_btn_Follow(cell: LikeUserTBCell) {
+        let indexPath: IndexPath = self.tbl_List.indexPath(for: cell)!
+        
+        sendFriendRequest(index: indexPath.row)
+    }
+    
+    //MARK: - refreshAllDatas
+    func refreshAllDatas(){
+        refresh_Flag = 1
+        loadFollowingUsersFromServer()
+    }
+    
+    // MARK: - API Calls
+    func loadLikeUsersFromServer(){
+        if (host.id == 0){
+            return
+        }
+        
+        if (refresh_Flag == 0){
+//            loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+//            loadingNotification?.mode = MBProgressHUDMode.indeterminate
+//            loadingNotification?.label.text = "Loading..."
+        }
+        
+        let parameters = ["user_id": USER.id, "motiff_id": host.id]
+        Alamofire.request(kApi_GetLikes, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
+            
+            if (self.refresh_Flag == 0){
+//                self.loadingNotification?.hide(animated: true)
+            }else{
+                self.refreshControl.endRefreshing()
+                self.refresh_Flag = 0
+            }
+            
+            switch response.result {
+            case .success(_):
+                let jsonObject = JSON(response.result.value!)
+                let status: String = jsonObject["status"].stringValue
+                if (status == "success"){
+                    self.fetchLikeUserDataFromJSON(json: jsonObject["data"])
+                    
+                }else{
+                    self.array_Like_Users = []
+                    self.swipeArray = []
+                    self.tbl_List.reloadData()
+                    
+                    //                    COMMON.methodForAlert(titleString: kAppName, messageString: "Login Failed", OKButton: kOkButton, CancelButton: "", viewController: self)
+                }
+                break
+            case .failure(let error):
+                print(error)
+                COMMON.methodForAlert(titleString: kAppName, messageString: kNetworksNotAvailvle, OKButton: kOkButton, CancelButton: "", viewController: self)
+                break
+            }
+            
+        }
+    }
+    
+    func fetchLikeUserDataFromJSON(json: SwiftyJSON.JSON){
+        array_Like_Users = []
+        swipeArray = []
+        
+        for i in (0..<json.count) {
+            let like_user = Like_User()
+            
+            like_user.initLikeUserDataWithJSON(json: json[i])
+            array_Like_Users.append(like_user)
+            swipeArray.append(0)
+        }
+        
+        tbl_List.reloadData()
+    }
+    
+    func sendFriendRequest(index: Int){
+        let user: Like_User = array_Like_Users[index]
+        
+        if (refresh_Flag == 0){
+//            loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+//            loadingNotification?.mode = MBProgressHUDMode.indeterminate
+//            loadingNotification?.label.text = "Loading..."
+        }
+        
+        let parameters = ["user_id": USER.id, "followee": user.user_id]
+        Alamofire.request(KApi_JoinFriends, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
+            
+//            self.loadingNotification?.hide(animated: true)
+            
+            switch response.result {
+            case .success(_):
+                let jsonObject = JSON(response.result.value!)
+                let status: String = jsonObject["status"].stringValue
+                if (status == "success"){
+                    self.array_Like_Users.remove(at: index)
+                    
+                    self.tbl_List.reloadData()
+                }else{
+                    COMMON.methodForAlert(titleString: kAppName, messageString: jsonObject["message"].stringValue, OKButton: kOkButton, CancelButton: "", viewController: self)
+                }
+                break
+            case .failure(let error):
+                print(error)
+                COMMON.methodForAlert(titleString: kAppName, messageString: kNetworksNotAvailvle, OKButton: kOkButton, CancelButton: "", viewController: self)
+                break
+            }
+            
+        }
+        
+    }
+    
+    func loadFollowingUsersFromServer(){
+
+//        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+//        loadingNotification?.mode = MBProgressHUDMode.indeterminate
+//        loadingNotification?.label.text = "Loading..."
+        
+        let parameters = ["user_id": USER.id]
+        Alamofire.request(kApi_Following, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
+            
+//            self.loadingNotification?.hide(animated: true)
+            
+            switch response.result {
+            case .success(_):
+                let jsonObject = JSON(response.result.value!)
+                let status: String = jsonObject["status"].stringValue
+                if (status == "success"){
+                    self.fetchFollowingUserDataFromJSON(json: jsonObject["data"])
+                    
+                }else{
+                    self.array_Following_Users = []
+                    
+                    //                    COMMON.methodForAlert(titleString: kAppName, messageString: "Login Failed", OKButton: kOkButton, CancelButton: "", viewController: self)
+                }
+                break
+            case .failure(let error):
+                print(error)
+                COMMON.methodForAlert(titleString: kAppName, messageString: kNetworksNotAvailvle, OKButton: kOkButton, CancelButton: "", viewController: self)
+                break
+            }
+            
+            self.loadLikeUsersFromServer()
+        }
+    }
+    
+    func fetchFollowingUserDataFromJSON(json: SwiftyJSON.JSON){
+        array_Following_Users = []
+        
+        for i in (0..<json.count) {
+            let follow_user = Follow_User()
+            
+            follow_user.initFollowUserDataWithJSON(json: json[i])
+            array_Following_Users.append(follow_user)
+        }
     }
 }

@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import MBProgressHUD
+import Firebase
 
 class LogInViewController: UIViewController ,UITextFieldDelegate, UIAlertViewDelegate, PushViewControllerDelegate{
     
@@ -20,6 +21,7 @@ class LogInViewController: UIViewController ,UITextFieldDelegate, UIAlertViewDel
 //    var loadingNotification:MBProgressHUD? = nil
     var strUserName: String = ""
     var strPassword: String = ""
+    var strEMail: String = ""
     var strLogined: String = ""
     
     override func viewDidLoad() {
@@ -88,7 +90,8 @@ class LogInViewController: UIViewController ,UITextFieldDelegate, UIAlertViewDel
             appDelegate.array_BlockUsers = []
             appDelegate.array_Hosts = []
             
-            LogIn()
+//            LogIn()
+            ConfirmRegisteredUsername()
         }
     }
     
@@ -104,6 +107,60 @@ class LogInViewController: UIViewController ,UITextFieldDelegate, UIAlertViewDel
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
+    //MARK: - Firebase
+    func isVerifiedEmail(){
+        if (FIRAuth.auth()?.currentUser?.isEmailVerified == true){
+            DATAKEEPER.updateUserName(username: self.strUserName)
+            DATAKEEPER.updatePassword(password: self.strPassword)
+            DATAKEEPER.updateLogined(logined: "yes")
+            
+            USER.initUserData()
+            USER.initUserDataWithUserDefault()
+            
+            USER.initUserDataWithFirebase(){ (response: String?, error: Error?) in
+                if (error == nil){
+                    USER.updateUserDataWithUserDefault()
+                    
+                    USER.password = DATAKEEPER.getPassword()
+                    
+                    let viewController = self.storyboard?.instantiateViewController(withIdentifier: "TapBarView") as! TabBarViewController
+                    
+                    self.navigationController?.pushViewController(viewController, animated: true)
+                }else{
+                    COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+                }
+            }
+        }else{
+            COMMON.methodForAlert(titleString: kAppName, messageString: kVerifiedEmail, OKButton: kOkButton, CancelButton: "", viewController: self)
+        }
+    }
+    
+    func ConfirmRegisteredUsername(){
+        FirebaseModule.shareInstance.ConfirmRegisteredUsername(username: txt_UserName.text){ (response: String?, error: Error?) in
+            if (error == nil){
+                if (response == ""){
+                    COMMON.methodForAlert(titleString: kAppName, messageString: kLoginNoUserFailed, OKButton: kOkButton, CancelButton: "", viewController: self)
+                }else{
+                    self.strEMail = response!
+                    self.LogInWithFirebase()
+                }
+            }else{
+                COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+            }
+        }
+    }
+
+    func LogInWithFirebase(){
+        FirebaseModule.shareInstance.SignInWithEmail(email: strEMail, password: txt_Password.text){ (response: String?, error: Error?) in
+            
+            if (error == nil){
+                self.isVerifiedEmail()
+            }else{
+                COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+            }
+        }
+    }
+
     //MARK: - LogIn
     func LogIn(){
         let parameters = ["username":strUserName, "password":strPassword]
@@ -123,7 +180,8 @@ class LogInViewController: UIViewController ,UITextFieldDelegate, UIAlertViewDel
                     USER.initUserData()
                     USER.initUserDataWithUserDefault()
                     
-                    USER.initUserDataWithJSON(json: jsonObject["data"])
+//                    USER.initUserDataWithJSON(json: jsonObject["data"])
+                    
                     USER.updateUserDataWithUserDefault()
                     
                     USER.password = DATAKEEPER.getPassword()

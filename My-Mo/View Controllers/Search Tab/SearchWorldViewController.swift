@@ -60,6 +60,8 @@ class SearchWorldViewController: UIViewController, UITableViewDataSource, UITabl
         
 //        refreshControl.addTarget(self, action: #selector(refreshAllDatas), for: .valueChanged)
 //        tbl_List.addSubview(refreshControl)
+        
+        
     }
 
     //MARK: - Buttons' Events
@@ -69,7 +71,17 @@ class SearchWorldViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     @IBAction func click_btn_Search(_ sender: AnyObject) {
-        loadSearchUsersFromServer()
+        if (Country_Row == -1 ||  lbl_Country.text == ""){
+            COMMON.methodForAlert(titleString: kAppName, messageString: "Please select country", OKButton: kOkButton, CancelButton: "", viewController: self)
+            return
+        }
+        
+        if (City_Row == -1 || lbl_City.text == ""){
+            COMMON.methodForAlert(titleString: kAppName, messageString: "Please select city", OKButton: kOkButton, CancelButton: "", viewController: self)
+            return
+        }
+        
+        loadSearchUsersFromFirebase()
     }
     
     @IBAction func click_btn_Country(_ sender: Any) {
@@ -116,6 +128,12 @@ class SearchWorldViewController: UIViewController, UITableViewDataSource, UITabl
         cell.lbl_Name.text = user.username
         cell.lbl_Followers.text = String(user.followers) + "  followers"
         
+        if (isFollowingUser(Id: user.id) == true){
+            cell.btn_Follow.isHidden = true
+        }else{
+            cell.btn_Follow.isHidden = false
+        }
+        
         return cell
     }
     
@@ -127,6 +145,23 @@ class SearchWorldViewController: UIViewController, UITableViewDataSource, UITabl
         print(sender.tag)
     }
     
+    //MARK: - isFollowingUser
+    func isFollowingUser(Id: String) -> Bool {
+        var flag: Bool = false
+        
+        if (Id == USER.id){ return true}
+        
+        for i in (0..<appDelegate.array_Following_Users.count){
+            let user: Follow_User = appDelegate.array_Following_Users[i]
+            
+            if (user.id == Id){
+                flag = true
+                break
+            }
+        }
+        return flag
+    }
+
     //MARK: - UITextFieldDelegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -156,7 +191,8 @@ class SearchWorldViewController: UIViewController, UITableViewDataSource, UITabl
     func select_btn_Follow(cell: SearchWorldUserTBCell) {
         let indexPath: IndexPath = self.tbl_List.indexPath(for: cell)!
         
-        sendFriendRequest(index: indexPath.row)
+        sendFriendRequestWithFirebase(index: indexPath.row)
+//        sendFriendRequest(index: indexPath.row)
     }
     
     //MARK: - UIPickerViewDataSource
@@ -223,9 +259,200 @@ class SearchWorldViewController: UIViewController, UITableViewDataSource, UITabl
         refresh_Flag = 1
         
         //        txt_Search.text = ""
-        loadSearchUsersFromServer()
+//        loadSearchUsersFromServer()
+    }
+    // MARK: - Firebase
+    func loadSearchUsersFromFirebase(){
+        //        appDelegate.array_Search_Users = []
+        //        appDelegate.array_All_Users = []
+        //        appDelegate.array_All_Followings = []
+        //        array_Search_Users_Filter = []
+        
+        var arr_temp: [User] = []
+        
+        FirebaseModule.shareInstance.getAllUsers()
+            { (response: NSArray?, error: Error?) in
+                if (error == nil){
+                    for user_in in response!{
+                        let user: User = User()
+                        let dict = user_in as! NSDictionary
+                        user.initUserDataWithDictionary(value: dict)
+                        arr_temp.append(user)
+                    }
+                    appDelegate.array_All_Users = arr_temp
+                    self.loadFollowingsFromFirebase()
+                    
+                }else{
+                    self.refresh_Flag = 0
+                    self.refreshControl.endRefreshing()
+                    
+                    COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+                }
+        }
+    }
+    
+    func loadFollowingsFromFirebase(){
+        var arr_temp: [Following] = []
+        
+        FirebaseModule.shareInstance.getAllFollowings()
+            { (response: NSArray?, error: Error?) in
+                if (error == nil){
+                    for following_in in response!{
+                        let following: Following = Following()
+                        let dict = following_in as! NSDictionary
+                        following.initFollowingDataWithDictionary(value: dict)
+                        arr_temp.append(following)
+                    }
+                    appDelegate.array_All_Followings = arr_temp
+                    
+                    self.array_Search_Users = []
+                    for i in (0..<appDelegate.array_All_Users.count){
+                        let follow_user: Follow_User = Follow_User()
+                        let user: User = appDelegate.array_All_Users[i]
+                        
+                        if (user.id == USER.id){ continue}
+                        
+                        var n_Flag = false
+                        for j in (0..<appDelegate.array_All_Followings.count){
+                            let following: Following = appDelegate.array_All_Followings[j]
+                            
+                            if (following.id == USER.id && following.following_id == user.id){
+                                n_Flag = true
+                                break
+                            }
+                        }
+                        
+                        if (n_Flag == false && user.country == self.lbl_Country.text && user.city == self.lbl_City.text){
+                            follow_user.id = user.id
+                            follow_user.name = user.name
+                            follow_user.username = user.username
+                            follow_user.avatar = user.avatar
+                            follow_user.motives = user.motives
+                            follow_user.followers = user.followers
+                            
+                            self.array_Search_Users.append(follow_user)
+                        }
+                    }
+                    
+                    if (self.array_Search_Users.count == 0){
+                        self.refresh_Flag = 0
+                        self.refreshControl.endRefreshing()
+                        return
+                    }
+                    
+                    //sort
+                    for i in (0..<self.array_Search_Users.count-1){
+                        var user: Follow_User = self.array_Search_Users[i]
+                        for j in (i..<self.array_Search_Users.count){
+                            let user_compare: Follow_User = self.array_Search_Users[j]
+                            
+                            if (user.username.lowercased().compare(user_compare.username.lowercased()) == .orderedAscending){
+                                
+                            }else if (user.username.lowercased().compare(user_compare.username.lowercased()) == .orderedDescending){
+                                self.array_Search_Users.remove(at: i)
+                                self.array_Search_Users.insert(user_compare, at: i)
+                                
+                                self.array_Search_Users.remove(at: j)
+                                self.array_Search_Users.insert(user, at: j)
+                                
+                                user = user_compare
+                            }
+                            
+                        }
+                    }
+                    
+                    self.lbl_Numbers.text = String(self.array_Search_Users.count) + " mo's found"
+                    self.tbl_List.reloadData()
+                    
+                    self.refresh_Flag = 0
+                    self.refreshControl.endRefreshing()
+                }else{
+                    self.refresh_Flag = 0
+                    self.refreshControl.endRefreshing()
+                    
+                    COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+                }
+        }
+    }
+    
+    func sendFriendRequestWithFirebase(index: Int){
+        let follow_user: Follow_User = array_Search_Users[index]
+        
+        FirebaseModule.shareInstance.FollowingUser(id: USER.id, following_id: follow_user.id){
+            (response: String?, error: Error?) in
+            
+            if (error == nil && response == "success"){
+                self.addFollowingUser(id: follow_user.id)
+                
+                self.array_Search_Users.remove(at: index)
+                self.lbl_Numbers.text = String(self.array_Search_Users.count) + " mo's found"
+                self.tbl_List.reloadData()
+            }else{
+                COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+            }
+        }
+        
+        FirebaseModule.shareInstance.IncreaseUserFollowings(id: USER.id, following_id: follow_user.id){ (response: String?, error: Error?) in
+            
+            if (error == nil && response == "success"){
+                
+            }else{
+                COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+            }
+        }
+    }
+    
+    func addFollowingUser(id: String){
+        for i in (0..<appDelegate.array_All_Users.count){
+            let user: User = appDelegate.array_All_Users[i]
+            
+            if (user.id == id){
+                let following: Following = Following()
+                following.id = USER.id
+                following.following_id = id
+                
+                appDelegate.array_All_Followings.append(following)
+                
+                let follow_user: Follow_User = Follow_User()
+                follow_user.id = user.id
+                follow_user.name = user.name
+                follow_user.username = user.username
+                follow_user.avatar = user.avatar
+                follow_user.motives = user.motives
+                follow_user.followers = user.followers + 1
+                
+                user.followers = user.followers + 1
+                
+                appDelegate.array_Following_Users.append(follow_user)
+                
+                //sort
+                if (appDelegate.array_Following_Users.count > 0){
+                    for i in (0..<appDelegate.array_Following_Users.count-1){
+                        var user: Follow_User = appDelegate.array_Following_Users[i]
+                        for j in (i..<appDelegate.array_Following_Users.count){
+                            let user_compare: Follow_User = appDelegate.array_Following_Users[j]
+                            
+                            if (user.username.compare(user_compare.username) == .orderedAscending){
+                                
+                            }else if (user.username.compare(user_compare.username) == .orderedDescending){
+                                appDelegate.array_Following_Users.remove(at: i)
+                                appDelegate.array_Following_Users.insert(user_compare, at: i)
+                                
+                                appDelegate.array_Following_Users.remove(at: j)
+                                appDelegate.array_Following_Users.insert(user, at: j)
+                                
+                                user = user_compare
+                            }
+                        }
+                    }
+                }
+                
+            }
+        }
+        self.tbl_List.reloadData()
     }
 
+/*
     // MARK: - API Calls
     func loadSearchUsersFromServer(){
         if (Country_Row == -1){
@@ -320,7 +547,8 @@ class SearchWorldViewController: UIViewController, UITableViewDataSource, UITabl
 //        loadingNotification?.mode = MBProgressHUDMode.indeterminate
 //        loadingNotification?.label.text = "Loading..."
         
-        let parameters = ["user_id": USER.id, "followee": user.id]
+        let parameters = ["user_id": USER.id, "followee": user.id] as [String : Any]
+        
         Alamofire.request(KApi_JoinFriends, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
             
 //            self.loadingNotification?.hide(animated: true)
@@ -347,5 +575,5 @@ class SearchWorldViewController: UIViewController, UITableViewDataSource, UITabl
         }
         
     }
-
+*/
 }

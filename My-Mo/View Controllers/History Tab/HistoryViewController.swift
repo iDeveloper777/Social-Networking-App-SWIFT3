@@ -14,7 +14,7 @@ import AVFoundation
 import MediaPlayer
 import AVKit
 import ROThumbnailGenerator
-
+import Firebase
 
 class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, HostHistoryTBCellDelegate{
     
@@ -31,7 +31,12 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var tbl_List: UITableView!
     
     //Local Variables
+    var refresh_Flag: Int = 0
+    
 //    var loadingNotification:MBProgressHUD? = nil
+    let refreshControl: UIRefreshControl = UIRefreshControl()
+//    let refreshControl: PetRefreshControl = PetRefreshControl()
+    
     var array_Filter_Hosts:[Host] = []
     
     //MARK: - Life Cycle Functions
@@ -41,84 +46,33 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         array_Filter_Hosts = []
         
         let notificationName = Notification.Name(kNoti_Refresh_Host_History)
-        NotificationCenter.default.addObserver(self, selector: #selector(loadHostsFromServer), name: notificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshAllDatas), name: notificationName, object: nil)
         
 //        loadHostsFromServer(repostFlag: 0)
         
         if (appDelegate.array_Hosts.count == 0){
-            loadHostsFromServer(repostFlag: 0)
+            loadHostsFromFirebase()
+//            loadHostsFromServer(repostFlag: 0)
         }else {
 //            self.loadingNotification?.hide(animated: true)
         }
         
+        setLayout()
     }
     
+    func setLayout(){
+        refreshControl.addTarget(self, action: #selector(refreshAllDatas), for: .valueChanged)
+        tbl_List.addSubview(refreshControl)
+        
+//        refreshControl.tintColor = UIColor.clear
+//        refreshControl.addTarget(self, action: #selector(refreshAllDatas), for: .valueChanged)
+//        tbl_List.addSubview(refreshControl)
+        
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
     
-    func loadHostsFromServer(repostFlag: Int){
-        tbl_List.setContentOffset(CGPoint.zero, animated: true)
-        if (appDelegate.array_Hosts.count == 0){
-//            loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-//            loadingNotification?.mode = MBProgressHUDMode.indeterminate
-//            loadingNotification?.label.text = "Loading..."
-        }
-        
-        let parameters = ["user_id":USER.id]
-        Alamofire.request(kApi_HostHistory, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
-            
-            if (appDelegate.array_Hosts.count == 0){
-//                self.loadingNotification?.hide(animated: true)
-            }
-            
-            switch response.result {
-            case .success(_):
-                let jsonObject = JSON(response.result.value!)
-                let status: String = jsonObject["status"].stringValue
-                if (status == "success"){
-                    if (repostFlag == 0){
-                        self.fetchHostsFromJSON(json: jsonObject["data"])
-                    }else{
-                        self.fetchFirstHostFromJSON(json: jsonObject["data"])
-                    }
-                    
-                    self.tbl_List.reloadData()
-                }else{
-                    //                    COMMON.methodForAlert(titleString: kAppName, messageString: kErrorComment, OKButton: kOkButton, CancelButton: "", viewController: self)
-                }
-                break
-            case .failure(let error):
-                print(error)
-                COMMON.methodForAlert(titleString: kAppName, messageString: kNetworksNotAvailvle, OKButton: kOkButton, CancelButton: "", viewController: self)
-                break
-            }
-            
-        }
-
-    }
-    
-    func fetchHostsFromJSON(json: SwiftyJSON.JSON){
-        appDelegate.array_Hosts = []
-        array_Filter_Hosts = []
-        
-        for i in (0..<json.count) {
-            let host = Host()
-            
-            host.initHostDataWithJSON(json: json[i])
-            appDelegate.array_Hosts.append(host)
-            array_Filter_Hosts.append(host)
-        }
-    }
-    
-    func fetchFirstHostFromJSON(json: SwiftyJSON.JSON){
-        let host = Host()
-            
-        host.initHostDataWithJSON(json: json[0])
-        appDelegate.array_Hosts.insert(host, at: 0)
-        array_Filter_Hosts.insert(host, at: 0)
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -132,15 +86,12 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let host: Host = array_Filter_Hosts[indexPath.row]
         
-        if (host.thumbnail.contains("mov")){
-        }else {
-            if (host.width != 0 && host.height != 0){
-                var height: CGFloat = 0
-                
-                height = host.height / host.width * (Main_Screen_Width - 17)
-                height = height + CGFloat(kHistoryContentsHeight) - CGFloat(kHistoryImageHeight)
-                return height
-            }
+        if (host.content_width != "" && host.content_height != ""){
+            var height: CGFloat = 0
+            
+            height = CGFloat((host.content_height as NSString).floatValue) / CGFloat((host.content_width as NSString).floatValue) * (Main_Screen_Width - 17)
+            height = height + CGFloat(kHistoryContentsHeight) - CGFloat(kHistoryImageHeight)
+            return height
         }
         
         return CGFloat(kHistoryContentsHeight)
@@ -158,38 +109,26 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         let host: Host = array_Filter_Hosts[indexPath.row]
         
         cell.lbl_Title.text = host.title
-        cell.lbl_Date.text = host.creation_date + "|" + COMMON.convertTimestamp(aTimeStamp: host.creation_time)
-        cell.lbl_Like_Numbers.text = String(host.total_likes)
+        cell.lbl_Date.text = COMMON.get_Date_from_UTC_time(string: host.creation_date + " " + host.creation_time) + " | " + COMMON.get_Time_from_UTC_time(string: host.creation_date + " " + host.creation_time)
+        cell.lbl_Like_Numbers.text = String(host.likes_count)
         cell.lbl_Description.text = host.Description
         
-        if (host.thumbnail.contains("mov")){
+        if (host.content_width != "" && host.content_height != ""){
+            let height: CGFloat = CGFloat((host.content_height as NSString).floatValue) / CGFloat((host.content_width as NSString).floatValue) * (Main_Screen_Width - 17)
+            let frame: CGRect = CGRect(x: 8, y: 51, width: self.tbl_List.bounds.size.width - 17, height: height)
             
-            let frame: CGRect = CGRect(x: 8, y: 51, width: Main_Screen_Width - 17, height: CGFloat(kHistoryImageHeight))
+//            let str: String = String(describing: frame.width) + " - " + String(describing: frame.height)
+//            print(str)
+            
             cell.img_Motiff.frame = frame
-            
+            cell.img_Motiff.sd_setImage(with: URL(string: host.thumbnail_url), placeholderImage: UIImage(named: "Placeholder_Motiff_History.png"))
+        }
+        
+        if (host.isVideo == 1){
             cell.btn_PlayVideo.isHidden = false
-            cell.img_Motiff.image = UIImage(named: "Video_PlaceHolder.png")
-            cell.img_Motiff.contentMode = .scaleAspectFill
-            
-            if (host.thumbnail_image == nil){
-//                cell.img_Motiff.image = ROThumbnail.sharedInstance.getThumbnail(URL(string: host.thumbnail)!)
-//                host.thumbnail_image = ROThumbnail.sharedInstance.getThumbnail(URL(string: host.thumbnail)!)
-            }else{
-                cell.img_Motiff.image = host.thumbnail_image
-            }
+            cell.btn_PlayVideo.center = cell.img_Motiff.center
         }else{
-            //Resizing Image Size
-            if (host.width != 0 && host.height != 0){
-                let height: CGFloat = host.height / host.width * (Main_Screen_Width - 17)
-                let frame: CGRect = CGRect(x: 8, y: 51, width: self.tbl_List.bounds.size.width - 17, height: height)
-                
-                let str: String = String(describing: frame.width) + " - " + String(describing: frame.height)
-                print(str)
-                cell.img_Motiff.frame = frame
-            }
-            
             cell.btn_PlayVideo.isHidden = true
-            cell.img_Motiff.sd_setImage(with: URL(string: host.thumbnail), placeholderImage: UIImage(named: "Placeholder_Motiff_History.png"))
         }
         
         return cell
@@ -251,10 +190,13 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     //MARK: - HostHistoryTBCellDelegate
     func click_ViewMoreComments_Button(cell: HostHistoryTBCell) {
+        let indexPath: IndexPath = tbl_List.indexPath(for: cell)!
         let host: Host = array_Filter_Hosts[cell.tag]
         
         let viewController = self.storyboard?.instantiateViewController(withIdentifier: "CommentsView") as! CommentsViewController
+        viewController.host = array_Filter_Hosts[indexPath.row]
         viewController.motiff_id = host.id
+        
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
@@ -269,7 +211,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     func click_Play_Video(cell: HostHistoryTBCell) {
         let host: Host = array_Filter_Hosts[cell.tag]
         
-        let videoURL = URL(string: host.thumbnail)
+        let videoURL = URL(string: host.content_url)
         let player = AVPlayer(url: videoURL!)
         let playerViewController = AVPlayerViewController()
         playerViewController.player = player
@@ -291,19 +233,21 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         let repostAction = UIAlertAction(title: "Repost Motiff", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
             print("Repost Motiff")
             
-            self.repostMotiff(cell: cell)
+//            self.repostMotiff(cell: cell)
+            self.repostMotiffWithFirebase(cell: cell)
         }
     
         let deleteLibraryAction = UIAlertAction(title: "Delete Motiff", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
             print("Delete Motiff")
             
-            self.deleteMotiff(cell: cell)
+//            self.deleteMotiff(cell: cell)
+            self.deleteMotiffWithFirebase(cell: cell)
         }
         
         let mapoffLibraryAction = UIAlertAction(title: "Map Search Off", style: UIAlertActionStyle.default) { (result : UIAlertAction) -> Void in
             print("Map Search Off")
             
-            
+            self.MapSearchOffMotiffWithFirebase(cell: cell)
         }
         
         alertController.addAction(cancelAction)
@@ -314,7 +258,194 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.present(alertController, animated: true, completion: nil)
     }
     
+    // MARK: - Firebase
+    func refreshAllDatas(){
+        if (appDelegate.latest_Host != nil){
+            _ = self.navigationController?.popViewController(animated: true)
+            
+            appDelegate.array_Hosts.insert(appDelegate.latest_Host!, at: 0)
+            array_Filter_Hosts.insert(appDelegate.latest_Host!, at: 0)
+            
+            tbl_List.reloadData()
+            tbl_List.setContentOffset(CGPoint.zero, animated: true)
+            
+            appDelegate.latest_Host = nil
+        }
+        
+        refresh_Flag = 1
+//        refreshControl.beginRefreshing()
+        
+        loadHostsFromFirebase()
+    }
+    
+    func loadHostsFromFirebase(){
+        tbl_List.setContentOffset(CGPoint.zero, animated: true)
+        
+        if (appDelegate.array_Hosts.count == 0 || refresh_Flag == 1){
+            FirebaseModule.shareInstance.get_Motiffs(user_id: USER.id)
+                { (response: NSArray?, error: Error?) in
+                    if (error == nil){
+                        appDelegate.array_Hosts = []
+                        self.array_Filter_Hosts = []
+                        
+                        appDelegate.array_Hosts = response as! [Host]
+                        self.array_Filter_Hosts = response as! [Host]
+                        
+                        self.tbl_List.reloadData()
+                        
+                        self.refresh_Flag = 0
+                        self.refreshControl.endRefreshing()
+                    }else{
+                        COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+                        
+                        self.refresh_Flag = 0
+                        self.refreshControl.endRefreshing()
+                    }
+            }
+        }
+    }
+    
+    func repostMotiffWithFirebase(cell: HostHistoryTBCell){
+        
+        let host: Host = array_Filter_Hosts[cell.tag]
+        host.id = USER.id + " " + COMMON.get_Current_UTC_Date_Time()
+        
+        FirebaseModule.shareInstance.upload_Motiff(host: host){
+            (response: String?, error: Error?) in
+            
+            if (error == nil && response == "success"){
+                appDelegate.array_Hosts.insert(host, at: 0)
+                self.array_Filter_Hosts.insert(host, at: 0)
+                self.tbl_List.reloadData()
+                self.tbl_List.setContentOffset(CGPoint.zero, animated: true)
+            }else{
+                COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+            }
+        }
+
+    }
+    
+    func deleteMotiffWithFirebase(cell: HostHistoryTBCell){
+        
+        let host: Host = array_Filter_Hosts[cell.tag]
+        
+        FirebaseModule.shareInstance.delete_Motiff(host: host){
+            (response: String?, error: Error?) in
+            
+            if (error == nil && response == "success"){
+                
+                for i in (0..<appDelegate.array_Hosts.count){
+                    let host_com: Host = appDelegate.array_Hosts[i]
+                    
+                    if (host_com.id == host.id){
+                        appDelegate.array_Hosts.remove(at: cell.tag)
+                        break
+                    }
+                }
+                self.array_Filter_Hosts.remove(at: cell.tag)
+                
+                self.tbl_List.reloadData()
+            }else{
+                COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+            }
+        }
+        
+    }
+
+    func MapSearchOffMotiffWithFirebase(cell: HostHistoryTBCell){
+        
+        let host: Host = array_Filter_Hosts[cell.tag]
+        host.mapsearch = 0
+        
+        FirebaseModule.shareInstance.update_Motiff_Map_Search(host: host){
+            (response: String?, error: Error?) in
+            
+            if (error == nil && response == "success"){
+                self.array_Filter_Hosts.remove(at: cell.tag)
+                self.array_Filter_Hosts.insert(host, at: cell.tag)
+                
+                for i in (0..<appDelegate.array_Hosts.count){
+                    let host_com: Host = appDelegate.array_Hosts[i]
+                    
+                    if (host_com.id == host.id){
+                        appDelegate.array_Hosts.remove(at: cell.tag)
+                        appDelegate.array_Hosts.insert(host, at: cell.tag)
+                        break
+                    }
+                }
+                
+                self.tbl_List.reloadData()
+            }else{
+                COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+            }
+        }
+        
+    }
+    
+    /*
     // MARK: - API Calls
+    func loadHostsFromServer(repostFlag: Int){
+        tbl_List.setContentOffset(CGPoint.zero, animated: true)
+        if (appDelegate.array_Hosts.count == 0){
+            //            loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
+            //            loadingNotification?.mode = MBProgressHUDMode.indeterminate
+            //            loadingNotification?.label.text = "Loading..."
+        }
+        
+        let parameters = ["user_id":USER.id]
+        Alamofire.request(kApi_HostHistory, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
+            
+            if (appDelegate.array_Hosts.count == 0){
+                //                self.loadingNotification?.hide(animated: true)
+            }
+            
+            switch response.result {
+            case .success(_):
+                let jsonObject = JSON(response.result.value!)
+                let status: String = jsonObject["status"].stringValue
+                if (status == "success"){
+                    if (repostFlag == 0){
+                        self.fetchHostsFromJSON(json: jsonObject["data"])
+                    }else{
+                        self.fetchFirstHostFromJSON(json: jsonObject["data"])
+                    }
+                    
+                    self.tbl_List.reloadData()
+                }else{
+                    //                    COMMON.methodForAlert(titleString: kAppName, messageString: kErrorComment, OKButton: kOkButton, CancelButton: "", viewController: self)
+                }
+                break
+            case .failure(let error):
+                print(error)
+                COMMON.methodForAlert(titleString: kAppName, messageString: kNetworksNotAvailvle, OKButton: kOkButton, CancelButton: "", viewController: self)
+                break
+            }
+            
+        }
+        
+    }
+    
+    func fetchHostsFromJSON(json: SwiftyJSON.JSON){
+        appDelegate.array_Hosts = []
+        array_Filter_Hosts = []
+        
+        for i in (0..<json.count) {
+            let host = Host()
+            
+            //            host.initHostDataWithJSON(json: json[i])
+            appDelegate.array_Hosts.append(host)
+            array_Filter_Hosts.append(host)
+        }
+    }
+    
+    func fetchFirstHostFromJSON(json: SwiftyJSON.JSON){
+        let host = Host()
+        
+        //        host.initHostDataWithJSON(json: json[0])
+        appDelegate.array_Hosts.insert(host, at: 0)
+        array_Filter_Hosts.insert(host, at: 0)
+    }
+    
     func repostMotiff(cell: HostHistoryTBCell){
 //        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
 //        loadingNotification?.mode = MBProgressHUDMode.indeterminate
@@ -383,7 +514,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     }
     
-    func deleteMotiffInArray(motiff_id: Int){
+    func deleteMotiffInArray(motiff_id: String){
         var nIndex: Int = -1
         
         for i in (0..<appDelegate.array_Hosts.count){
@@ -398,4 +529,5 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
             appDelegate.array_Hosts.remove(at: nIndex)
         }
     }
+ */
 }

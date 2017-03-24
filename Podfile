@@ -3,10 +3,14 @@
 
 target 'My-Mo' do
 
-pod ‘Alamofire’
+pod 'Alamofire'
 pod 'SwiftyJSON'
 pod 'MBProgressHUD'
-pod ‘ROThumbnailGenerator’
+pod 'ROThumbnailGenerator'
+pod 'Firebase/Core'
+pod 'Firebase/Auth'
+pod 'Firebase/Database'
+pod 'Firebase/Storage'
 
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!

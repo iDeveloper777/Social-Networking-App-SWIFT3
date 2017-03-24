@@ -113,7 +113,7 @@ class Country: NSObject {
     var Mauritania = [String]()
     var Mauritius = [String]()
     var Mexico = [String]()
-    var Moldove = [String]()
+    var Moldova = [String]()
     var Monaco = [String]()
     var Mongolia = [String]()
     var Montenegro = [String]()
@@ -184,7 +184,7 @@ class Country: NSObject {
     var UnitedStates = [String]()
     
     func initCountries(){
-        array_Coutries = ["Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Central African Republic", "Chad", "China", "Colombia", "Comoros", "Congo", "Costa Rica", "Cuba", "Cote d’Ivoire", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Gambia", "Georgia", "GermString", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Ireland", "Israel", "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Lithuania", "Luxembourg", "Macedonia", "Madagascar", "Malawi", "Malasiya", "Maldives", "Mali", "Malta", "Marshall Island", "Mauritania", "Mauritius", "Mexico", "Moldove", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "Norway", "Oman", "Pakistan", "Palau", "Panama", "Papua new guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon", "Somalia", "South Africa", "South Korea", "Spain", "Sri Lanka", "Suriname", "Sudan", "Sweden", "Switzerland", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States"]
+        array_Coutries = ["Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Central African Republic", "Chad", "China", "Colombia", "Comoros", "Congo", "Costa Rica", "Cuba", "Cote d’Ivoire", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Gambia", "Georgia", "GermString", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Ireland", "Israel", "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Lithuania", "Luxembourg", "Macedonia", "Madagascar", "Malawi", "Malasiya", "Maldives", "Mali", "Malta", "Marshall Island", "Mauritania", "Mauritius", "Mexico", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "Norway", "Oman", "Pakistan", "Palau", "Panama", "Papua new guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon", "Somalia", "South Africa", "South Korea", "Spain", "Sri Lanka", "Suriname", "Sudan", "Sweden", "Switzerland", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States"]
     }
     
     func initCities(){
@@ -489,8 +489,8 @@ class Country: NSObject {
         Mexico = ["Acapulco", "Aguascalientes", "Cancún", "Celaya", "Chihuahua", "Chimalhuacán", "Ciudad Apodaca", "Ciudad López Mateos", "Cuautitlán Izcalli", "Cuernavaca", "Culiacán", "Durango", "Ecatepec", "General Escobedo", "Guadalajara", "Guadalupe", "Hermosillo", "Irapuato", "Ixtapaluca", "Juárez", "León", "Matamoros", "Mazatlán", "Mérida", "Mexicali", "Mexico City", "Monterrey", "Morelia", "Naucalpan", "Nezahualcóyotl", "Nuevo Laredo", "Puebla", "Querétaro", "Reynosa", "Saltillo", "San Luis Potosí", "San Nicolás de los Garza", "Tepic", "Tijuana", "Tlalnepantla", "Tlaquepaque", "Toluca", "Tonalá", "Torreón", "Tuxtla Gutiérrez", "Veracruz", "Villahermosa", "Xalapa", "Xico", "Zapopan"]
         array_Cities.append(Mexico)
         
-        Moldove = ["Balti", "Bender", "Chisinau", "Ribnita", "Tiraspolul"]
-        array_Cities.append(Moldove)
+        Moldova = ["Balti", "Bender", "Chisinau", "Ribnita", "Tiraspolul"]
+        array_Cities.append(Moldova)
         
         Monaco = ["Fontvieille", "La Condamine", "Monaco", "Monte Carlo"]
         array_Cities.append(Monaco)

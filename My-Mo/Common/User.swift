@@ -8,10 +8,12 @@
 
 import Foundation
 import SwiftyJSON
+import Firebase
 
 class User: NSObject{
+    let ref: FIRDatabaseReference = FIRDatabase.database().reference()
     
-    var id: Int = 0
+    var id: String = ""
     var username: String = ""
     var email: String = ""
     var password: String = ""
@@ -32,10 +34,14 @@ class User: NSObject{
     var status: String = ""
     var nta: Int = 0
     
+    var followings: Int64 = 0
+    var followers: Int64 = 0
+    var motives: Int64 = 0
+    
     var avatar_image: NSData? = nil
     
     func initUserData(){
-        id = 0
+        id = ""
         username = ""
         email = ""
         password = ""
@@ -55,12 +61,18 @@ class User: NSObject{
         blocked_users = 0
         status = ""
         nta = 0
-
+        
+        followings = 0
+        followers = 0
+        motives = 0
+        
         avatar_image = nil
     }
 
+    
+    
     func initUserDataWithJSON(json: SwiftyJSON.JSON){
-        id  = json["id"].intValue
+//        id  = json["id"].intValue
         username = json["username"].stringValue
         email = json["email"].stringValue
         name = json["name"].stringValue
@@ -89,11 +101,87 @@ class User: NSObject{
         city = json["city"].stringValue
         blocked_users = json["blocked_users"].intValue
         
+    }
+    
+    //MARK: - Firebase
+    func initUserDataWithFirebase(onCompletion: @escaping ServiceResponse) -> Void{
+        if (FIRAuth.auth()?.currentUser == nil){ return}
         
+        let user = FIRAuth.auth()?.currentUser
+        
+        id  = (user?.uid)!
+        email = (user?.email)!
+        
+        ref.child("users").observeSingleEvent(of: .value, with: { (snapshot) in
+            // Get user value
+            let array_users = snapshot.value as? NSArray ?? []
+            for user_in in array_users{
+                let value = user_in as? NSDictionary
+                let compare_id = value?["id"] as? String ?? ""
+                if (compare_id == self.id){
+                    self.id = value?["id"] as? String ?? ""
+                    self.email = value?["email"] as? String ?? ""
+                    self.username = value?["username"] as? String ?? ""
+                    self.name = value?["name"] as? String ?? ""
+                    self.user_status = value?["user_status"] as? String ?? ""
+                    self.avatar = value?["avatar"] as? String ?? ""
+                    self.time = value?["time"] as? String ?? ""
+                    self.mobile = value?["mobile"] as? String ?? ""
+                    self.who_can = value?["who_can"] as? String ?? ""
+                    self.notification = value?["notification"] as? Int ?? 0
+                    self.host_history = value?["host_history"] as? Int ?? 0
+                    self.allow_friend_to_search = value?["allow_friend_to_search"] as? Int ?? 0
+                    self.who_can_send_dm = value?["who_can_send_dm"] as? String ?? ""
+                    self.clear_text_conversation = value?["clear_text_conversation"] as? String ?? ""
+                    self.country = value?["country"] as? String ?? ""
+                    self.city = value?["city"] as? String ?? ""
+                    self.blocked_users = value?["blocked_users"] as? Int ?? 0
+                    
+                    self.followings = value?["followings"] as? Int64 ?? 0
+                    self.followers = value?["followers"] as? Int64 ?? 0
+                    self.motives = value?["motives"] as? Int64 ?? 0
+                    
+                    break
+                }
+            }
+            
+            
+            onCompletion("success", nil)
+        }) { (error) in
+            onCompletion(nil, error)
+            print(error.localizedDescription)
+        }
+    }
+    
+    func initUserDataWithDictionary(value: NSDictionary?){
+        if (value != nil){
+            self.id = value?["id"] as? String ?? ""
+            self.email = value?["email"] as? String ?? ""
+            self.username = value?["username"] as? String ?? ""
+            self.name = value?["name"] as? String ?? ""
+            self.user_status = value?["user_status"] as? String ?? ""
+            self.avatar = value?["avatar"] as? String ?? ""
+            self.time = value?["time"] as? String ?? ""
+            self.mobile = value?["mobile"] as? String ?? ""
+            self.who_can = value?["who_can"] as? String ?? ""
+            self.notification = value?["notification"] as? Int ?? 0
+            self.host_history = value?["host_history"] as? Int ?? 0
+            self.allow_friend_to_search = value?["allow_friend_to_search"] as? Int ?? 0
+            self.who_can_send_dm = value?["who_can_send_dm"] as? String ?? ""
+            self.clear_text_conversation = value?["clear_text_conversation"] as? String ?? ""
+            self.country = value?["country"] as? String ?? ""
+            self.city = value?["city"] as? String ?? ""
+            self.blocked_users = value?["blocked_users"] as? Int ?? 0
+            
+            self.followings = value?["followings"] as? Int64 ?? 0
+            self.followers = value?["followers"] as? Int64 ?? 0
+            self.motives = value?["motives"] as? Int64 ?? 0
+            
+        }
     }
     
     func initSignUpUserDataWithJSON(json: SwiftyJSON.JSON){
-        id  = json["user_id"].intValue
+//        id  = json["user_id"].intValue
         username = json["details"]["username"].stringValue
         email = json["details"]["email"].stringValue
         name = json["details"]["name"].stringValue
@@ -107,7 +195,7 @@ class User: NSObject{
 
     
     func initUserDataWithUserDefault(){
-        prefs.set(0, forKey: "id")
+        prefs.set("", forKey: "id")
         prefs.set("", forKey: "username")
         prefs.set("", forKey: "email")
 //        prefs.set("", forKey: "password")
@@ -127,6 +215,10 @@ class User: NSObject{
         prefs.set(0, forKey: "blocked_users")
         prefs.set("", forKey: "status")
         prefs.set(0, forKey: "nta")
+        
+        prefs.set(0, forKey: "followings")
+        prefs.set(0, forKey: "followers")
+        prefs.set(0, forKey: "motives")
         
         prefs.set(nil, forKey: "avatar_image")
     }
@@ -153,12 +245,16 @@ class User: NSObject{
         prefs.set(status, forKey: "status")
         prefs.set(nta, forKey: "nta")
         
+        prefs.set(followings, forKey: "followings")
+        prefs.set(followers, forKey: "followers")
+        prefs.set(motives, forKey: "motives")
+        
         prefs.set(avatar_image, forKey: "avatar_image")
     }
     
     func getUserDataWithUserDefault(){
         if ((prefs.object(forKey: "id")) != nil){
-            id = prefs.object(forKey: "id") as! Int
+            id = prefs.object(forKey: "id") as! String
         }
         
         if ((prefs.object(forKey: "username")) != nil){
@@ -237,6 +333,18 @@ class User: NSObject{
             nta = prefs.object(forKey: "nta") as! Int
         }
         
+        if ((prefs.object(forKey: "followings")) != nil){
+            followings = prefs.object(forKey: "followings") as! Int64
+        }
+        
+        if ((prefs.object(forKey: "followers")) != nil){
+            followers = prefs.object(forKey: "followers") as! Int64
+        }
+
+        if ((prefs.object(forKey: "motives")) != nil){
+            motives = prefs.object(forKey: "motives") as! Int64
+        }
+
         if ((prefs.object(forKey: "avatar_image")) != nil){
             avatar_image = prefs.object(forKey: "avatar_image") as? NSData
         }

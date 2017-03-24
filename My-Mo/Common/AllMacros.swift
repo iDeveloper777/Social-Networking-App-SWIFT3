@@ -21,6 +21,7 @@ let Main_Screen_Width = UIScreen.main.bounds.size.width
 let appDelegate = (UIApplication.shared.delegate! as! AppDelegate)
 let COMMON = Common()
 let IMAGEPROCESSING = ImageProcessing()
+let FIREBASEMODULE = FirebaseModule()
 
 let USER = User()
 let DATAKEEPER = DataKeeper()
@@ -73,12 +74,18 @@ let kConfirmPassword = "Please Confirm Your Password"
 let kEnterComment = "Please Enter Comment"
 let kErrorComment = "Failed. Please try again"
 let kErrorOtherComment = "Can't delete other's comment."
+let kErrorUsername = "This username was already used. Please choose anther one."
+let kLoginNoUserFailed = "This username was not registered."
+let kVerifiedEmail = "Please verify your email first."
+let kSuccessResetPassword = "New password was sent successfully. Please check your email"
+let kErrorResetPassword = "Failed. Please try again"
 
 let kContactError = "Can't get contacts from your phone book. Please try again."
 
 let kInvalidNO = "Please provide valid No"
 let kLoginFailed = "Login Failed"
 let kSignUpRequest = "We are unable to Sign up Please Try Latter .."
+let kSignUpSuccess = "You are registered successfully. Please check your email"
 let kLoginRequest = "Sorry unable to login Please try Latter.."
 let kOkButton = "Ok"
 let kEmailNotMatch = "Email does not match"
@@ -119,6 +126,7 @@ let kSettingDirectMessage: [String] = ["Everyone", "Friends", "Nobody"]
 let kSettingClearConversation: [String] = ["NONE", "3 DAYS", "5 DAYS", "1 WEEK", "CLEAR CONVERSATION"]
 let kSettingClearHostHistory: [String] = ["NONE", "3 DAYS", "5 DAYS", "1 WEEK", "CLEAR HOST HISTORY"]
 
+let kShare_With: [String] = ["", "Public", "Friends", "Custom"]
 //font
 let kBoldFont = "Helvetica-Bold"
 let kNormalFont = "Helvetica"

@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import MBProgressHUD
+import Firebase
 
 protocol PushViewControllerDelegate: class {
     func pushTabViewController(vc: UIViewController)
@@ -61,6 +62,7 @@ class SignUpViewController: UIViewController ,UITextFieldDelegate{
     }
     
     @IBAction func click_btn_SignUp(_ sender: AnyObject) {
+        
         if (tmpTextFeild != nil){
             tmpTextFeild.resignFirstResponder()
             hideKeyboard()
@@ -87,7 +89,43 @@ class SignUpViewController: UIViewController ,UITextFieldDelegate{
 //            loadingNotification?.mode = MBProgressHUDMode.indeterminate
 //            loadingNotification?.label.text = "Loading..."
             
-            SignUp()
+            ConfirmRegisteredUsername()
+//            SignUpWithFirebase()
+//            SignUp()
+        }
+    }
+    
+    //MARK: - SignUpWithFirebase
+    func ConfirmRegisteredUsername(){
+        FirebaseModule.shareInstance.ConfirmRegisteredUsername(username: txt_UserName.text){ (response: String?, error: Error?) in
+            if (error == nil){
+                if (response == ""){
+                    self.SignUpWithFirebase()
+                }else{
+                    COMMON.methodForAlert(titleString: kAppName, messageString: kErrorUsername, OKButton: kOkButton, CancelButton: "", viewController: self)
+                    self.txt_UserName.becomeFirstResponder()
+                }                
+            }else{
+                COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+            }
+        }
+    }
+    
+    func SignUpWithFirebase(){
+        FirebaseModule.shareInstance.SignUpWithEmail(email: txt_Email.text, password: txt_Password.text, username: txt_UserName.text, name: txt_Name.text, mobile: txt_Mobile.text){ (response: String?, error: Error?) in
+            
+            if (error == nil){
+                FIRAuth.auth()?.currentUser?.sendEmailVerification(completion: { (error) in
+                    if (error == nil){
+                        _ = self.navigationController?.popViewController(animated: true)
+//                        COMMON.methodForAlert(titleString: kAppName, messageString: kSignUpSuccess, OKButton: kOkButton, CancelButton: "", viewController: self)
+                    }else{
+                        COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+                    }
+                })
+            }else{
+                COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+            }
         }
     }
     

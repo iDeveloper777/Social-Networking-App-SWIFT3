@@ -34,8 +34,15 @@
 		793428D01E11AC4300424D46 /* Comments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793428CF1E11AC4300424D46 /* Comments.swift */; };
 		793E5EA81E0D314A00B8F085 /* HomeTBCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793E5EA71E0D314A00B8F085 /* HomeTBCell.swift */; };
 		793E5EAA1E0D3B0900B8F085 /* Motiff_User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793E5EA91E0D3B0900B8F085 /* Motiff_User.swift */; };
+		794D58551E67145800AA4DB1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 794D58541E67145800AA4DB1 /* GoogleService-Info.plist */; };
+		794D585B1E672D3900AA4DB1 /* FirebaseModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794D585A1E672D3900AA4DB1 /* FirebaseModule.swift */; };
+		7951C25D1E78DB600036A8F1 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7951C25A1E78DB600036A8F1 /* FLAnimatedImage.m */; };
+		7951C25E1E78DB600036A8F1 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7951C25C1E78DB600036A8F1 /* FLAnimatedImageView.m */; };
+		7951C2691E78F4370036A8F1 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = 7951C2671E78F4370036A8F1 /* loading.gif */; };
+		7951C26D1E798C940036A8F1 /* PetRefreshControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7951C26C1E798C940036A8F1 /* PetRefreshControl.swift */; };
 		795BCB5F1E52A616008AC7B0 /* Follow_User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795BCB5E1E52A615008AC7B0 /* Follow_User.swift */; };
 		795BCB611E52AAD6008AC7B0 /* FollowTBCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795BCB601E52AAD6008AC7B0 /* FollowTBCell.swift */; };
+		79623D3B1E79A9D500DAD562 /* loading_background.gif in Resources */ = {isa = PBXBuildFile; fileRef = 79623D3A1E79A9D500DAD562 /* loading_background.gif */; };
 		796ACE831DC9E972009FCB24 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796ACE821DC9E972009FCB24 /* AppDelegate.swift */; };
 		796ACE851DC9E972009FCB24 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796ACE841DC9E972009FCB24 /* ViewController.swift */; };
 		796ACE8B1DC9E972009FCB24 /* My_Mo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 796ACE891DC9E972009FCB24 /* My_Mo.xcdatamodeld */; };
@@ -214,6 +221,7 @@
 		798FCFCD1E16A24100288004 /* Home_bg_Swipe.png in Resources */ = {isa = PBXBuildFile; fileRef = 798FCFCC1E16A24100288004 /* Home_bg_Swipe.png */; };
 		798FCFCF1E16B02F00288004 /* SettingTBCell03.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798FCFCE1E16B02F00288004 /* SettingTBCell03.swift */; };
 		798FCFD11E16BC4800288004 /* InformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798FCFD01E16BC4800288004 /* InformationViewController.swift */; };
+		79A1430E1E82CDB4007CC1E4 /* Search_img_Avatar_BG.png in Resources */ = {isa = PBXBuildFile; fileRef = 79A1430D1E82CDB4007CC1E4 /* Search_img_Avatar_BG.png */; };
 		79B13BCA1E1C025800EA9BFB /* Host_img_Custom.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B13BC71E1C025800EA9BFB /* Host_img_Custom.png */; };
 		79B13BCB1E1C025800EA9BFB /* Host_img_Friends.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B13BC81E1C025800EA9BFB /* Host_img_Friends.png */; };
 		79B13BCC1E1C025800EA9BFB /* Host_img_Public.png in Resources */ = {isa = PBXBuildFile; fileRef = 79B13BC91E1C025800EA9BFB /* Host_img_Public.png */; };
@@ -226,6 +234,7 @@
 		79D884D01E2791DA00F9C57E /* Home_btn_Like.png in Resources */ = {isa = PBXBuildFile; fileRef = 79D884CF1E2791DA00F9C57E /* Home_btn_Like.png */; };
 		79DDF9AE1DD4240100423801 /* NonPasteUitextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 79DDF9AD1DD4240100423801 /* NonPasteUitextField.m */; };
 		79DDF9B11DD4950B00423801 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79DDF9AF1DD4950B00423801 /* Main.storyboard */; };
+		79EF64801E6DD47000070612 /* Following.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EF647F1E6DD47000070612 /* Following.swift */; };
 		7BEF90FC371FFB4F4C7BB727 /* Pods_My_MoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD2D519B6D9129226A0BCEBD /* Pods_My_MoTests.framework */; };
 		8244052D7E56B787A4BCAD98 /* Pods_My_Mo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F98258546E4AE981B488A1E1 /* Pods_My_Mo.framework */; };
 		AF9A791E140F0B41D17AB7C0 /* Pods_My_MoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD916F7A1DE38BD646898652 /* Pods_My_MoUITests.framework */; };
@@ -310,8 +319,18 @@
 		793428CF1E11AC4300424D46 /* Comments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comments.swift; sourceTree = "<group>"; };
 		793E5EA71E0D314A00B8F085 /* HomeTBCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTBCell.swift; sourceTree = "<group>"; };
 		793E5EA91E0D3B0900B8F085 /* Motiff_User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Motiff_User.swift; sourceTree = "<group>"; };
+		794D58541E67145800AA4DB1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		794D58561E67146700AA4DB1 /* My-Mo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "My-Mo.entitlements"; sourceTree = "<group>"; };
+		794D585A1E672D3900AA4DB1 /* FirebaseModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseModule.swift; sourceTree = "<group>"; };
+		7951C2591E78DB600036A8F1 /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImage.h; sourceTree = "<group>"; };
+		7951C25A1E78DB600036A8F1 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImage.m; sourceTree = "<group>"; };
+		7951C25B1E78DB600036A8F1 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImageView.h; sourceTree = "<group>"; };
+		7951C25C1E78DB600036A8F1 /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImageView.m; sourceTree = "<group>"; };
+		7951C2671E78F4370036A8F1 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
+		7951C26C1E798C940036A8F1 /* PetRefreshControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PetRefreshControl.swift; sourceTree = "<group>"; };
 		795BCB5E1E52A615008AC7B0 /* Follow_User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Follow_User.swift; sourceTree = "<group>"; };
 		795BCB601E52AAD6008AC7B0 /* FollowTBCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowTBCell.swift; sourceTree = "<group>"; };
+		79623D3A1E79A9D500DAD562 /* loading_background.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading_background.gif; sourceTree = "<group>"; };
 		796ACE7F1DC9E972009FCB24 /* My-Mo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "My-Mo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		796ACE821DC9E972009FCB24 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		796ACE841DC9E972009FCB24 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -496,6 +515,7 @@
 		798FCFCC1E16A24100288004 /* Home_bg_Swipe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Home_bg_Swipe.png; sourceTree = "<group>"; };
 		798FCFCE1E16B02F00288004 /* SettingTBCell03.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTBCell03.swift; sourceTree = "<group>"; };
 		798FCFD01E16BC4800288004 /* InformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationViewController.swift; sourceTree = "<group>"; };
+		79A1430D1E82CDB4007CC1E4 /* Search_img_Avatar_BG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Search_img_Avatar_BG.png; sourceTree = "<group>"; };
 		79B13BC71E1C025800EA9BFB /* Host_img_Custom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Host_img_Custom.png; sourceTree = "<group>"; };
 		79B13BC81E1C025800EA9BFB /* Host_img_Friends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Host_img_Friends.png; sourceTree = "<group>"; };
 		79B13BC91E1C025800EA9BFB /* Host_img_Public.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Host_img_Public.png; sourceTree = "<group>"; };
@@ -511,6 +531,7 @@
 		79DDF9AC1DD4240100423801 /* NonPasteUitextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NonPasteUitextField.h; sourceTree = "<group>"; };
 		79DDF9AD1DD4240100423801 /* NonPasteUitextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NonPasteUitextField.m; sourceTree = "<group>"; };
 		79DDF9B01DD4950B00423801 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		79EF647F1E6DD47000070612 /* Following.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Following.swift; sourceTree = "<group>"; };
 		8EED30D24C87B95A038A68D6 /* Pods-My-Mo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-My-Mo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-My-Mo/Pods-My-Mo.debug.xcconfig"; sourceTree = "<group>"; };
 		AD0A38D3D8340685BD52D1A1 /* Pods-My-MoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-My-MoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-My-MoTests/Pods-My-MoTests.release.xcconfig"; sourceTree = "<group>"; };
 		AD2D519B6D9129226A0BCEBD /* Pods_My_MoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_My_MoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -587,6 +608,42 @@
 			path = SDWebImage;
 			sourceTree = "<group>";
 		};
+		794D58591E672D3900AA4DB1 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				794D585A1E672D3900AA4DB1 /* FirebaseModule.swift */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
+		7951C2581E78DB600036A8F1 /* FLAnimatedImage */ = {
+			isa = PBXGroup;
+			children = (
+				7951C2591E78DB600036A8F1 /* FLAnimatedImage.h */,
+				7951C25A1E78DB600036A8F1 /* FLAnimatedImage.m */,
+				7951C25B1E78DB600036A8F1 /* FLAnimatedImageView.h */,
+				7951C25C1E78DB600036A8F1 /* FLAnimatedImageView.m */,
+			);
+			path = FLAnimatedImage;
+			sourceTree = "<group>";
+		};
+		7951C2661E78F4370036A8F1 /* Refresh Icons */ = {
+			isa = PBXGroup;
+			children = (
+				79623D3A1E79A9D500DAD562 /* loading_background.gif */,
+				7951C2671E78F4370036A8F1 /* loading.gif */,
+			);
+			path = "Refresh Icons";
+			sourceTree = "<group>";
+		};
+		7951C26B1E798C720036A8F1 /* PetRefreshControl */ = {
+			isa = PBXGroup;
+			children = (
+				7951C26C1E798C940036A8F1 /* PetRefreshControl.swift */,
+			);
+			path = PetRefreshControl;
+			sourceTree = "<group>";
+		};
 		796ACE761DC9E971009FCB24 = {
 			isa = PBXGroup;
 			children = (
@@ -610,6 +667,8 @@
 		796ACE811DC9E972009FCB24 /* My-Mo */ = {
 			isa = PBXGroup;
 			children = (
+				794D58561E67146700AA4DB1 /* My-Mo.entitlements */,
+				794D58541E67145800AA4DB1 /* GoogleService-Info.plist */,
 				79B2C7F51DD18F6E00F14F84 /* MyMo-Bridging-Header.h */,
 				796ACF7F1DC9EC5E009FCB24 /* Common */,
 				796ACF821DC9EC5E009FCB24 /* Custom Controllers */,
@@ -658,12 +717,14 @@
 		796ACF7F1DC9EC5E009FCB24 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				794D58591E672D3900AA4DB1 /* Firebase */,
 				796ACF801DC9EC5E009FCB24 /* AllMacros.swift */,
 				7900D1481E1BD6F5001E9941 /* All_APIs.swift */,
 				798FCFCA1E16A21D00288004 /* DataKeeper.swift */,
 				790C57E91E569D7300DB2FAA /* Country.swift */,
 				796ACF811DC9EC5E009FCB24 /* Common.swift */,
 				7971428C1DF1AE8200448326 /* User.swift */,
+				79EF647F1E6DD47000070612 /* Following.swift */,
 				793E5EA91E0D3B0900B8F085 /* Motiff_User.swift */,
 				7900D14A1E1BD8E6001E9941 /* Block_User.swift */,
 				79B13BD11E1C93E700EA9BFB /* Host_User.swift */,
@@ -680,6 +741,8 @@
 		796ACF821DC9EC5E009FCB24 /* Custom Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				7951C26B1E798C720036A8F1 /* PetRefreshControl */,
+				7951C2581E78DB600036A8F1 /* FLAnimatedImage */,
 				79227C071E0D73E500449401 /* SDWebImage */,
 				79804FAA1DF09BCB00420939 /* kDropDown */,
 				79DDF9AB1DD4240100423801 /* NonPasteUItextField */,
@@ -691,6 +754,7 @@
 		79804E901DF0687400420939 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				7951C2661E78F4370036A8F1 /* Refresh Icons */,
 				79804E911DF0687400420939 /* Comments Screen */,
 				79804E951DF0687400420939 /* FPassword Screen */,
 				79804E981DF0687400420939 /* History Screen */,
@@ -839,6 +903,7 @@
 		79804ECF1DF0687500420939 /* Search Screen */ = {
 			isa = PBXGroup;
 			children = (
+				79A1430D1E82CDB4007CC1E4 /* Search_img_Avatar_BG.png */,
 				79804ED01DF0687500420939 /* Search_btn_Cancel.png */,
 				79804ED11DF0687500420939 /* Search_btn_Map.png */,
 				79804ED21DF0687500420939 /* Search_btn_phonebook.png */,
@@ -924,11 +989,11 @@
 				79804F821DF0689300420939 /* LogInViewController.swift */,
 				79804F8B1DF0689300420939 /* SignUpViewController.swift */,
 				79804F8C1DF0689300420939 /* TabBarViewController.swift */,
-				79804F741DF0689300420939 /* History Tab */,
 				79804F781DF0689300420939 /* Home Tab */,
 				79804F7F1DF0689300420939 /* Host Tab */,
-				79804F831DF0689300420939 /* Notification Tab */,
 				79804F851DF0689300420939 /* Search Tab */,
+				79804F831DF0689300420939 /* Notification Tab */,
+				79804F741DF0689300420939 /* History Tab */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -937,8 +1002,8 @@
 			isa = PBXGroup;
 			children = (
 				79804F761DF0689300420939 /* HistoryViewController.swift */,
-				79804F751DF0689300420939 /* CommentsViewController.swift */,
 				79804F771DF0689300420939 /* LikesViewController.swift */,
+				79804F751DF0689300420939 /* CommentsViewController.swift */,
 			);
 			path = "History Tab";
 			sourceTree = "<group>";
@@ -978,10 +1043,10 @@
 			isa = PBXGroup;
 			children = (
 				79804F891DF0689300420939 /* SearchViewController.swift */,
-				79804F861DF0689300420939 /* SearchMapViewController.swift */,
 				79804F871DF0689300420939 /* SearchPhonebookViewController.swift */,
 				79804F881DF0689300420939 /* SearchUsernameViewController.swift */,
 				79804F8A1DF0689300420939 /* SearchWorldViewController.swift */,
+				79804F861DF0689300420939 /* SearchMapViewController.swift */,
 			);
 			path = "Search Tab";
 			sourceTree = "<group>";
@@ -1152,13 +1217,18 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = iDeveloper;
 				TargetAttributes = {
 					796ACE7E1DC9E971009FCB24 = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = HXFCJ7RZZ6;
 						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					796ACE951DC9E972009FCB24 = {
 						CreatedOnToolsVersion = 8.0;
@@ -1214,6 +1284,7 @@
 				79804F521DF0687500420939 /* TabBar.psd in Resources */,
 				796ACEF31DC9E9D3009FCB24 /* Icon_180.png in Resources */,
 				79804F5E1DF0687500420939 /* TabBar_btn_HistorySelected@2x.png in Resources */,
+				7951C2691E78F4370036A8F1 /* loading.gif in Resources */,
 				79804F4E1DF0687500420939 /* Setting_img_Edit.png in Resources */,
 				79804F201DF0687500420939 /* Home_img_Search.png in Resources */,
 				79804F321DF0687500420939 /* Likes_btn_Likes.png in Resources */,
@@ -1319,11 +1390,13 @@
 				79804F1E1DF0687500420939 /* Home_img_Sample02.png in Resources */,
 				796ACEF51DC9E9D3009FCB24 /* Icon_29.png in Resources */,
 				79804F211DF0687500420939 /* Home_img_Swipe.png in Resources */,
+				79623D3B1E79A9D500DAD562 /* loading_background.gif in Resources */,
 				79804F671DF0687500420939 /* TabBar_btn_Host@2x.png in Resources */,
 				798FCFCD1E16A24100288004 /* Home_bg_Swipe.png in Resources */,
 				79804F691DF0687500420939 /* TabBar_btn_HostSelected@1x.png in Resources */,
 				79804F0F1DF0687500420939 /* History_img_Like.png in Resources */,
 				79804F601DF0687500420939 /* TabBar_btn_Home@1x.png in Resources */,
+				79A1430E1E82CDB4007CC1E4 /* Search_img_Avatar_BG.png in Resources */,
 				79804F1F1DF0687500420939 /* Home_img_Sample03.png in Resources */,
 				79804F231DF0687500420939 /* Home_img_Swipe02.jpg in Resources */,
 				79804F641DF0687500420939 /* TabBar_btn_HomeSelected@2x.png in Resources */,
@@ -1334,6 +1407,7 @@
 				79804F0C1DF0687500420939 /* FPassword_bg_Email.png in Resources */,
 				796ACE8D1DC9E972009FCB24 /* Assets.xcassets in Resources */,
 				79804F081DF0687500420939 /* Comments_btn_Delete.png in Resources */,
+				794D58551E67145800AA4DB1 /* GoogleService-Info.plist in Resources */,
 				79804FC21DF09BCB00420939 /* search_button02.psd in Resources */,
 				79804F261DF0687500420939 /* HomeDetail_btn_Back.png in Resources */,
 				79804F271DF0687500420939 /* HomeDetail_btn_Delete.png in Resources */,
@@ -1516,6 +1590,7 @@
 				79804F941DF0689300420939 /* MessageBoardViewController.swift in Sources */,
 				79804F961DF0689300420939 /* SettingViewController.swift in Sources */,
 				79227C301E0D73E500449401 /* SDWebImageManager.m in Sources */,
+				794D585B1E672D3900AA4DB1 /* FirebaseModule.swift in Sources */,
 				796EC7101E1EB59F008F649D /* CommentsTBCell.swift in Sources */,
 				793E5EAA1E0D3B0900B8F085 /* Motiff_User.swift in Sources */,
 				79804FA01DF0689300420939 /* SignUpViewController.swift in Sources */,
@@ -1568,12 +1643,16 @@
 				796EC70A1E1E8C7A008F649D /* Host.swift in Sources */,
 				79804F9F1DF0689300420939 /* SearchWorldViewController.swift in Sources */,
 				79227C2B1E0D73E500449401 /* SDImageCache.m in Sources */,
+				7951C25E1E78DB600036A8F1 /* FLAnimatedImageView.m in Sources */,
 				79227C2A1E0D73E500449401 /* NSData+ImageContentType.m in Sources */,
 				79804F8E1DF0689300420939 /* CommentsViewController.swift in Sources */,
 				79227C311E0D73E500449401 /* SDWebImagePrefetcher.m in Sources */,
 				796EC7081E1E824A008F649D /* HostHistoryTBCell.swift in Sources */,
+				79EF64801E6DD47000070612 /* Following.swift in Sources */,
 				7900D14B1E1BD8E6001E9941 /* Block_User.swift in Sources */,
 				79B13BD21E1C93E700EA9BFB /* Host_User.swift in Sources */,
+				7951C26D1E798C940036A8F1 /* PetRefreshControl.swift in Sources */,
+				7951C25D1E78DB600036A8F1 /* FLAnimatedImage.m in Sources */,
 				79227C341E0D73E500449401 /* UIImage+MultiFormat.m in Sources */,
 				79804F921DF0689300420939 /* HomeDetailViewController.swift in Sources */,
 				7971428D1DF1AE8200448326 /* User.swift in Sources */,
@@ -1671,7 +1750,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1716,7 +1795,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1730,6 +1809,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "My-Mo/My-Mo.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer: tyrone  bryant (Z4C4FQ682F)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: tyrone  bryant (Z4C4FQ682F)";
 				DEVELOPMENT_TEAM = HXFCJ7RZZ6;
@@ -1740,7 +1820,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0ffedec8-33cc-4a97-8aad-0c66cf1f7cb4";
 				PROVISIONING_PROFILE_SPECIFIER = "My-Mo for Dev";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Volumes/WORKING/Working/15-02  (Andrei Irascu)/iOS (3.0)/My-Mo/My-Mo/MyMo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "My-Mo/MyMo-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -1751,6 +1831,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "My-Mo/My-Mo.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer: tyrone  bryant (Z4C4FQ682F)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: tyrone  bryant (Z4C4FQ682F)";
 				DEVELOPMENT_TEAM = HXFCJ7RZZ6;
@@ -1761,7 +1842,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0ffedec8-33cc-4a97-8aad-0c66cf1f7cb4";
 				PROVISIONING_PROFILE_SPECIFIER = "My-Mo for Dev";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Volumes/WORKING/Working/15-02  (Andrei Irascu)/iOS (3.0)/My-Mo/My-Mo/MyMo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "My-Mo/MyMo-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

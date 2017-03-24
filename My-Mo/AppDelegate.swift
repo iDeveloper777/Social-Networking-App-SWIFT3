@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import Contacts
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var storyboardName: String = ""
     var isLogout = 0
-    var array_Host_Friends: [Int] = []
+    var array_Host_Friends: [String] = []
     var array_HostUsers: [Host_User] = []
     var array_BlockUsers: [Block_User] = []
     var array_Hosts: [Host] = []
@@ -26,6 +27,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var array_Follower_Users: [Follow_User] = []
     
     var array_Search_Users: [Follow_User] = []
+    
+    var array_All_Users: [User] = []
+    var array_All_Followings: [Following] = []
+    var latest_Host: Host? = nil
     
     var contactStore = CNContactStore()
     
@@ -48,6 +53,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        FIRApp.configure()
         
         initStoryboard()
         

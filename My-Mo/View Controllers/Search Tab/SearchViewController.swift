@@ -12,6 +12,7 @@ import Contacts
 import Alamofire
 import SwiftyJSON
 import MBProgressHUD
+import Firebase
 
 class SearchViewController: UIViewController {
     
@@ -37,6 +38,8 @@ class SearchViewController: UIViewController {
 //        if (DATAKEEPER.getContactUploaded() == "NO"){
             getContactList()
 //        }
+        
+        
     }
 
     //MARK: - Buttons' Events
@@ -153,10 +156,11 @@ class SearchViewController: UIViewController {
                 }
             }
             
-            uploadContactsToServer(value: str_Numbers)
+//            uploadContactsToServer(value: str_Numbers)
         }
     }
     
+    /*
     func uploadContactsToServer(value: String){
 //        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
 //        loadingNotification?.mode = MBProgressHUDMode.indeterminate
@@ -186,4 +190,5 @@ class SearchViewController: UIViewController {
         }
         
     }
+ */
 }

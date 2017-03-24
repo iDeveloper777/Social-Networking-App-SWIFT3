@@ -37,6 +37,8 @@ class HomeDetailTBCell: UITableViewCell {
         self.img_Avatar.layer.masksToBounds = true
         self.img_Avatar?.layer.borderWidth = 1
         self.img_Avatar?.layer.borderColor = UIColor.orange.cgColor
+        
+        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

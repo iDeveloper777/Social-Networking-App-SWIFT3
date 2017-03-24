@@ -13,6 +13,7 @@ import Alamofire
 import SwiftyJSON
 import MBProgressHUD
 import CoreLocation
+import Firebase
 
 class SettingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, CropImageDelegate, SettingTBCell01Delegate, SettingTBCell02Delegate, SettingTBCell03Delegate, kDropDownListViewDelegate, UIScrollViewDelegate, CLLocationManagerDelegate{
 
@@ -133,10 +134,23 @@ class SettingViewController: UIViewController, UITableViewDataSource, UITableVie
         appDelegate.array_Following_Users = []
         appDelegate.array_Follower_Users = []
         appDelegate.array_Search_Users = []
+        appDelegate.array_All_Users = []
+        appDelegate.array_All_Followings = []
+        appDelegate.latest_Host = nil
         
-        let viewController = self.storyboard?.instantiateViewController(withIdentifier: "LogInView") as! LogInViewController
-        viewController.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(viewController, animated: true)
+        let firebaseAuth = FIRAuth.auth()
+        do {
+            try firebaseAuth?.signOut()
+            
+            let viewController = self.storyboard?.instantiateViewController(withIdentifier: "LogInView") as! LogInViewController
+            viewController.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(viewController, animated: true)
+            
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
+        
+            
         
 //        let navi = self.navigationController! as UINavigationController
 //        _ = navi.navigationController?.popToRootViewController(animated: true)

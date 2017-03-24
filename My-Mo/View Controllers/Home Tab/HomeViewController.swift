@@ -14,6 +14,7 @@ import MediaPlayer
 import AVKit
 import ROThumbnailGenerator
 import CoreLocation
+import Firebase
 
 class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, HomeTBCellDelegate, CLLocationManagerDelegate, UIWebViewDelegate{
 
@@ -78,29 +79,28 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
     var current_PageIndex: Int = 0
     var refresh_Flag: Int = 0
     
-    var str_Video_URL01: String = ""
-    var str_Video_URL02: String = ""
-    
     var array_Video_Images:[Int: UIImage] = [:]
+    var array_Live_Motiffs: [Host] = []
     
     var locationManager: CLLocationManager!
     var str_Longitude: String = ""
     var str_Latitude: String = ""
     
-    
+    //MARK: - Life cycle functions
     override func viewDidLoad() {
         super.viewDidLoad()
         array_HomeUsers = []
         array_Temp_HomeUsers = []
         array_Video_Images = [:]
         
-        DATAKEEPER.getMotiffLikes()
+//        DATAKEEPER.getMotiffLikes()
         
         setLayout()
         setTapGestureInDetailImage()
         setProfileLayout()
         
-        loadMotiffDataFromServer()
+//        loadMotiffDataFromServer()
+        loadAllUsersFromFirebase()
         hideBadgeNumber()
         
         let notificationName = Notification.Name(kNoti_Show_Home_BadgeNumber)
@@ -164,10 +164,12 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
     
     func setTapGestureInDetailImage(){
         let tapGestureRecognizer01 = UITapGestureRecognizer(target:self, action: #selector(imageTapped))
+        tapGestureRecognizer01.numberOfTapsRequired = 2
         img_Swipe01.addGestureRecognizer(tapGestureRecognizer01)
         img_Swipe01.isUserInteractionEnabled = true
         
         let tapGestureRecognizer02 = UITapGestureRecognizer(target:self, action: #selector(imageTapped))
+        tapGestureRecognizer02.numberOfTapsRequired = 2
         img_Swipe02.addGestureRecognizer(tapGestureRecognizer02)
         img_Swipe02.isUserInteractionEnabled = true
     }
@@ -175,14 +177,16 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
     func imageTapped(gestureRecognizer: UITapGestureRecognizer) {
         let viewController = self.storyboard?.instantiateViewController(withIdentifier: "HomeDetailView") as! HomeDetailViewController
         
-        let selected_User: Motiff_User = array_HomeUsers[selected_index]
+        let selected_User: Motiff_User = array_Temp_HomeUsers[selected_index]
         let motiff: Home_Motiff = selected_User.motiffs[current_PageIndex]
+        let host: Host = getHostWithHostID(id: motiff.motiff_id)!
         
         viewController.motiff = motiff
+        viewController.host = host
         
-        if (array_Video_Images[motiff.motiff_id] != nil){
-            viewController.thumbnail_image = array_Video_Images[motiff.motiff_id]
-        }
+//        if (array_Video_Images[motiff.motiff_id] != nil){
+//            viewController.thumbnail_image = array_Video_Images[motiff.motiff_id]
+//        }
         
         self.navigationController?.pushViewController(viewController, animated: true)
     }
@@ -215,7 +219,8 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
     //MARK: - refreshAllDatas
     func refreshAllDatas(){
         refresh_Flag = 1
-        loadMotiffDataFromServer()
+//        loadMotiffDataFromServer()
+        loadAllUsersFromFirebase()
     }
     
     
@@ -223,8 +228,8 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
     func showBadgeNumber(){
         var num: Int = 0
         
-        for i in (0..<array_Temp_HomeUsers.count){
-            let motiff_user: Motiff_User = array_Temp_HomeUsers[i]
+        for i in (0..<array_HomeUsers.count){
+            let motiff_user: Motiff_User = array_HomeUsers[i]
             
             if (motiff_user.motiffs.count == 1){
                 let motiff: Home_Motiff = motiff_user.motiffs[0]
@@ -290,7 +295,11 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
     }
     
     @IBAction func click_btn_PlayVideo01(_ sender: Any) {
-        let videoURL = URL(string: str_Video_URL01)
+        let selected_User: Motiff_User = array_HomeUsers[selected_index]
+        let motiff: Home_Motiff = selected_User.motiffs[nPageIndex]
+        let host: Host = getHostWithHostID(id: motiff.motiff_id)!
+        
+        let videoURL = URL(string: host.content_url)
         let player = AVPlayer(url: videoURL!)
         let playerViewController = AVPlayerViewController()
         playerViewController.player = player
@@ -300,7 +309,11 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
     }
     
     @IBAction func click_btn_PlayVideo02(_ sender: Any) {
-        let videoURL = URL(string: str_Video_URL02)
+        let selected_User: Motiff_User = array_HomeUsers[selected_index]
+        let motiff: Home_Motiff = selected_User.motiffs[nPageIndex]
+        let host: Host = getHostWithHostID(id: motiff.motiff_id)!
+        
+        let videoURL = URL(string: host.content_url)
         let player = AVPlayer(url: videoURL!)
         let playerViewController = AVPlayerViewController()
         playerViewController.player = player
@@ -310,7 +323,8 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
     }
     
     @IBAction func click_btn_Like(_ sender: Any) {
-        updateMotiffLike()
+//        updateMotiffLike()
+        updateMotiffLikeWithFirebase()
     }
     
     @IBAction func click_btn_Location(_ sender: Any) {
@@ -355,7 +369,25 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
     }
     
     @IBAction func click_btn_Share(_ sender: Any) {
+        let selected_User: Motiff_User = array_Temp_HomeUsers[selected_index]
+        let motiff: Home_Motiff = selected_User.motiffs[nPageIndex]
+        let host: Host = getHostWithHostID(id: motiff.motiff_id)!
+
+        let textToShare: String = host.title + " " + host.Description
+        let myWebsite : URL? = URL(string: "https://www.mymo.com")
+        var objectsToShare: [Any] = []
+        objectsToShare.append(textToShare)
         
+        if (myWebsite != nil){
+            objectsToShare.append(myWebsite)
+        }
+        
+        let controller = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+
+        controller.excludedActivityTypes = []
+        controller.popoverPresentationController?.sourceView = self.view
+        
+        self.present(controller, animated: true, completion: nil)
     }
     
     
@@ -379,12 +411,12 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
     }
     
     func refreshTableViewWithSearch() {
-        array_HomeUsers = []
+        array_Temp_HomeUsers = []
         
-        for i in (0..<array_Temp_HomeUsers.count) {
-            let homeuser: Motiff_User = array_Temp_HomeUsers[i]
+        for i in (0..<array_HomeUsers.count) {
+            let homeuser: Motiff_User = array_HomeUsers[i]
             
-            array_HomeUsers.append(homeuser)
+            array_Temp_HomeUsers.append(homeuser)
         }
 
         if (txt_Search.text == ""){
@@ -393,15 +425,15 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
         }
         
         var k: Int = 0
-        while(k < array_HomeUsers.count){
-            let homeuser: Motiff_User = array_HomeUsers[k]
+        while(k < array_Temp_HomeUsers.count){
+            let homeuser: Motiff_User = array_Temp_HomeUsers[k]
             
             let name: String = homeuser.name
             let lowerString: String = name.lowercased()
             let compareLowerString: String = (txt_Search.text?.lowercased())!
             
             if (lowerString.range(of: compareLowerString) == nil){
-                array_HomeUsers.remove(at: k)
+                array_Temp_HomeUsers.remove(at: k)
             }else{
                 k += 1
             }
@@ -420,7 +452,7 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return array_HomeUsers.count
+        return array_Temp_HomeUsers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -429,7 +461,7 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
         let cell:HomeTBCell = self.tbl_List.dequeueReusableCell(withIdentifier: "cell") as! HomeTBCell
         cell.cellDelegate = self
         
-        let motiff_user: Motiff_User = array_HomeUsers[indexPath.row]
+        let motiff_user: Motiff_User = array_Temp_HomeUsers[indexPath.row]
         
         cell.img_Avatar.sd_setImage(with: URL(string: motiff_user.avatar), placeholderImage: UIImage(named: "Placeholder_Avatar.png"))
         cell.lbl_UserName.text = motiff_user.name
@@ -448,13 +480,13 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
             
             let nRead: Int = motiff0.read + motiff1.read
             
-            if (nRead == 0){
+            if (nRead == 0 || nRead == 1){
                 cell.setBadgeNumber(badgeNumber: 1)
             }else{
                 cell.setBadgeNumber(badgeNumber: 0)
             }
         }
-        cell.setBadgeNumber(badgeNumber: motiff_user.live_motiffs)
+//        cell.setBadgeNumber(badgeNumber: motiff_user.live_motiffs)
         
         if (motiff_user.country != "0"){
             str_Locaiton = motiff_user.country + " - "
@@ -491,14 +523,11 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
         pg_Media.currentPage = 0
         current_PageIndex = 0
         
-        str_Video_URL01 = ""
-        str_Video_URL02 = ""
-        
         let tbCell: HomeTBCell = sender.view as! HomeTBCell
         let indexPath: IndexPath = self.tbl_List.indexPath(for: tbCell)!
         selected_index = indexPath.row
         
-        let selected_User: Motiff_User = array_HomeUsers[indexPath.row]
+        let selected_User: Motiff_User = array_Temp_HomeUsers[indexPath.row]
         
         lbl_UserName.text = selected_User.name
         img_UserAvatar.sd_setImage(with: URL(string: selected_User.avatar), placeholderImage: UIImage(named: "Placeholder_Avatar.png"))
@@ -513,17 +542,12 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
             lbl_Swipe_Information.text = latest_motiff.Description
             img_Swipe01.image = nil
             
-            if (latest_motiff.thumbnail.contains("mov")){
+            if (latest_motiff.isVideo == 1){
                 btn_Play_Video01.isHidden = false
                 img_Swipe01.image = UIImage(named: "Video_PlaceHolder.png")
                 
-                if (array_Video_Images[latest_motiff.motiff_id] == nil){
-                    img_Swipe01.image = ROThumbnail.sharedInstance.getThumbnail(URL(string: latest_motiff.thumbnail)!)
-                }else{
-                    img_Swipe01.image = array_Video_Images[latest_motiff.motiff_id]
-                }
+                img_Swipe01.sd_setImage(with: URL(string: latest_motiff.thumbnail), placeholderImage: UIImage(named: "Placeholder_Motiff.png"))
                 
-                str_Video_URL01 = latest_motiff.thumbnail
             }else{
                 btn_Play_Video01.isHidden = true
                 img_Swipe01.sd_setImage(with: URL(string: latest_motiff.thumbnail), placeholderImage: UIImage(named: "Placeholder_Motiff.png"))
@@ -531,7 +555,7 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
             
             
             lbl_Title.text = latest_motiff.title
-            lbl_Time.text = "Today" + COMMON.convertTimestamp(aTimeStamp: latest_motiff.time)
+            lbl_Time.text = latest_motiff.time
         }else if (selected_User.motiffs.count > 1){
             
             scr_Media.contentSize = CGSize(width: COMMON.WIDTH(view: scr_Media) * 2, height: COMMON.HEIGHT(view: scr_Media))
@@ -540,38 +564,27 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
             lbl_Swipe_Information.text = latest_motiff.Description
             img_Swipe01.image = nil
             
-            if (latest_motiff.thumbnail.contains("mov")){
+            if (latest_motiff.isVideo == 1){
                 btn_Play_Video01.isHidden = false
                 img_Swipe01.image = UIImage(named: "Video_PlaceHolder.png")
-                str_Video_URL01 = latest_motiff.thumbnail
                 
-                if (array_Video_Images[latest_motiff.motiff_id] == nil){
-                    img_Swipe01.image = ROThumbnail.sharedInstance.getThumbnail(URL(string: latest_motiff.thumbnail)!)
-                }else{
-                    img_Swipe01.image = array_Video_Images[latest_motiff.motiff_id]
-                }
-
+                img_Swipe01.sd_setImage(with: URL(string: latest_motiff.thumbnail), placeholderImage: UIImage(named: "Placeholder_Motiff.png"))
             }else{
                 btn_Play_Video01.isHidden = true
                 img_Swipe01.sd_setImage(with: URL(string: latest_motiff.thumbnail), placeholderImage: UIImage(named: "Placeholder_Motiff.png"))
             }
             
             lbl_Title.text = latest_motiff.title
-            lbl_Time.text = "Today" + COMMON.convertTimestamp(aTimeStamp: latest_motiff.time)
+            lbl_Time.text = latest_motiff.time
             
             let second_motiff: Home_Motiff = selected_User.motiffs[1]
             img_Swipe02.image = nil
             
-            if (second_motiff.thumbnail.contains("mov")){
+            if (second_motiff.isVideo == 1){
                 btn_Play_Video02.isHidden = false
                 img_Swipe02.image = UIImage(named: "Video_PlaceHolder.png")
-                str_Video_URL02 = second_motiff.thumbnail
                 
-                if (array_Video_Images[second_motiff.motiff_id] == nil){
-                    img_Swipe01.image = ROThumbnail.sharedInstance.getThumbnail(URL(string: second_motiff.thumbnail)!)
-                }else{
-                    img_Swipe01.image = array_Video_Images[second_motiff.motiff_id]
-                }
+                img_Swipe02.sd_setImage(with: URL(string: latest_motiff.thumbnail), placeholderImage: UIImage(named: "Placeholder_Motiff.png"))
 
             }else{
                 btn_Play_Video02.isHidden = true
@@ -581,7 +594,7 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
         }
         
         //is Like?
-        if (appDelegate.array_Motiff_Likes.contains(String(latest_motiff.motiff_id))){
+        if (latest_motiff.like == 1){
             btn_Like.setBackgroundImage(UIImage(named: "Home_btn_Like.png"), for: .normal)
         }else{
             btn_Like.setBackgroundImage(UIImage(named: "Home_btn_Star.png"), for: .normal)
@@ -602,11 +615,12 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
         
         showSwipeView()
         
-        updateMarkAsRead(index_row: indexPath.row, num: 0)
+//        updateMarkAsRead(index_row: indexPath.row, num: 0)
+        updateMarkAsReadWithFirebase(index_row: indexPath.row, num: 0)
     }
     
     func swipeHomeScreen(sender: UISwipeGestureRecognizer) {
-        let selected_User: Motiff_User = array_HomeUsers[selected_index]
+//        let selected_User: Motiff_User = array_HomeUsers[selected_index]
 //        var bFlag: Bool = false
 //        
 //        if (selected_User.motiffs.count == 1){
@@ -671,7 +685,7 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
     //MARK: - HomeTBCellDelegate
     func select_ProfileImage(cell: HomeTBCell) {
         let indexPath: IndexPath = self.tbl_List.indexPath(for: cell)!
-        let selected_User: Motiff_User = array_HomeUsers[indexPath.row]
+        let selected_User: Motiff_User = array_Temp_HomeUsers[indexPath.row]
         let latest_motiff: Home_Motiff = selected_User.motiffs[0]
         
         img_Profile_Photo.sd_setImage(with: URL(string: selected_User.avatar), placeholderImage: UIImage(named: "Placeholder_Avatar.png"))
@@ -750,24 +764,25 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
                 let latest_motiff: Home_Motiff = selected_User.motiffs[0]
                 lbl_Swipe_Information.text = latest_motiff.Description
                 lbl_Title.text = latest_motiff.title
-                lbl_Time.text = "Today" + COMMON.convertTimestamp(aTimeStamp: latest_motiff.time)
+                lbl_Time.text = latest_motiff.time
             }else{
                 let second_motiff: Home_Motiff = selected_User.motiffs[1]
                 lbl_Swipe_Information.text = second_motiff.Description
                 lbl_Title.text = second_motiff.title
-                lbl_Time.text = "Today" + COMMON.convertTimestamp(aTimeStamp: second_motiff.time)
+                lbl_Time.text = second_motiff.time
             }
             
             //is Like?
             let motiff: Home_Motiff = selected_User.motiffs[nPageIndex]
-            if (appDelegate.array_Motiff_Likes.contains(String(motiff.motiff_id))){
+            if (motiff.like == 1){
                 btn_Like.setBackgroundImage(UIImage(named: "Home_btn_Like.png"), for: .normal)
             }else{
                 btn_Like.setBackgroundImage(UIImage(named: "Home_btn_Star.png"), for: .normal)
             }
         }
 
-        updateMarkAsRead(index_row: selected_index, num: nPageIndex)
+//        updateMarkAsRead(index_row: selected_index, num: nPageIndex)
+        updateMarkAsReadWithFirebase(index_row: selected_index, num: nPageIndex)
     }
     
     //MARK: - CLLocationManagerDelegate
@@ -801,6 +816,422 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
     func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         return true
     }
+    
+    // MARK: - Firebase
+    func updateMarkAsReadWithFirebase(index_row: Int, num: Int){
+        let selected_User: Motiff_User = array_Temp_HomeUsers[index_row]
+        let motiff: Home_Motiff = selected_User.motiffs[num]
+        let host: Host = getHostWithHostID(id: motiff.motiff_id)!
+        
+        if (motiff.read == 1){
+            return
+        }
+        
+        FirebaseModule.shareInstance.upload_Read(user_id: USER.id, host: host)
+        {(response: String?, error: Error?) in
+            
+            if (error == nil && response == "success"){
+                motiff.read = 1
+                
+                selected_User.motiffs.remove(at: num)
+                selected_User.motiffs.insert(motiff, at: num)
+                
+                self.array_Temp_HomeUsers.remove(at: index_row)
+                self.array_Temp_HomeUsers.insert(selected_User, at: index_row)
+                
+                for i in (0..<self.array_HomeUsers.count){
+                    let temp_user: Motiff_User = self.array_HomeUsers[i]
+                    if (temp_user.id == selected_User.id){
+                        self.array_HomeUsers.remove(at: i)
+                        self.array_HomeUsers.insert(selected_User, at: i)
+                    }
+                }
+                
+                self.tbl_List.reloadData()
+            }else{
+                COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+            }
+        }
+    }
+    
+    func updateMotiffLikeWithFirebase(){
+        let selected_User: Motiff_User = array_Temp_HomeUsers[selected_index]
+        let motiff: Home_Motiff = selected_User.motiffs[nPageIndex]
+        let host: Host = getHostWithHostID(id: motiff.motiff_id)!
+        
+        //is Like?
+        if (motiff.like == 0){
+            FirebaseModule.shareInstance.upload_Like(user: USER, host: host)
+            {(response: String?, error: Error?) in
+                
+                if (error == nil && response == "success"){
+                    motiff.like = 1
+                    
+                    selected_User.motiffs.remove(at: self.nPageIndex)
+                    selected_User.motiffs.insert(motiff, at: self.nPageIndex)
+                    
+                    self.array_Temp_HomeUsers.remove(at: self.selected_index)
+                    self.array_Temp_HomeUsers.insert(selected_User, at: self.selected_index)
+                    
+                    for i in (0..<self.array_HomeUsers.count){
+                        let temp_user: Motiff_User = self.array_HomeUsers[i]
+                        if (temp_user.id == selected_User.id){
+                            self.array_HomeUsers.remove(at: i)
+                            self.array_HomeUsers.insert(selected_User, at: i)
+                        }
+                    }
+                    
+                    self.btn_Like.setBackgroundImage(UIImage(named: "Home_btn_Like.png"), for: .normal)
+                }else{
+                    COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+                }
+            }
+        }else{
+            FirebaseModule.shareInstance.delete_Like(user: USER, host: host)
+            {(response: String?, error: Error?) in
+                
+                if (error == nil && response == "success"){
+                    motiff.like = 0
+                    
+                    selected_User.motiffs.remove(at: self.nPageIndex)
+                    selected_User.motiffs.insert(motiff, at: self.nPageIndex)
+                    
+                    self.array_Temp_HomeUsers.remove(at: self.selected_index)
+                    self.array_Temp_HomeUsers.insert(selected_User, at: self.selected_index)
+                    
+                    for i in (0..<self.array_HomeUsers.count){
+                        let temp_user: Motiff_User = self.array_HomeUsers[i]
+                        if (temp_user.id == selected_User.id){
+                            self.array_HomeUsers.remove(at: i)
+                            self.array_HomeUsers.insert(selected_User, at: i)
+                        }
+                    }
+                    
+                    self.btn_Like.setBackgroundImage(UIImage(named: "Home_btn_Star.png"), for: .normal)
+                }else{
+                    COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+                }
+            }
+
+        }
+    }
+    
+    func loadAllUsersFromFirebase(){
+        var arr_temp: [User] = []
+        
+        FirebaseModule.shareInstance.getAllUsers()
+            { (response: NSArray?, error: Error?) in
+                if (error == nil){
+                    for user_in in response!{
+                        let user: User = User()
+                        let dict = user_in as! NSDictionary
+                        user.initUserDataWithDictionary(value: dict)
+                        arr_temp.append(user)
+                    }
+                    appDelegate.array_All_Users = arr_temp
+                    self.loadFollowingsFromFirebase()
+                    
+                }else{
+                    self.refresh_Flag = 0
+                    self.refreshControl.endRefreshing()
+                    
+                    COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+                }
+        }
+    }
+    
+    func loadFollowingsFromFirebase(){
+        var arr_temp: [Following] = []
+        
+        FirebaseModule.shareInstance.getAllFollowings()
+            { (response: NSArray?, error: Error?) in
+                if (error == nil){
+                    for following_in in response!{
+                        let following: Following = Following()
+                        let dict = following_in as! NSDictionary
+                        following.initFollowingDataWithDictionary(value: dict)
+                        arr_temp.append(following)
+                    }
+                    appDelegate.array_All_Followings = arr_temp
+                    
+                    appDelegate.array_Following_Users = []
+                    appDelegate.array_Follower_Users = []
+                    
+                    for i in (0..<appDelegate.array_All_Users.count){
+                        let user: User = appDelegate.array_All_Users[i]
+                        
+                        //                        if (user.id == USER.id){ continue}
+                        
+                        for j in (0..<appDelegate.array_All_Followings.count){
+                            let follow_user: Follow_User = Follow_User()
+                            let following: Following = appDelegate.array_All_Followings[j]
+                            
+                            if (following.id == USER.id && following.following_id == user.id){
+                                follow_user.id = user.id
+                                follow_user.name = user.name
+                                follow_user.username = user.username
+                                follow_user.avatar = user.avatar
+                                follow_user.motives = user.motives
+                                follow_user.followers = user.followers
+                                
+                                appDelegate.array_Following_Users.append(follow_user)
+                            }
+                            
+                            let follower_user: Follow_User = Follow_User()
+                            if (following.following_id == USER.id && following.id == user.id){
+                                follower_user.id = user.id
+                                follower_user.name = user.name
+                                follower_user.username = user.username
+                                follower_user.avatar = user.avatar
+                                follower_user.motives = user.motives
+                                follower_user.followers = user.followers
+                                
+                                appDelegate.array_Follower_Users.append(follower_user)
+                            }
+                        }
+                    }
+                    
+                    //sort
+                    if (appDelegate.array_Following_Users.count > 0){
+                        for i in (0..<appDelegate.array_Following_Users.count-1){
+                            var user: Follow_User = appDelegate.array_Following_Users[i]
+                            for j in (i..<appDelegate.array_Following_Users.count){
+                                let user_compare: Follow_User = appDelegate.array_Following_Users[j]
+                                
+                                if (user.username.compare(user_compare.username) == .orderedAscending){
+                                    
+                                }else if (user.username.compare(user_compare.username) == .orderedDescending){
+                                    appDelegate.array_Following_Users.remove(at: i)
+                                    appDelegate.array_Following_Users.insert(user_compare, at: i)
+                                    
+                                    appDelegate.array_Following_Users.remove(at: j)
+                                    appDelegate.array_Following_Users.insert(user, at: j)
+                                    
+                                    user = user_compare
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (appDelegate.array_Follower_Users.count > 0){
+                        for i in (0..<appDelegate.array_Follower_Users.count-1){
+                            var user: Follow_User = appDelegate.array_Follower_Users[i]
+                            for j in (i..<appDelegate.array_Follower_Users.count){
+                                let user_compare: Follow_User = appDelegate.array_Follower_Users[j]
+                                
+                                if (user.username.compare(user_compare.username) == .orderedAscending){
+                                    
+                                }else if (user.username.compare(user_compare.username) == .orderedDescending){
+                                    appDelegate.array_Follower_Users.remove(at: i)
+                                    appDelegate.array_Follower_Users.insert(user_compare, at: i)
+                                    
+                                    appDelegate.array_Follower_Users.remove(at: j)
+                                    appDelegate.array_Follower_Users.insert(user, at: j)
+                                    
+                                    user = user_compare
+                                }
+                            }
+                        }
+                    }
+                    
+                    self.loadLiveMotiffsFromFirebase()
+                    
+                }else{
+                    self.refresh_Flag = 0
+                    self.refreshControl.endRefreshing()
+                    
+                    COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+                }
+        }
+    }
+    
+    func loadLiveMotiffsFromFirebase(){
+        var arr_temp: [Host] = []
+        
+        FirebaseModule.shareInstance.get_All_Motiffs_Map_Live()
+            { (response: NSArray?, error: Error?) in
+                if (error == nil){
+                    for host_in in response!{
+                        let host: Host = host_in as! Host
+                        arr_temp.append(host)
+                    }
+                    self.array_Live_Motiffs = arr_temp
+                    
+                    self.getAvailableLiveMotiffs()
+                    
+                    self.refresh_Flag = 0
+                    self.refreshControl.endRefreshing()
+                }else{
+                    self.refresh_Flag = 0
+                    self.refreshControl.endRefreshing()
+                    
+                    COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+                }
+        }
+    }
+
+    // MARK: - User Defined functions
+    func getAvailableLiveMotiffs(){
+        var i: Int = 0
+        
+        while(i < array_Live_Motiffs.count){
+            if (isValidMotiff(index: i) == true){
+                i = i + 1
+            }else{
+                array_Live_Motiffs.remove(at: i)
+            }
+        }
+        
+        fetchHomeUserData()
+    }
+    
+    func isValidMotiff(index: Int) -> Bool{
+        let host: Host = array_Live_Motiffs[index]
+        
+        if (host.share_with == "Public" && host.user_id != USER.id){
+            return true
+        }
+        
+        if (host.share_with == "Friends"){
+            for i in (0..<appDelegate.array_Follower_Users.count){
+                let follow_user: Follow_User = appDelegate.array_Follower_Users[i]
+                
+                if (host.user_id == follow_user.id){
+                    return true
+                }
+            }
+        }
+        
+        if (host.share_with == "Custom"){
+            let share_array: [Any] = host.share_array
+            
+            for i in (0..<share_array.count){
+                let share_user: [String: String] = share_array[i] as! [String : String]
+                if (USER.id == share_user["id"]){
+                    return true
+                }
+            }
+        }
+        
+        return false
+    }
+    
+    func fetchHomeUserData(){
+        array_HomeUsers = []
+        array_Temp_HomeUsers = []
+        array_Video_Images = [:]
+        
+        for i in (0..<array_Live_Motiffs.count){
+            let host: Host  = array_Live_Motiffs[i]
+            let index: Int = getMotiffUserIndexWithUserID(user_id: host.user_id)
+            if(index == -1){
+                let motiff_user: Motiff_User = Motiff_User()
+                let user: User = getUserWithUserID(id: host.user_id)!
+                
+                motiff_user.initUserDataWithUser(user: user)
+                
+                let home_motiff: Home_Motiff = Home_Motiff()
+                home_motiff.initMotiffDataWithHost(host: host)
+                home_motiff.read = isReadMotiff(array: host.markasread_array)
+                home_motiff.like = isLikeMotiff(array: host.likes_array)
+                home_motiff.likes_count = host.likes_count
+                
+                motiff_user.motiffs.append(home_motiff)
+                array_HomeUsers.append(motiff_user)
+            }else{
+                let motiff_user: Motiff_User = array_HomeUsers[index]
+                
+                let home_motiff: Home_Motiff = Home_Motiff()
+                home_motiff.initMotiffDataWithHost(host: host)
+                home_motiff.read = isReadMotiff(array: host.markasread_array)
+                home_motiff.like = isLikeMotiff(array: host.likes_array)
+                home_motiff.likes_count = host.likes_count
+                
+                motiff_user.motiffs.append(home_motiff)
+            }
+        }
+        
+        if (self.array_HomeUsers.count > 0){
+            self.img_bg_Tableview.isHidden = true
+        }else{
+            self.img_bg_Tableview.isHidden = false
+        }
+        
+        for i in (0..<array_HomeUsers.count){
+            let home_motiff: Motiff_User = array_HomeUsers[i]
+            array_Temp_HomeUsers.append(home_motiff)
+        }
+        
+        tbl_List.reloadData()
+    }
+    
+    func getMotiffUserIndexWithUserID(user_id: String) -> Int{
+        for i in (0..<array_HomeUsers.count){
+            let motiff_user: Motiff_User = array_HomeUsers[i]
+            if (motiff_user.id == user_id){ return i}
+        }
+        
+        return -1
+    }
+    
+    func getUserWithUserID(id: String) -> User?{
+        for i in (0..<appDelegate.array_All_Users.count){
+            let user: User? = appDelegate.array_All_Users[i]
+            
+            if (user?.id == id){
+                return user
+            }
+        }
+        
+        return nil
+    }
+    
+    func getHostWithHostID(id: String) -> Host?{
+        for i in (0..<array_Live_Motiffs.count){
+            let host: Host? = array_Live_Motiffs[i]
+            
+            if (host?.id == id){
+                return host
+            }
+        }
+        return nil
+    }
+    
+    func getIndexWithHostID(id: String) -> Int{
+        for i in (0..<array_Live_Motiffs.count){
+            let host: Host? = array_Live_Motiffs[i]
+            
+            if (host?.id == id){
+                return i
+            }
+        }
+        return 0
+    }
+    
+    func isReadMotiff(array: [Any]) -> Int{
+        for i in (0..<array.count){
+            let dic_read: [String: String] = array[i] as! [String : String]
+            
+            if (dic_read["id"] == USER.id){
+                return 1
+            }
+        }
+        
+        return 0
+    }
+    
+    func isLikeMotiff(array: [Any]) -> Int{
+        for i in (0..<array.count){
+            let like_user: Like_User = array[i] as! Like_User
+            
+            if (like_user.user_id == USER.id){
+                return 1
+            }
+        }
+        
+        return 0
+    }
+
     
     //MARK: - API Calls
     //MARK: - loadMotiffDataFromServer
@@ -855,7 +1286,7 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
         for i in (0..<json.count) {
             let homeuser = Motiff_User()
             
-            homeuser.initMotiffUserDataWithJSON(json: json[i])
+//            homeuser.initMotiffUserDataWithJSON(json: json[i])
             array_HomeUsers.append(homeuser)
             array_Temp_HomeUsers.append(homeuser)
             
@@ -863,7 +1294,7 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
                 let motiff: Home_Motiff = homeuser.motiffs[j]
                 
                 if (motiff.thumbnail.contains("mov")){
-                    array_Video_Images[motiff.motiff_id] = ROThumbnail.sharedInstance.getThumbnail(URL(string: motiff.thumbnail)!)
+//                    array_Video_Images[motiff.motiff_id] = ROThumbnail.sharedInstance.getThumbnail(URL(string: motiff.thumbnail)!)
                 }
             }
         }
@@ -877,7 +1308,7 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
             return
         }
         
-        let parameters = ["user_id":USER.id, "motiff_id": motiff.motiff_id]
+        let parameters = ["user_id":USER.id, "motiff_id": motiff.motiff_id] as [String : Any]
         Alamofire.request(kApi_MarkAsRead, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
             
             switch response.result {
@@ -968,4 +1399,5 @@ class HomeViewController: UIViewController ,UITextFieldDelegate, UITableViewDele
             
         }
     }
+
 }

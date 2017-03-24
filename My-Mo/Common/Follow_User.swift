@@ -11,15 +11,15 @@ import SwiftyJSON
 
 class Follow_User: NSObject{
     
-    var id: Int = 0
+    var id: String = ""
     var name: String = ""
     var username: String = ""
     var avatar: String = ""
-    var motives: Int = 0
-    var followers: Int = 0
+    var motives: Int64 = 0
+    var followers: Int64 = 0
     
     func initUserData(){
-        id = 0
+        id = ""
         username = ""
         name = ""
         avatar = ""
@@ -28,11 +28,11 @@ class Follow_User: NSObject{
     }
     
     func initFollowUserDataWithJSON(json: SwiftyJSON.JSON){
-        id  = json["id"].intValue
+//        id  = json["id"].intValue
         username = json["username"].stringValue
         name = json["name"].stringValue
         avatar = "http://mymotiff.com/" + json["avatar"].stringValue
-        motives = json["motives"].intValue
-        followers = json["followers"].intValue
+        motives = Int64(json["motives"].intValue)
+        followers = Int64(json["followers"].intValue)
     }
 }

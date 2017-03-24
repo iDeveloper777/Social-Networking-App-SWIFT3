@@ -34,6 +34,7 @@ class NotificationViewController: UIViewController ,UITableViewDelegate, UITable
 //    var loadingNotification:MBProgressHUD? = nil
 //    var loadingNotification01:MBProgressHUD? = nil
     let refreshControl: UIRefreshControl = UIRefreshControl()
+//    let refreshControl: PetRefreshControl = PetRefreshControl()
     var refresh_Flag: Int = 0
     
     var nSegIndex:Int = 0
@@ -48,12 +49,20 @@ class NotificationViewController: UIViewController ,UITableViewDelegate, UITable
         
         appDelegate.array_Following_Users = []
         appDelegate.array_Follower_Users = []
-        
-        refreshControl.addTarget(self, action: #selector(refreshAllDatas), for: .valueChanged)
-        tbl_List.addSubview(refreshControl)
 
+        setLayout()
     }
 
+    func setLayout(){
+        refreshControl.addTarget(self, action: #selector(refreshAllDatas), for: .valueChanged)
+        tbl_List.addSubview(refreshControl)
+        
+//        refreshControl.tintColor = UIColor.clear
+//        refreshControl.addTarget(self, action: #selector(refreshAllDatas), for: .valueChanged)
+//        tbl_List.addSubview(refreshControl)
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -62,14 +71,20 @@ class NotificationViewController: UIViewController ,UITableViewDelegate, UITable
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if (appDelegate.array_Following_Users.count == 0){
-            tbl_List.reloadData()
-            loadFollowingUsersFromServer()
-        }
+//        if (appDelegate.array_Following_Users.count == 0){
+//            tbl_List.reloadData()
+//            loadFollowingUsersFromServer()
+//        }
+//        
+//        if (appDelegate.array_Follower_Users.count == 0){
+//            loadFollowerUsersFromServer()
+//        }
         
-        if (appDelegate.array_Follower_Users.count == 0){
-            loadFollowerUsersFromServer()
-        }
+        self.lbl_SegNumber01.text = String(appDelegate.array_Following_Users.count)
+        self.lbl_SegNumber02.text = String(appDelegate.array_Follower_Users.count)
+        
+        tbl_List.reloadData()
+        loadSearchUsersFromFirebase()
     }
     
     // MARK: - Buttons' Event
@@ -185,9 +200,9 @@ class NotificationViewController: UIViewController ,UITableViewDelegate, UITable
         let indexPath: IndexPath = self.tbl_List.indexPath(for: cell)!
         
         if (nSegIndex == 0){
-            methodUnfollowFollowings(index: indexPath.row)
+            methodUnfollowFollowingsWithFirebase(index: indexPath.row)
         }else{
-            methodUnfollowUsers(index: indexPath.row)
+//            methodUnfollowUsers(index: indexPath.row)
         }
     }
     
@@ -227,12 +242,196 @@ class NotificationViewController: UIViewController ,UITableViewDelegate, UITable
     //MARK: - refreshAllDatas
     func refreshAllDatas(){
         refresh_Flag = 1
+//        refreshControl.beginRefreshing()
         
-        if (nSegIndex == 0){
-            loadFollowingUsersFromServer()
-        }else if (nSegIndex == 1){
-            loadFollowerUsersFromServer()
+//        if (nSegIndex == 0){
+//            loadFollowingUsersFromServer()
+//        }else if (nSegIndex == 1){
+//            loadFollowerUsersFromServer()
+//        }
+        
+        loadSearchUsersFromFirebase()
+    }
+    
+    // MARK: - Firebase
+    func loadSearchUsersFromFirebase(){
+//        appDelegate.array_All_Users = []
+//        appDelegate.array_Following_Users = []
+//        appDelegate.array_Follower_Users = []
+//        appDelegate.array_All_Followings = []
+        
+        var arr_temp: [User] = []
+        
+        FirebaseModule.shareInstance.getAllUsers()
+            { (response: NSArray?, error: Error?) in
+                if (error == nil){
+                    for user_in in response!{
+                        let user: User = User()
+                        let dict = user_in as! NSDictionary
+                        user.initUserDataWithDictionary(value: dict)
+                        arr_temp.append(user)
+                    }
+                    appDelegate.array_All_Users = arr_temp
+                    self.loadFollowingsFromFirebase()
+                }else{
+                    self.refresh_Flag = 0
+                    self.refreshControl.endRefreshing()
+                    
+                    COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+                }
         }
+    }
+    
+    func loadFollowingsFromFirebase(){
+        var arr_temp: [Following] = []
+        
+        FirebaseModule.shareInstance.getAllFollowings()
+            { (response: NSArray?, error: Error?) in
+                if (error == nil){
+                    for following_in in response!{
+                        let following: Following = Following()
+                        let dict = following_in as! NSDictionary
+                        following.initFollowingDataWithDictionary(value: dict)
+                        arr_temp.append(following)
+                    }
+                    appDelegate.array_All_Followings = arr_temp
+                    
+                    appDelegate.array_Following_Users = []
+                    appDelegate.array_Follower_Users = []
+                    
+                    for i in (0..<appDelegate.array_All_Users.count){
+                        let user: User = appDelegate.array_All_Users[i]
+                        
+                        //                        if (user.id == USER.id){ continue}
+                        
+                        for j in (0..<appDelegate.array_All_Followings.count){
+                            let follow_user: Follow_User = Follow_User()
+                            let following: Following = appDelegate.array_All_Followings[j]
+                            
+                            if (following.id == USER.id && following.following_id == user.id){
+                                follow_user.id = user.id
+                                follow_user.name = user.name
+                                follow_user.username = user.username
+                                follow_user.avatar = user.avatar
+                                follow_user.motives = user.motives
+                                follow_user.followers = user.followers
+                                
+                                appDelegate.array_Following_Users.append(follow_user)
+                            }
+                            
+                            let follower_user: Follow_User = Follow_User()
+                            if (following.following_id == USER.id && following.id == user.id){
+                                follower_user.id = user.id
+                                follower_user.name = user.name
+                                follower_user.username = user.username
+                                follower_user.avatar = user.avatar
+                                follower_user.motives = user.motives
+                                follower_user.followers = user.followers
+                                
+                                appDelegate.array_Follower_Users.append(follower_user)
+                            }
+                        }
+                    }
+                    
+                    //sort
+                    if (appDelegate.array_Following_Users.count > 0){
+                        for i in (0..<appDelegate.array_Following_Users.count-1){
+                            var user: Follow_User = appDelegate.array_Following_Users[i]
+                            for j in (i..<appDelegate.array_Following_Users.count){
+                                let user_compare: Follow_User = appDelegate.array_Following_Users[j]
+                                
+                                if (user.username.compare(user_compare.username) == .orderedAscending){
+                                    
+                                }else if (user.username.compare(user_compare.username) == .orderedDescending){
+                                    appDelegate.array_Following_Users.remove(at: i)
+                                    appDelegate.array_Following_Users.insert(user_compare, at: i)
+                                    
+                                    appDelegate.array_Following_Users.remove(at: j)
+                                    appDelegate.array_Following_Users.insert(user, at: j)
+                                    
+                                    user = user_compare
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (appDelegate.array_Follower_Users.count > 0){
+                        for i in (0..<appDelegate.array_Follower_Users.count-1){
+                            var user: Follow_User = appDelegate.array_Follower_Users[i]
+                            for j in (i..<appDelegate.array_Follower_Users.count){
+                                let user_compare: Follow_User = appDelegate.array_Follower_Users[j]
+                                
+                                if (user.username.compare(user_compare.username) == .orderedAscending){
+                                    
+                                }else if (user.username.compare(user_compare.username) == .orderedDescending){
+                                    appDelegate.array_Follower_Users.remove(at: i)
+                                    appDelegate.array_Follower_Users.insert(user_compare, at: i)
+                                    
+                                    appDelegate.array_Follower_Users.remove(at: j)
+                                    appDelegate.array_Follower_Users.insert(user, at: j)
+                                    
+                                    user = user_compare
+                                }
+                            }
+                        }
+                    }
+                    
+                    self.lbl_SegNumber01.text = String(appDelegate.array_Following_Users.count)
+                    self.lbl_SegNumber02.text = String(appDelegate.array_Follower_Users.count)
+                    self.tbl_List.reloadData()
+                    
+                    self.refresh_Flag = 0
+                    self.refreshControl.endRefreshing()
+                    
+                }else{
+                    self.refresh_Flag = 0
+                    self.refreshControl.endRefreshing()
+                    
+                    COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+                }
+        }
+    }
+    
+    func methodUnfollowFollowingsWithFirebase(index: Int){
+        let follow_user: Follow_User = appDelegate.array_Following_Users[index]
+        
+        FirebaseModule.shareInstance.UnFollowingUser(id: USER.id, following_id: follow_user.id){
+            (response: String?, error: Error?) in
+            
+            if (error == nil && response == "success"){
+                for i in (0..<appDelegate.array_All_Users.count){
+                    let user: User = appDelegate.array_All_Users[i]
+                    if (user.id == follow_user.id && user.followers > 0){
+                        user.followers = user.followers - 1
+                    }
+                }
+                
+                for i in (0..<appDelegate.array_Follower_Users.count){
+                    let user: Follow_User = appDelegate.array_Follower_Users[i]
+                    if (user.id == follow_user.id && user.followers > 0){
+                        user.followers = user.followers - 1
+                    }
+                }
+                
+                appDelegate.array_Following_Users.remove(at: index)
+                self.lbl_SegNumber01.text = String(appDelegate.array_Following_Users.count)
+                self.lbl_SegNumber02.text = String(appDelegate.array_Follower_Users.count)
+                self.tbl_List.reloadData()
+            }else{
+                COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+            }
+        }
+        
+        FirebaseModule.shareInstance.DecreaseUserFollowings(id: USER.id, following_id: follow_user.id){ (response: String?, error: Error?) in
+            
+            if (error == nil && response == "success"){
+                
+            }else{
+                COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+            }
+        }
+        
+        
     }
     
     // MARK: - API Calls
@@ -358,7 +557,7 @@ class NotificationViewController: UIViewController ,UITableViewDelegate, UITable
 //        loadingNotification?.mode = MBProgressHUDMode.indeterminate
 //        loadingNotification?.label.text = "Loading..."
         
-        let parameters = ["user_id": USER.id, "followee": follow_user.id]
+        let parameters = ["user_id": USER.id, "followee": follow_user.id] as [String : Any]
         Alamofire.request(kApi_UnFollowFollowings, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
             
 //            self.loadingNotification?.hide(animated: true)
@@ -391,7 +590,7 @@ class NotificationViewController: UIViewController ,UITableViewDelegate, UITable
 //        loadingNotification?.mode = MBProgressHUDMode.indeterminate
 //        loadingNotification?.label.text = "Loading..."
         
-        let parameters = ["user_id": USER.id, "followee": follow_user.id]
+        let parameters = ["user_id": USER.id, "followee": follow_user.id] as [String : Any]
         Alamofire.request(kApi_Unfollow, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
             
 //            self.loadingNotification?.hide(animated: true)
@@ -415,4 +614,6 @@ class NotificationViewController: UIViewController ,UITableViewDelegate, UITable
             }            
         }
     }
+    
+    
 }

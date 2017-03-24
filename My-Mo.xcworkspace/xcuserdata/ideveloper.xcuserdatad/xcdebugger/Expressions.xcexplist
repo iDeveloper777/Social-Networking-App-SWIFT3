@@ -3,24 +3,96 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "CommentsViewController.(addComment() -&gt; ()).(closure #1):CommentsViewController.swift">
+         contextName = "SearchMapViewController.(mapView(MKMapView, viewFor : MKAnnotation) -&gt; MKAnnotationView?).(closure #1):SearchMapViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "annotation.title">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HomeDetailViewController.select_btn_Delete(cell : HomeDetailTBCell) -&gt; ():HomeDetailViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "cell.tag">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "FirebaseModule.(upload_Read(user_id : String, host : Host, onCompletion : (String?, Error?) -&gt; ()) -&gt; ()).(closure #1):FirebaseModule.swift">
+      </ContextState>
+      <ContextState
+         contextName = "TabBarViewController.tabBar(UITabBar, didSelect : UITabBarItem) -&gt; ():TabBarViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "item.tag">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SignUpViewController.SignUp() -&gt; ():SignUpViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "Host.initHostDataWithDictionary(dic_motiff : [String : Any]) -&gt; ():Host.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "dic_motiff[&quot;comments_count&quot;]">
+            </PersistentString>
+            <PersistentString
+               value = "dic_motiff[&quot;duration&quot;]">
+            </PersistentString>
+            <PersistentString
+               value = "dic_motiff[&quot;likes_count&quot;]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HistoryViewController.(loadHostsFromServer(repostFlag : Int) -&gt; ()).(closure #1):HistoryViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HostViewController.showShareMenu() -&gt; ():HostViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "alertController.view.bounds.size">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HomeDetailViewController.(sendCommentToServer() -&gt; ()).(closure #1):HomeDetailViewController.swift">
       </ContextState>
       <ContextState
          contextName = "BlockListViewController.loadBlockListFromServer() -&gt; ():BlockListViewController.swift">
       </ContextState>
       <ContextState
-         contextName = "HostViewController.(uploadMotiffToServer() -&gt; ()).(closure #1):HostViewController.swift">
+         contextName = "AppDelegate.application(UIApplication, didFinishLaunchingWithOptions : [UIApplicationLaunchOptionsKey : Any]?) -&gt; Bool:AppDelegate.swift">
          <PersistentStrings>
             <PersistentString
-               value = "response.result">
+               value = "USER">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "HistoryViewController.(deleteMotiff(cell : HostHistoryTBCell) -&gt; ()).(closure #1):HistoryViewController.swift">
+         contextName = "HomeViewController.(updateMarkAsRead(index_row : Int, num : Int) -&gt; ()).(closure #1):HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "NotificationViewController.(methodUnfollowFollowings(index : Int) -&gt; ()).(closure #1):NotificationViewController.swift">
          <PersistentStrings>
             <PersistentString
                value = "appDelegate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "User.initUserDataWithJSON(json : JSON) -&gt; ():User.swift">
+      </ContextState>
+      <ContextState
+         contextName = "User.updateUserDataWithUserDefault() -&gt; ():User.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.swipeTableViewCell(sender : UISwipeGestureRecognizer) -&gt; ():HomeViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "USER">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -31,28 +103,234 @@
                value = "contacts">
             </PersistentString>
             <PersistentString
+               value = "appDelegate.array_All_Users">
+            </PersistentString>
+            <PersistentString
                value = "isGranted">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "HomeDetailViewController.(sendCommentToServer() -&gt; ()).(closure #1):HomeDetailViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "TabBarViewController.viewDidLoad() -&gt; ():TabBarViewController.swift">
+         contextName = "LikesViewController.isFollowingUser(Id : String) -&gt; Bool:LikesViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "NSStringFromClass(badgeView.classForCoder)">
+               value = "appDelegate">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "CommentsViewController.swipeLeftCell(sender : UISwipeGestureRecognizer) -&gt; ():CommentsViewController.swift">
+         contextName = "HomeDetailViewController.sendCommentToServer() -&gt; ():HomeDetailViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HistoryViewController.(deleteMotiff(cell : HostHistoryTBCell) -&gt; ()).(closure #1):HistoryViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "workingIndexPath.row">
+               value = "appDelegate">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "FirebaseModule.(get_All_Motiffs_Map_Live(onCompletion : (NSArray?, Error?) -&gt; ()) -&gt; ()).(closure #1):FirebaseModule.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SettingViewController.updateProfilePicture(image : UIImage) -&gt; ():SettingViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HistoryViewController.loadHostsFromServer(repostFlag : Int) -&gt; ():HistoryViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Host.initHostDataWithJSON(json : JSON) -&gt; ():Host.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SearchUsernameViewController.(loadSearchUsersFromFirebase() -&gt; ()).(closure #1):SearchUsernameViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HostViewController.initHostData() -&gt; ():HostViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "host">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SearchPhonebookViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:SearchPhonebookViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.swipeHomeScreen(sender : UISwipeGestureRecognizer) -&gt; ():HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.refreshTableViewWithSearch() -&gt; ():HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "CommentsViewController.(addComment() -&gt; ()).(closure #1):CommentsViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.fetchHomeUserData() -&gt; ():HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SettingViewController.loadUserData() -&gt; ():SettingViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "USER">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HomeDetailViewController.(loadCommentsFromServer() -&gt; ()).(closure #1):HomeDetailViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SearchUsernameViewController.(loadFollowingsFromFirebase() -&gt; ()).(closure #1):SearchUsernameViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "USER">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.showBadgeNumber() -&gt; ():HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "NotificationViewController.loadFollowingUsersFromServer() -&gt; ():NotificationViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "LogInViewController.getUserNameAndPassword() -&gt; ():LogInViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HistoryViewController.(loadHostsFromFirebase() -&gt; ()).(closure #1):HistoryViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.fetchHomeUsersDataFromJSON(json : JSON) -&gt; ():HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SearchPhonebookViewController.(loadPhoneBookUsersFromServer() -&gt; ()).(closure #1):SearchPhonebookViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "USER">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SearchViewController.getContactList() -&gt; ():SearchViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "User.getUserDataWithUserDefault() -&gt; ():User.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HomeDetailViewController.textViewDidBeginEditing(UITextView) -&gt; ():HomeDetailViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ShareHostsViewController.tableView(UITableView, didSelectRowAt : IndexPath) -&gt; ():ShareHostsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.(updateMarkAsReadWithFirebase(index_row : Int, num : Int) -&gt; ()).(closure #1):HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HistoryViewController.fetchHostsFromJSON(json : JSON) -&gt; ():HistoryViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HostViewController.(uploadMotiffToServer() -&gt; ()).(closure #1):HostViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "response.result">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SearchPhonebookViewController.loadPhoneBookUsersFromServer() -&gt; ():SearchPhonebookViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "USER">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "BlockListViewController.(loadBlockListFromServer() -&gt; ()).(closure #1):BlockListViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "LogInViewController.(LogIn() -&gt; ()).(closure #1):LogInViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "USER">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "BlockListViewController.fetchBlockListFromJSON(json : JSON) -&gt; ():BlockListViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "CommentsViewController.(select_btn_Follow(cell : CommentsTBCell) -&gt; ()).(closure #1):CommentsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "jsonObject[&quot;message&quot;]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HostViewController.imagePickerController(UIImagePickerController, didFinishPickingMediaWithInfo : [String : Any]) -&gt; ():HostViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "info[UIImagePickerControllerMediaType]">
+            </PersistentString>
+            <PersistentString
+               value = "String(describing: info[UIImagePickerControllerMediaType])">
+            </PersistentString>
+            <PersistentString
+               value = "host">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SearchPhonebookViewController.(loadSearchUsersFromFirebase() -&gt; ()).(closure #1):SearchPhonebookViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "FirebaseModule.(IncreaseUserFollowings(id : String?, onCompletion : (String?, Error?) -&gt; ()) -&gt; ()).(closure #1):FirebaseModule.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HomeViewController.(click_btn_Like(Any) -&gt; ()).(closure #1):HomeViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "parameters">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SearchUsernameViewController.fetchSearchUserDataFromJSON(json : JSON) -&gt; ():SearchUsernameViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SearchMapViewController.getMapAnnotations() -&gt; [Station]:SearchMapViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "BlockListViewController.(blockUser(cell : BlockedTBCell) -&gt; ()).(closure #1):BlockListViewController.swift">
       </ContextState>
       <ContextState
          contextName = "SettingViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:SettingViewController.swift">
@@ -66,32 +344,18 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "HomeViewController.(click_btn_Like(Any) -&gt; ()).(closure #1):HomeViewController.swift">
+         contextName = "HomeViewController.updateMarkAsRead(index_row : Int, num : Int) -&gt; ():HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HistoryViewController.MapSearchOffMotiffWithFirebase(cell : HostHistoryTBCell) -&gt; ():HistoryViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SearchPhonebookViewController.viewWillAppear(Bool) -&gt; ():SearchPhonebookViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "parameters">
+               value = "USER">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "HomeDetailViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:HomeDetailViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "indexPath.row">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "HostViewController.uploadMotiffToServer() -&gt; ():HostViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "SignUpViewController.SignUp() -&gt; ():SignUpViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "ShareHostsViewController.fetchHostUsersFromJSON(json : JSON) -&gt; ():ShareHostsViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "SearchViewController.getContactList() -&gt; ():SearchViewController.swift">
       </ContextState>
       <ContextState
          contextName = "HistoryViewController.(loadHostsFromServer() -&gt; ()).(closure #1):HistoryViewController.swift">
@@ -102,100 +366,23 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "HomeViewController.viewDidLoad() -&gt; ():HomeViewController.swift">
+         contextName = "TabBarViewController.viewDidLoad() -&gt; ():TabBarViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "USER">
+               value = "NSStringFromClass(badgeView.classForCoder)">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "LogInViewController.LogIn() -&gt; ():LogInViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "NotificationViewController.(methodUnfollowFollowings(index : Int) -&gt; ()).(closure #1):NotificationViewController.swift">
+         contextName = "FirebaseModule.(delete_Motiff(host : Host, onCompletion : (String?, Error?) -&gt; ()) -&gt; ()).(closure #1):FirebaseModule.swift">
          <PersistentStrings>
             <PersistentString
-               value = "appDelegate">
+               value = "host.id">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "Host_User.initHostUserDataWithJSON(json : JSON) -&gt; ():Host_User.swift">
-      </ContextState>
-      <ContextState
-         contextName = "HomeViewController.refreshTableViewWithSearch() -&gt; ():HomeViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "NotificationViewController.loadFollowerUsersFromServer() -&gt; ():NotificationViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "HistoryViewController.deleteMotiffInArray(motiff_id : Int) -&gt; ():HistoryViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "appDelegate">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "AppDelegate.application(UIApplication, didFinishLaunchingWithOptions : [UIApplicationLaunchOptionsKey : Any]?) -&gt; Bool:AppDelegate.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "USER">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "SettingViewController.(updateProfilePicture(image : UIImage) -&gt; ()).(closure #1):SettingViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "HomeViewController.showBadgeNumber() -&gt; ():HomeViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "Block_User.initBlockUserDataWithJSON(json : JSON) -&gt; ():Block_User.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "USER">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ShareHostsViewController.(loadHostUsersFromServer() -&gt; ()).(closure #1):ShareHostsViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "HistoryViewController.loadHostsFromServer(repostFlag : Int) -&gt; ():HistoryViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "appDelegate">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "SearchPhonebookViewController.loadPhoneBookUsersFromServer() -&gt; ():SearchPhonebookViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "USER">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "SearchUsernameViewController.(sendFriendRequest(index : Int) -&gt; ()).(closure #1):SearchUsernameViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "appDelegate">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "LogInViewController.(LogIn() -&gt; ()).(closure #1):LogInViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "USER">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "BlockListViewController.blockUser(cell : BlockedTBCell) -&gt; ():BlockListViewController.swift">
+         contextName = "HomeViewController.updateMarkAsReadWithFirebase(index_row : Int, num : Int) -&gt; ():HomeViewController.swift">
       </ContextState>
       <ContextState
          contextName = "SettingViewController.viewDidLoad() -&gt; ():SettingViewController.swift">
@@ -206,16 +393,16 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "HomeDetailViewController.(loadCommentsFromServer() -&gt; ()).(closure #1):HomeDetailViewController.swift">
+         contextName = "HomeViewController.click_btn_Like(Any) -&gt; ():HomeViewController.swift">
       </ContextState>
       <ContextState
-         contextName = "BlockListViewController.(blockUser(cell : BlockedTBCell) -&gt; ()).(closure #1):BlockListViewController.swift">
+         contextName = "LogInViewController.LogIn() -&gt; ():LogInViewController.swift">
       </ContextState>
       <ContextState
          contextName = "ShareHostsViewController.loadHostUsersFromServer() -&gt; ():ShareHostsViewController.swift">
       </ContextState>
       <ContextState
-         contextName = "ShareHostsViewController.tableView(UITableView, didSelectRowAt : IndexPath) -&gt; ():ShareHostsViewController.swift">
+         contextName = "SearchPhonebookViewController.(loadFollowingsFromFirebase() -&gt; ()).(closure #1):SearchPhonebookViewController.swift">
          <PersistentStrings>
             <PersistentString
                value = "appDelegate">
@@ -223,10 +410,26 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "User.initUserDataWithJSON(json : JSON) -&gt; ():User.swift">
+         contextName = "LikesViewController.uploadLikeToFirebase() -&gt; ():LikesViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "HomeViewController.fetchHomeUsersDataFromJSON(json : JSON) -&gt; ():HomeViewController.swift">
+         contextName = "FirebaseModule.upload_Like(user : User, host : Host, like_or_not : Int, onCompletion : (String?, Error?) -&gt; ()) -&gt; ():FirebaseModule.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HistoryViewController.tableView(UITableView, heightForRowAt : IndexPath) -&gt; CGFloat:HistoryViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Main_Screen_Width">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ShareHostsViewController.fetchHostUsersFromJSON(json : JSON) -&gt; ():ShareHostsViewController.swift">
       </ContextState>
       <ContextState
          contextName = "SignUpViewController.click_btn_SignUp(AnyObject) -&gt; ():SignUpViewController.swift">
@@ -240,13 +443,7 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "BlockListViewController.fetchBlockListFromJSON(json : JSON) -&gt; ():BlockListViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "NotificationViewController.loadFollowingUsersFromServer() -&gt; ():NotificationViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "HomeViewController.swipeTableViewCell(sender : UISwipeGestureRecognizer) -&gt; ():HomeViewController.swift">
+         contextName = "Block_User.initBlockUserDataWithJSON(json : JSON) -&gt; ():Block_User.swift">
          <PersistentStrings>
             <PersistentString
                value = "USER">
@@ -254,23 +451,94 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "CommentsViewController.(select_btn_Follow(cell : CommentsTBCell) -&gt; ()).(closure #1):CommentsViewController.swift">
+         contextName = "HomeViewController.updateMotiffLikeWithFirebase() -&gt; ():HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ShareHostsViewController.(loadHostUsersFromServer() -&gt; ()).(closure #1):ShareHostsViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HistoryViewController.deleteMotiffInArray(motiff_id : Int) -&gt; ():HistoryViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "jsonObject[&quot;message&quot;]">
+               value = "appDelegate">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "CommentsViewController.select_btn_Follow(cell : CommentsTBCell) -&gt; ():CommentsViewController.swift">
+         contextName = "HomeViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:HomeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SearchMapViewController.mapView(MKMapView, viewFor : MKAnnotation) -&gt; MKAnnotationView?:SearchMapViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "cell.tag">
+               value = "annotation.title">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "SettingViewController.loadUserData() -&gt; ():SettingViewController.swift">
+         contextName = "FirebaseModule.(FollowingUser(id : String?, following_id : String?, onCompletion : (String?, Error?) -&gt; ()) -&gt; ()).(closure #1):FirebaseModule.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HostViewController.uploadMotiffToServer() -&gt; ():HostViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SettingViewController.(updateProfilePicture(image : UIImage) -&gt; ()).(closure #1):SettingViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "NotificationViewController.(methodUnfollowFollowingsWithFirebase(index : Int) -&gt; ()).(closure #1):NotificationViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate">
+            </PersistentString>
+            <PersistentString
+               value = "appDelegate.array_All_Users">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SearchUsernameViewController.(sendFriendRequest(index : Int) -&gt; ()).(closure #1):SearchUsernameViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SearchMapViewController.locationManager(CLLocationManager, didUpdateLocations : [CLLocation]) -&gt; ():SearchMapViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "DataKeeper.getMotiffLikes() -&gt; ():DataKeeper.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SearchMapViewController.getAvailableLiveMotiffs() -&gt; ():SearchMapViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "FirebaseModule.(upload_Like(user : User, host : Host, like_or_not : Int, onCompletion : (String?, Error?) -&gt; ()) -&gt; ()).(closure #1):FirebaseModule.swift">
+      </ContextState>
+      <ContextState
+         contextName = "HomeDetailViewController.setLayout() -&gt; ():HomeDetailViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "host?.likes_count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SearchPhonebookViewController.isFollowingUser(Id : String) -&gt; Bool:SearchPhonebookViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate.array_Following_Users">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "BlockListViewController.blockUser(cell : BlockedTBCell) -&gt; ():BlockListViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "FirebaseModule.(SignUpWithEmail(email : String?, password : String?, username : String?, name : String?, mobile : String?, onCompletion : (String?, Error?) -&gt; ()) -&gt; ()).(closure #1).(closure #1):FirebaseModule.swift">
+      </ContextState>
+      <ContextState
+         contextName = "User.(initUserDataWithFirebase(onCompletion : (String?, Error?) -&gt; ()) -&gt; ()).(closure #1):User.swift">
          <PersistentStrings>
             <PersistentString
                value = "USER">
@@ -286,15 +554,7 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "TabBarViewController.tabBar(UITabBar, didSelect : UITabBarItem) -&gt; ():TabBarViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "item.tag">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "SettingViewController.select_Caption(cell : SettingTBCell02) -&gt; ():SettingViewController.swift">
+         contextName = "HomeDetailViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:HomeDetailViewController.swift">
          <PersistentStrings>
             <PersistentString
                value = "indexPath.row">
@@ -302,63 +562,15 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "SearchUsernameViewController.fetchSearchUserDataFromJSON(json : JSON) -&gt; ():SearchUsernameViewController.swift">
+         contextName = "HistoryViewController.(MapSearchOffMotiffWithFirebase(cell : HostHistoryTBCell) -&gt; ()).(closure #1):HistoryViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "appDelegate">
+               value = "appDelegate.array_Hosts">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "SettingViewController.updateProfilePicture(image : UIImage) -&gt; ():SettingViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "HistoryViewController.fetchHostsFromJSON(json : JSON) -&gt; ():HistoryViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "appDelegate">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ShareHostsViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:ShareHostsViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "LogInViewController.getUserNameAndPassword() -&gt; ():LogInViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "HomeViewController.updateMarkAsRead(index_row : Int, num : Int) -&gt; ():HomeViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "HistoryViewController.tableView(UITableView, heightForRowAt : IndexPath) -&gt; CGFloat:HistoryViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "Main_Screen_Width">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "HomeDetailViewController.sendCommentToServer() -&gt; ():HomeDetailViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "HostViewController.showShareMenu() -&gt; ():HostViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "alertController.view.bounds.size">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "HomeViewController.(updateMarkAsRead(index_row : Int, num : Int) -&gt; ()).(closure #1):HomeViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "Host.initHostDataWithJSON(json : JSON) -&gt; ():Host.swift">
-      </ContextState>
-      <ContextState
-         contextName = "DataKeeper.getMotiffLikes() -&gt; ():DataKeeper.swift">
-      </ContextState>
-      <ContextState
-         contextName = "SearchUsernameViewController.sendFriendRequest(index : Int) -&gt; ():SearchUsernameViewController.swift">
+         contextName = "NotificationViewController.loadFollowerUsersFromServer() -&gt; ():NotificationViewController.swift">
       </ContextState>
       <ContextState
          contextName = "SignUpViewController.(SignUp() -&gt; ()).(closure #1):SignUpViewController.swift">
@@ -369,16 +581,68 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "BlockListViewController.(loadBlockListFromServer() -&gt; ()).(closure #1):BlockListViewController.swift">
+         contextName = "HostViewController.UploadMotiffToFirebase() -&gt; ():HostViewController.swift">
       </ContextState>
       <ContextState
-         contextName = "HostViewController.imagePickerController(UIImagePickerController, didFinishPickingMediaWithInfo : [String : Any]) -&gt; ():HostViewController.swift">
+         contextName = "SearchMapViewController.isValidMotiff(index : Int) -&gt; Bool:SearchMapViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "info[UIImagePickerControllerMediaType]">
+               value = "USER">
             </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "Host_User.initHostUserDataWithJSON(json : JSON) -&gt; ():Host_User.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SearchUsernameViewController.sendFriendRequest(index : Int) -&gt; ():SearchUsernameViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SearchPhonebookViewController.addFollowingUser(id : String) -&gt; ():SearchPhonebookViewController.swift">
+         <PersistentStrings>
             <PersistentString
-               value = "String(describing: info[UIImagePickerControllerMediaType])">
+               value = "appDelegate.array_All_Users">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SearchWorldViewController.click_btn_Search(AnyObject) -&gt; ():SearchWorldViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SearchPhonebookViewController.reloading(sender : UIButton) -&gt; ():SearchPhonebookViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SearchMapViewController.(loadLiveMotiffsFromFirebase() -&gt; ()).(closure #1):SearchMapViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SearchUsernameViewController.refreshTableViewWithSearch() -&gt; ():SearchUsernameViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "HostViewController.click_btn_Launch(AnyObject) -&gt; ():HostViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "host">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "CommentsViewController.swipeLeftCell(sender : UISwipeGestureRecognizer) -&gt; ():CommentsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "workingIndexPath.row">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "NotificationViewController.(loadFollowingsFromFirebase() -&gt; ()).(closure #1):NotificationViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "appDelegate">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -386,10 +650,15 @@
          contextName = "HistoryViewController.deleteMotiff(cell : HostHistoryTBCell) -&gt; ():HistoryViewController.swift">
       </ContextState>
       <ContextState
-         contextName = "HomeViewController.click_btn_Like(Any) -&gt; ():HomeViewController.swift">
+         contextName = "SettingViewController.select_Caption(cell : SettingTBCell02) -&gt; ():SettingViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "indexPath.row">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "SearchPhonebookViewController.viewWillAppear(Bool) -&gt; ():SearchPhonebookViewController.swift">
+         contextName = "HomeViewController.viewDidLoad() -&gt; ():HomeViewController.swift">
          <PersistentStrings>
             <PersistentString
                value = "USER">
@@ -397,21 +666,15 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "SearchPhonebookViewController.(loadPhoneBookUsersFromServer() -&gt; ()).(closure #1):SearchPhonebookViewController.swift">
+         contextName = "CommentsViewController.select_btn_Follow(cell : CommentsTBCell) -&gt; ():CommentsViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "USER">
+               value = "cell.tag">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "HomeViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:HomeViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "HomeViewController.swipeHomeScreen(sender : UISwipeGestureRecognizer) -&gt; ():HomeViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "HistoryViewController.(loadHostsFromServer(repostFlag : Int) -&gt; ()).(closure #1):HistoryViewController.swift">
+         contextName = "ShareHostsViewController.tableView(UITableView, cellForRowAt : IndexPath) -&gt; UITableViewCell:ShareHostsViewController.swift">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

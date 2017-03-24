@@ -11,20 +11,20 @@ import SwiftyJSON
 
 class Host_User: NSObject{
     
-    var id: Int = 0
+    var id: String = ""
     var username: String = ""
     var name: String = ""
     var avatar: String = ""
     
     func initUserData(){
-        id = 0
+        id = ""
         username = ""
         name = ""
         avatar = ""
     }
     
     func initHostUserDataWithJSON(json: SwiftyJSON.JSON){
-        id  = json["id"].intValue
+//        id  = json["id"].intValue
         username = json["username"].stringValue
         name = json["name"].stringValue
         avatar = "http://mymotiff.com/" + json["avatar"].stringValue

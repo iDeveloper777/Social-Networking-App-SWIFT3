@@ -37,12 +37,14 @@ class HomeDetailViewController: UIViewController ,UITableViewDelegate ,UITableVi
     
 
 //    var loadingNotification:MBProgressHUD? = nil
-    var array_Comments: [Comment] = []
     var swipeArray:[Int] = []
     var motiff: Home_Motiff = Home_Motiff()
+    var host: Host? = Host()
+    
     var comment_Flag: Int = 0
     var bScreenUp: Int = 0
     var workingIndexPath: IndexPath? = nil
+    var keyboardHeight:CGFloat = 0
     
     var thumbnail_image: UIImage? = nil
     
@@ -51,27 +53,27 @@ class HomeDetailViewController: UIViewController ,UITableViewDelegate ,UITableVi
 
         setLayout()
         
-        loadCommentsFromServer()
+        swipeArray = []
+        loadMotiffFromFirebase()
+        
+        self.tbl_CommentsList.reloadData()
     }
 
     func setLayout(){
-        if (motiff.motiff_id != 0){
-            if (motiff.thumbnail.contains("mov")){
+        if (host != nil){
+            if (host?.isVideo == 1){
                 btn_PlayVideo.isHidden = false
                 img_Uploaded.image = UIImage(named: "Video_PlaceHolder.png")
                 
-                if (thumbnail_image == nil){
-                    img_Uploaded.image = ROThumbnail.sharedInstance.getThumbnail(URL(string: motiff.thumbnail)!)
-                }else{
-                    img_Uploaded.image = thumbnail_image
-                }
+                img_Uploaded.sd_setImage(with: URL(string: (host?.thumbnail_url)!), placeholderImage: UIImage(named: "Placeholder_Motiff.png"))
+                
             }else{
                 btn_PlayVideo.isHidden = true
-                img_Uploaded.sd_setImage(with: URL(string: motiff.thumbnail), placeholderImage: UIImage(named: "Placeholder_Motiff.png"))
+                img_Uploaded.sd_setImage(with: URL(string: (host?.thumbnail_url)!), placeholderImage: UIImage(named: "Placeholder_Motiff.png"))
             }
             
-            lbl_Title.text = motiff.title
-            lbl_Likes.text = String(motiff.likes)
+            lbl_Title.text = host?.title
+            lbl_Likes.text = String((host?.likes_count)!)
         }
         
         view_Comment.isHidden = true
@@ -79,59 +81,11 @@ class HomeDetailViewController: UIViewController ,UITableViewDelegate ,UITableVi
         btn_Send_Comment.layer.masksToBounds = true
         
         tbl_CommentsList.separatorStyle = .none
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    //MARK: - loadCommentsFromServer
-    func loadCommentsFromServer(){
-  
-        
-//        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-//        loadingNotification?.mode = MBProgressHUDMode.indeterminate
-//        loadingNotification?.label.text = "Loading..."
-        
-        let parameters = ["motiff_id":motiff.motiff_id]
-        Alamofire.request(kApi_GetComments, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
-            
-//            self.loadingNotification?.hide(animated: true)
-            
-            switch response.result {
-            case .success(_):
-                let jsonObject = JSON(response.result.value!)
-                let status: String = jsonObject["status"].stringValue
-                if (status == "success"){
-                    self.fetchCommentsDataFromJSON(json: jsonObject["data"])
-                    self.tbl_CommentsList.reloadData()
-                    
-                }else{
-                    self.array_Comments = []
-                    self.swipeArray = []
-                    self.tbl_CommentsList.reloadData()
-
-                    
-//                    COMMON.methodForAlert(titleString: kAppName, messageString: "Login Failed", OKButton: kOkButton, CancelButton: "", viewController: self)
-                }
-                break
-            case .failure(let error):
-                print(error)
-                COMMON.methodForAlert(titleString: kAppName, messageString: kNetworksNotAvailvle, OKButton: kOkButton, CancelButton: "", viewController: self)
-                break
-            }
-            
-        }
-    }
-    
-    func fetchCommentsDataFromJSON(json: SwiftyJSON.JSON){
-        array_Comments = []
-        swipeArray = []
-        
-        for i in (0..<json.count) {
-            let comment = Comment()
-            
-            comment.initCommentDataWithJSON(json: json[i])
-            array_Comments.append(comment)
-            swipeArray.append(0)
-        }
-    }
     
     //MARK: - Buttons' Events
     @IBAction func click_btn_Back(_ sender: AnyObject) {
@@ -161,50 +115,11 @@ class HomeDetailViewController: UIViewController ,UITableViewDelegate ,UITableVi
             return
         }
         
-        sendCommentToServer()
-    }
-    
-    func sendCommentToServer(){
-//        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-//        loadingNotification?.mode = MBProgressHUDMode.indeterminate
-//        loadingNotification?.label.text = "Sending..."
-        
-        let parameters = ["user_id":USER.id, "motiff_id":motiff.motiff_id, "comment":txt_Comment.text] as [String : Any]
-        Alamofire.request(kApi_AddComment, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
-            
-//            self.loadingNotification?.hide(animated: true)
-            
-            switch response.result {
-            case .success(_):
-                let jsonObject = JSON(response.result.value!)
-                let status: String = jsonObject["status"].stringValue
-                if (status == "success"){
-                    
-                    self.comment_Flag = 0
-                    UIView.animate(withDuration: 0.3, animations: {
-                        self.view_Comment.isHidden = true
-                        self.view_Comment.alpha = 0
-                    })
-                    
-                    self.loadCommentsFromServer()
-                    
-                    self.txt_Comment.text = ""
-                    
-                }else{
-                    COMMON.methodForAlert(titleString: kAppName, messageString: kErrorComment, OKButton: kOkButton, CancelButton: "", viewController: self)
-                }
-                break
-            case .failure(let error):
-                print(error)
-                COMMON.methodForAlert(titleString: kAppName, messageString: kNetworksNotAvailvle, OKButton: kOkButton, CancelButton: "", viewController: self)
-                break
-            }
-            
-        }
+        uploadCommentToFirebase()
     }
     
     @IBAction func click_btn_PlayVideo(_ sender: Any) {
-        let videoURL = URL(string: motiff.thumbnail)
+        let videoURL = URL(string: (host?.content_url)!)
         let player = AVPlayer(url: videoURL!)
         let playerViewController = AVPlayerViewController()
         playerViewController.player = player
@@ -217,7 +132,7 @@ class HomeDetailViewController: UIViewController ,UITableViewDelegate ,UITableVi
     func textViewDidBeginEditing(_ textView: UITextView) {
         if (bScreenUp == 0){
             bScreenUp = 1
-            animateViewMoving(up: true, moveValue: 207)
+            animateViewMoving(up: true, moveValue: keyboardHeight)
         }
     }
     
@@ -240,7 +155,7 @@ class HomeDetailViewController: UIViewController ,UITableViewDelegate ,UITableVi
     }
     
     func hideKeyboard(){
-        animateViewMoving(up: false, moveValue: 207)
+        animateViewMoving(up: false, moveValue: keyboardHeight)
     }
     
     func animateViewMoving (up:Bool, moveValue :CGFloat){
@@ -252,6 +167,18 @@ class HomeDetailViewController: UIViewController ,UITableViewDelegate ,UITableVi
         self.view_Title.frame = self.view_Title.frame.offsetBy(dx: 0,  dy: movement)
         self.view_Comment.frame = self.view_Comment.frame.offsetBy(dx: 0,  dy: movement)
         UIView.commitAnimations()
+    }
+
+    func keyboardWillShow(notification:NSNotification) {
+        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        keyboardHeight = keyboardRectangle.height
+        keyboardHeight = keyboardHeight - 50
+    }
+    
+    func keyboardWillHide(notification:NSNotification){
+        
     }
 
     //MARK: - UITableView delegate
@@ -271,7 +198,7 @@ class HomeDetailViewController: UIViewController ,UITableViewDelegate ,UITableVi
         let cell:HomeDetailTBCell = self.tbl_CommentsList.dequeueReusableCell(withIdentifier: "HomeDetailCell") as! HomeDetailTBCell
         cell.cellDelegate = self
         
-        let comment: Comment = array_Comments[indexPath.row]
+        let comment: Comment = (host?.comments_array[indexPath.row])!
         
         cell.img_Avatar.sd_setImage(with: URL(string: comment.avatar), placeholderImage: UIImage(named: "Placeholder_Avatar.png"))
         cell.lbl_Name.text = comment.username
@@ -352,49 +279,88 @@ class HomeDetailViewController: UIViewController ,UITableViewDelegate ,UITableVi
 
     //MARK: - HomeDetailTBCellDelegate
     func select_btn_Delete(cell: HomeDetailTBCell) {
-        let comment: Comment = array_Comments[cell.tag]
+        let comment: Comment = (host?.comments_array[cell.tag])!
         
         if (comment.user_id != USER.id){
             COMMON.methodForAlert(titleString: kAppName, messageString: kErrorOtherComment, OKButton: kOkButton, CancelButton: "", viewController: self)
         }else{
-            deleteCommentFromServer(comment: comment)
+            //            let indexPath: IndexPath = self.tbl_List.indexPath(for: cell)!
+            let comment: Comment = (host?.comments_array[cell.tag])!
+            
+            FirebaseModule.shareInstance.delete_Comment(host: host!, comment: comment)
+            {(response: String?, error: Error?) in
+                
+                if (error == nil && response == "success"){
+                    self.swipeArray.remove(at: cell.tag)
+                    self.host?.comments_array.remove(at: cell.tag)
+                    
+                    self.tbl_CommentsList.reloadData()
+                }else{
+                    COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+                }
+            }
+
         }
     }
     
-    func deleteCommentFromServer(comment: Comment){
-//        loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
-//        loadingNotification?.mode = MBProgressHUDMode.indeterminate
-//        loadingNotification?.label.text = "Deleting..."
-        
-        let parameters = ["user_id":USER.id, "comment_id":comment.comment_id] as [String : Any]
-        Alamofire.request(kApi_DeleteComment, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil) .responseJSON { response in
-            
-//            self.loadingNotification?.hide(animated: true)
-            
-            switch response.result {
-            case .success(_):
-                let jsonObject = JSON(response.result.value!)
-                let status: String = jsonObject["status"].stringValue
-                if (status == "success"){
-                    
-                    self.loadCommentsFromServer()
-                    
-                }else{
-                    COMMON.methodForAlert(titleString: kAppName, messageString: kErrorComment, OKButton: kOkButton, CancelButton: "", viewController: self)
-                }
-                break
-            case .failure(let error):
-                print(error)
-                COMMON.methodForAlert(titleString: kAppName, messageString: kNetworksNotAvailvle, OKButton: kOkButton, CancelButton: "", viewController: self)
-                break
-            }
-            
-        }
-    }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - Firebase
+    func loadMotiffFromFirebase(){
+        if (host == nil){ return}
+        
+        FirebaseModule.shareInstance.get_Motiff_With_ID(id: (host?.id)!)
+        { (response: NSArray?, error: Error?) in
+            if (error == nil){
+                self.swipeArray = []
+                
+                let array_motiffs: [Host] = response as! [Host]
+                
+                if (array_motiffs.count > 0){
+                    self.host = array_motiffs[0]
+                }else{
+                    return
+                }
+                
+                if (self.host?.comments_array.count != 0){
+                    for _ in (0..<(self.host?.comments_array.count)!){
+                        self.swipeArray.append(0)
+                    }
+                }
+                
+                self.lbl_Likes.text = String((self.host?.likes_count)!)
+                self.tbl_CommentsList.reloadData()
+                self.tbl_CommentsList.setContentOffset(CGPoint.zero, animated: true)
+
+            }else{
+                COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+                //                self.petRefreshControl.endRefreshing()
+            }
+        }
+        
+    }
+    
+    func uploadCommentToFirebase(){
+        FirebaseModule.shareInstance.upload_Comment(user: USER, host: host!, comment: txt_Comment.text!)
+        {(response: String?, error: Error?) in
+            
+            if (error == nil && response == "success"){
+                self.comment_Flag = 0
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.view_Comment.isHidden = true
+                    self.view_Comment.alpha = 0
+                })
+                
+                self.txt_Comment.text = ""
+                
+                self.loadMotiffFromFirebase()
+            }else{
+                COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+            }
+        }
+    }
 }

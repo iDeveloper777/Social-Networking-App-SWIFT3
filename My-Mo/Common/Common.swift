@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import MapKit
 import ImageIO
+import AVFoundation
 
 class Common: NSObject, UIAlertViewDelegate {
     
@@ -81,7 +82,102 @@ class Common: NSObject, UIAlertViewDelegate {
         return formattedDateString
     }
     
+    func get_Current_UTC_Date() -> String{
+        let date = Date()
+        let dateformattor = DateFormatter()
+        dateformattor.dateFormat = "yyyy-MM-dd"
+        dateformattor.timeZone = NSTimeZone.init(abbreviation: "UTC") as TimeZone!
+        return dateformattor.string(from: date)
+    }
     
+    func get_Current_UTC_Time() -> String{
+        let date = Date()
+        let dateformattor = DateFormatter()
+        dateformattor.dateFormat = "HH:mm:ss"
+        dateformattor.timeZone = NSTimeZone.init(abbreviation: "UTC") as TimeZone!
+        return dateformattor.string(from: date)
+    }
+    
+    func get_Current_UTC_Date_Time() -> String{
+        let date = Date()
+        let dateformattor = DateFormatter()
+        dateformattor.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateformattor.timeZone = NSTimeZone.init(abbreviation: "UTC") as TimeZone!
+        return dateformattor.string(from: date)
+    }
+    
+    func get_Real_Current_UTC_Date_Time() -> Date{
+        let date = Date()
+        let dateformattor = DateFormatter()
+        dateformattor.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateformattor.timeZone = NSTimeZone.init(abbreviation: "UTC") as TimeZone!
+        return dateformattor.date(from: dateformattor.string(from: date))!
+    }
+    
+    func get_Date_time_from_UTC_time(string : String) -> String {
+        
+        let dateformattor = DateFormatter()
+        dateformattor.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateformattor.timeZone = NSTimeZone.init(abbreviation: "UTC") as TimeZone!
+        let dt = string
+        let dt1 = dateformattor.date(from: dt as String)
+        dateformattor.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateformattor.timeZone = NSTimeZone.local
+        return dateformattor.string(from: dt1!)
+    }
+    
+    func get_Date_from_UTC_time(string : String) -> String {
+        
+        let dateformattor = DateFormatter()
+        dateformattor.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateformattor.timeZone = NSTimeZone.init(abbreviation: "UTC") as TimeZone!
+        let dt = string
+        let dt1 = dateformattor.date(from: dt as String)
+        dateformattor.dateFormat = "yyyy-MM-dd"
+        dateformattor.timeZone = NSTimeZone.local
+        return dateformattor.string(from: dt1!)
+    }
+    
+    func get_Time_from_UTC_time(string : String) -> String {
+        
+        let dateformattor = DateFormatter()
+        dateformattor.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateformattor.timeZone = NSTimeZone.init(abbreviation: "UTC") as TimeZone!
+        let dt = string
+        let dt1 = dateformattor.date(from: dt as String)
+        dateformattor.dateFormat = "HH:mm:ss"
+        dateformattor.timeZone = NSTimeZone.local
+        return dateformattor.string(from: dt1!)
+    }
+    
+    func get_Duration_Hours_from_UTC_Date_Time(string: String, duration: Int) -> Date{
+        let current_UTC_Date: String = get_Current_UTC_Date()
+        let current_UTC_Time: String = get_Current_UTC_Time()
+        
+        let dateformattor0 = DateFormatter()
+        dateformattor0.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateformattor0.timeZone = NSTimeZone.init(abbreviation: "UTC") as TimeZone!
+        let dt0 = current_UTC_Date + " " + current_UTC_Time
+        let current_date = dateformattor0.date(from: dt0 as String)
+        
+        let dateformattor = DateFormatter()
+        dateformattor.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateformattor.timeZone = NSTimeZone.init(abbreviation: "UTC") as TimeZone!
+        let dt = string
+        let post_date = dateformattor.date(from: dt as String)
+        
+        let earlyDate: Date? = Calendar.current.date(byAdding: .hour, value: duration, to: post_date!)
+        
+        return earlyDate!
+    }
+
+    func getLabelSize(text: NSString, size: CGSize) -> CGSize{
+        let cellFont: UIFont = UIFont.systemFont(ofSize: 12)
+        let constraintSize: CGSize = CGSize(width: size.width, height: CGFloat(MAXFLOAT))
+        let r: CGRect = text.boundingRect(with: constraintSize, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName: cellFont], context: nil)
+
+        return CGSize(width: r.size.width, height: r.size.height)
+    }
 }
 
 class ImageProcessing: NSObject{
@@ -132,6 +228,26 @@ class ImageProcessing: NSObject{
         
         return size
     }
+    
+    func thumbnailForVideoAtURL(url: NSURL) -> UIImage? {
+        
+        let asset = AVAsset(url: url as URL)
+        let assetImageGenerator = AVAssetImageGenerator(asset: asset)
+        assetImageGenerator.appliesPreferredTrackTransform = true
+        
+        var time = asset.duration
+        time.value = min(time.value, 2)
+        
+        do {
+            let imageRef = try assetImageGenerator.copyCGImage(at: time, actualTime: nil)
+            return UIImage(cgImage: imageRef)
+        } catch {
+            print("error")
+            return nil
+        }
+    }
+    
+    
 }
 
 class Station: NSObject, MKAnnotation {
@@ -188,6 +304,48 @@ class ImageViewWithGradient: UIImageView
     override func layoutSubviews()
     {
         myGradientLayer.frame = self.layer.bounds
+    }
+}
+
+extension Date {
+    /// Returns the amount of years from another date
+    func years(from_date: Date, end_date:Date) -> Int {
+        return Calendar.current.dateComponents([.year], from: from_date, to: end_date).year ?? 0
+    }
+    /// Returns the amount of months from another date
+    func months(from_date: Date, end_date:Date) -> Int {
+        return Calendar.current.dateComponents([.month], from: from_date, to: end_date).month ?? 0
+    }
+    /// Returns the amount of weeks from another date
+    func weeks(from_date: Date, end_date:Date) -> Int {
+        return Calendar.current.dateComponents([.weekOfYear], from: from_date, to: end_date).weekOfYear ?? 0
+    }
+    /// Returns the amount of days from another date
+    func days(from_date: Date, end_date:Date) -> Int {
+        return Calendar.current.dateComponents([.day], from: from_date, to: end_date).day ?? 0
+    }
+    /// Returns the amount of hours from another date
+    func hours(from_date: Date, end_date:Date) -> Int {
+        return Calendar.current.dateComponents([.hour], from: from_date, to: end_date).hour ?? 0
+    }
+    /// Returns the amount of minutes from another date
+    func minutes(from_date: Date, end_date:Date) -> Int {
+        return Calendar.current.dateComponents([.minute], from: from_date, to: end_date).minute ?? 0
+    }
+    /// Returns the amount of seconds from another date
+    func seconds(from_date: Date, end_date:Date) -> Int {
+        return Calendar.current.dateComponents([.second], from: from_date, to: end_date).second ?? 0
+    }
+    /// Returns the a custom time interval description from another date
+    func offset(from date: Date) -> String {
+//        if years(from: date)   > 0 { return "\(years(from: date))y"   }
+//        if months(from: date)  > 0 { return "\(months(from: date))M"  }
+//        if weeks(from: date)   > 0 { return "\(weeks(from: date))w"   }
+//        if days(from: date)    > 0 { return "\(days(from: date))d"    }
+//        if hours(from: date)   > 0 { return "\(hours(from: date))h"   }
+//        if minutes(from: date) > 0 { return "\(minutes(from: date))m" }
+//        if seconds(from: date) > 0 { return "\(seconds(from: date))s" }
+        return ""
     }
 }
 

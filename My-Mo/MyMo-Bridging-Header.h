@@ -17,6 +17,8 @@
 #import "DropDownViewCell.h"
 
 #import "UIImageView+WebCache.h"
+#import "FLAnimatedImageView.h"
+#import "FLAnimatedImage.h"
 
 //Pods
 #import <MBProgressHUD/MBProgressHUD.h>

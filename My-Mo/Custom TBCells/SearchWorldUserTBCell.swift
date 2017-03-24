@@ -17,6 +17,7 @@ class SearchWorldUserTBCell: UITableViewCell {
     @IBOutlet weak var img_Avatar: UIImageView!
     @IBOutlet weak var lbl_Name: UILabel!
     @IBOutlet weak var lbl_Followers: UILabel!
+    @IBOutlet weak var btn_Follow: UIButton!
     
     var cellDelegate: SearchWorldUserTBCellDelegate?
     override func awakeFromNib() {

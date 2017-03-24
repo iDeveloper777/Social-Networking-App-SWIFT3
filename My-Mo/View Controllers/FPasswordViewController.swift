@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import MBProgressHUD
+import Firebase
 
 class FPasswordViewController: UIViewController, UITextFieldDelegate {
     
@@ -56,12 +57,30 @@ class FPasswordViewController: UIViewController, UITextFieldDelegate {
         }else if (txt_Email.text != txt_ConfirmEmail.text){
             COMMON.methodForAlert(titleString: kAppName, messageString: kConfirmEmail, OKButton: kOkButton, CancelButton: "", viewController: self)
             
+        }else if (!COMMON.methodIsValidEmailAddress(email: txt_Email.text!) ||
+            !COMMON.methodIsValidEmailAddress(email: txt_ConfirmEmail.text!)){
+            COMMON.methodForAlert(titleString: kAppName, messageString: kEnterValidEmail, OKButton: kOkButton, CancelButton: "", viewController: self)
         }else{
 //            loadingNotification = MBProgressHUD.showAdded(to: self.view, animated: true)
 //            loadingNotification?.mode = MBProgressHUDMode.indeterminate
 //            loadingNotification?.label.text = "Loading..."
             
-            SendPassword()
+//            SendPassword()
+            SendPasswordWithFirebase()
+        }
+    }
+    
+    func SendPasswordWithFirebase(){
+        FirebaseModule.shareInstance.SendPasswordWithFirebase(email: txt_Email.text!){ (response: String?, error: Error?) in
+            if (error == nil){
+                if (response == "success"){
+                    COMMON.methodForAlert(titleString: kAppName, messageString: kSuccessResetPassword, OKButton: kOkButton, CancelButton: "", viewController: self)
+                }else{
+                    COMMON.methodForAlert(titleString: kAppName, messageString: kErrorResetPassword, OKButton: kOkButton, CancelButton: "", viewController: self)
+                }
+            }else{
+                COMMON.methodForAlert(titleString: kAppName, messageString: (error?.localizedDescription)!, OKButton: kOkButton, CancelButton: "", viewController: self)
+            }
         }
     }
     

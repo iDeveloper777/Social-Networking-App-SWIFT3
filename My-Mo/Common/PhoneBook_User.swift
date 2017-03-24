@@ -11,20 +11,20 @@ import SwiftyJSON
 
 class PhoneBook_User: NSObject{
     
-    var id: Int = 0
+    var id: String = ""
     var name: String = ""
     var username: String = ""
     var mobile: String = ""
     var avatar: String = ""
     
     func initUserData(){
-        id = 0
+        id = ""
         username = ""
         name = ""
         mobile = ""
         avatar = ""
     }
-    
+   /*
     func initPhoneBookUserDataWithJSON(json: SwiftyJSON.JSON){
         id  = json["id"].intValue
         username = json["username"].stringValue
@@ -32,4 +32,6 @@ class PhoneBook_User: NSObject{
         mobile = json["mobile"].stringValue
         avatar = "http://mymotiff.com/" + json["avatar"].stringValue
     }
+     */
 }
+ 

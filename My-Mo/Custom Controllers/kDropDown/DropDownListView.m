@@ -248,8 +248,15 @@
         
         [_kTitleText drawInRect:titleRect withAttributes:attributes];
     }
-    else
-        [_kTitleText drawInRect:titleRect withFont:[UIFont systemFontOfSize:16.]];
+    else{
+        UIFont *font = [UIFont systemFontOfSize:16.];
+        UIColor *cl=[UIColor whiteColor];
+        
+        
+        NSDictionary *attributes = @{ NSFontAttributeName: font,NSForegroundColorAttributeName:cl};
+        
+        [_kTitleText drawInRect:titleRect withAttributes:attributes];
+    }
     
     CGContextFillRect(ctx, separatorRect);
     
